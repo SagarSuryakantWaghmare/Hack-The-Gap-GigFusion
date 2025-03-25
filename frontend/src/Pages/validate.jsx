@@ -1,14 +1,20 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
 import axios from "axios"; // Import axios for making API calls
+import Cookies from 'js-cookie';
+import { User } from '../../../backend/src/models/user.model.js'
+import { use } from "react";
 
-const SkillValidation = ({ skill, userId }) => {
+const SkillValidation = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(null);
   const [showScore, setShowScore] = useState(false);
+  const [skill, setSkill] = useState("Plumbing"); // Default skill
+  const [userId, setUserId] = useState(null); // Initialize userId
 
   // Static questions for different skills
   const questionsBySkill = {
@@ -574,6 +580,23 @@ const SkillValidation = ({ skill, userId }) => {
     }
   ];
 
+  // Load skill and userId from localStorage
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        const firstSkill = user.skills && user.skills.length > 0 ? user.skills[0] : "Plumbing";
+        setSkill(firstSkill); // Set skill from user data
+        setUserId(user._id); // Set userId from user data
+        console.log("User ID:", user._id);
+        console.log("First Skill:", firstSkill);
+      } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
+      }
+    }
+  }, []);
+
   // Load questions based on skill
   useEffect(() => {
     setIsLoading(true);
@@ -626,8 +649,20 @@ const SkillValidation = ({ skill, userId }) => {
     // Validate user if score is greater than 70%
     if (finalScore > 70) {
       try {
-        const response = await axios.post("http://localhost:8000/api/v1/users/validate", { userId });
-        console.log("User validated successfully:", response.data);
+        // const response = await axios.post("http://localhost:8000/api/v1/users/validate-user", {
+        //                     headers: {
+        //                         'Content-Type': 'application/json',
+        //                         'Authorization': `Bearer ${Cookies.get('accessToken')}`
+        //                     }
+        //                 });
+
+        console.log('user.id', JSON.parse(localStorage.getItem(user)._id));
+        console.log('score', finalScore);
+        const user = await User.findbyId(JSON.parse(localStorage.getItem(user)._id));
+        user.validated();
+        user.save();
+        
+        // console.log("User validated successfully:", response.data);
       } catch (error) {
         console.error("Error validating user:", error);
       }
@@ -767,6 +802,12 @@ const SkillValidation = ({ skill, userId }) => {
         </div>
     </div>
   );
+};
+
+// Prop validation
+SkillValidation.propTypes = {
+  skill: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default SkillValidation;

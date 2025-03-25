@@ -4,13 +4,12 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { FaTrash, FaCamera, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-<<<<<<< HEAD
-import BackButton from '../components/BackButton';
+
+// import BackButton from '../components/BackButton';
 import { useNavigate } from 'react-router-dom';
-=======
 
 
->>>>>>> 89e9e09cf18ae5ec7d0ceb571288ffc3653c67ca
+
 
 export default function EditProfile() {
     const { id } = useParams();
