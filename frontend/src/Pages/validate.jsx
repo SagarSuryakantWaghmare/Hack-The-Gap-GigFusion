@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
 
-const SkillValidation = ({ skill }) => {
+const SkillValidation = ({ skill, userId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -621,6 +621,10 @@ const SkillValidation = ({ skill }) => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
+    
+    // Here you can handle the userId and score submission logic
+    console.log(`User ID: ${userId}, Score: ${finalScore}`);
+    // You can send this data to your backend or store it as needed
   };
 
   const handleTryAgain = () => {
