@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
-import axios from "axios"; // Import axios for making API calls
+import axios from "axios";
 
 const SkillValidation = ({ skill = "Plumbing" }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
