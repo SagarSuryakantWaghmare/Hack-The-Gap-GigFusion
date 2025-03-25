@@ -41,6 +41,7 @@ import ProjectMatches from './Pages/ProjectMatches.jsx';
 import EscrowDetails from './Pages/EscrowDetails.jsx';
 import EscrowLandingPage from './Pages/EscrowLandingPage.jsx';
 import Questions from './Pages/Questions.jsx';
+import Validate from './Pages/validate.jsx';
 
 function App() {
     const location = useLocation();
@@ -115,6 +116,7 @@ function App() {
                 <Route path='/Location' element={<Location />} />
                 <Route path='/Feedback' element={<Feedback />} />
                 <Route path='/questions' element={<Questions />} />
+                <Route path='/validate' element={<Validate />} />
 
                 {/* New Project & Freelance Routes */}
                 <Route path="/projects" element={<ProjectList />} />

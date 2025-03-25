@@ -33,9 +33,9 @@ export default function LoginPage() {
                     localStorage.setItem('user', JSON.stringify(JsonData.data.user));
                     setTimeout(() => {
                         if (JsonData.data.userType === 'user') {
-                            navigate('/home');
+                            navigate('/projects');
                         } else if (JsonData.data.userType === 'serviceProvider') {
-                            navigate('/dashboard');
+                            navigate('/projects');
                         } else if (JsonData.data.userType === 'admin') {
                             navigate('/dashboard-admin');
                         } else {
