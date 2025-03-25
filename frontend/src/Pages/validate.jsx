@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
-import axios from "axios";
 
-const SkillValidation = ({ skill }) => {
+const SkillValidation = ({ skill, userId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -618,11 +617,15 @@ const SkillValidation = ({ skill }) => {
     }
   };
 
-    const handleSubmit = () => {
-        const finalScore = calculateScore();
-        setScore(finalScore);
-        setShowScore(true);
-    };
+  const handleSubmit = () => {
+    const finalScore = calculateScore();
+    setScore(finalScore);
+    setShowScore(true);
+    
+    // Here you can handle the userId and score submission logic
+    console.log(`User ID: ${userId}, Score: ${finalScore}`);
+    // You can send this data to your backend or store it as needed
+  };
 
   const handleTryAgain = () => {
     setCurrentQuestion(0);
@@ -671,31 +674,31 @@ const SkillValidation = ({ skill }) => {
 
   const currentQ = questions[currentQuestion];
 
-    return (
-        <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-2xl mx-auto">
-                <div className="bg-white rounded-3xl shadow-2xl p-8">
-                    {/* Header with skill name */}
-                    <div className="mb-6">
-                        <h1 className="text-2xl font-bold text-stdBlue">{skill} Skill Validation</h1>
-                        <p className="text-gray-600">Answer the following questions to validate your knowledge</p>
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="mb-8">
-                        <div className="flex justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-700">Progress</span>
-                            <span className="text-sm font-medium text-stdBlue">
-                                {currentQuestion + 1} of {questions.length}
-                            </span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2.5">
-                            <div
-                                className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
-                                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-                            ></div>
-                        </div>
-                    </div>
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-2xl mx-auto">
+        <div className="bg-white rounded-3xl shadow-2xl p-8">
+          {/* Header with skill name */}
+          <div className="mb-6">
+            <h1 className="text-2xl font-bold text-stdBlue">{skill} Skill Validation</h1>
+            <p className="text-gray-600">Answer the following questions to validate your knowledge</p>
+          </div>
+          
+          {/* Progress Bar */}
+          <div className="mb-8">
+            <div className="flex justify-between mb-2">
+              <span className="text-sm font-medium text-gray-700">Progress</span>
+              <span className="text-sm font-medium text-stdBlue">
+                {currentQuestion + 1} of {questions.length}
+              </span>
+            </div>
+            <div className="w-full bg-gray-200 rounded-full h-2.5">
+              <div
+                className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+              ></div>
+            </div>
+          </div>
 
           {/* Question */}
           {currentQ && (
