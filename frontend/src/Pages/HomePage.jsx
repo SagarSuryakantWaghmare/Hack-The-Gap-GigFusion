@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from "framer-motion";
 import RatingPage from "./RatingProjectPage.jsx";
 import ReviewHome from "../components/ReviewsHome.jsx";
 import Plumber from "../components/Assets/Icons/Home main serveices/Plumber.svg";
@@ -12,9 +13,22 @@ import Direction from "../components/Assets/Icons/Direction.svg";
 import ServiceName from '../components/ServiceName';
 import ServiceTypeCard from '../components/ServiceTypeCard';
 import HowWorkFLowOnLanding from './HowWorkFLowOnLanding.jsx';
+import FandQOnfrontPage from './FandQOnfrontPage.jsx';
+import HomepageHeading from './HomepageHeading.jsx';
+import HomepageFrontTopPhoto from "./../components/Assets/HomepageFrontTop01.jpg"
+import { FaSearch } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 export default function HomePage() {
+  const [text, setText] = useState("");
   const [rotation, setRotation] = useState(0);
+
+  const services = [
+    "web development",
+    "logo design",
+    "video editing"
+   
+  ];
 
   const handleClick = () => {
     setRotation((prevRotation) => prevRotation + 120);
@@ -23,68 +37,86 @@ export default function HomePage() {
   return (
     <>
       <div className='flex items-center flex-col w-full font-stdFont'>
-        <div className="font-bold items-center mt-4 sm:mt-6 md:mt-10 lg:mt-16 
-          flex flex-col flex-wrap px-4">
-          <h2 className="text-xl sm:text-2xl md:text-4xl lg:text-5xl text-stdBlue 
-            text-center">
-            Find the best tradespeople
-          </h2>
-          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl mt-2 sm:mt-3 
-            text-stdBlue text-center">
-            with <span className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl 
-            text-color1">TradeConnect</span>
-          </h2>
-          <p className="text-xs sm:text-sm md:text-base lg:text-lg mt-2 sm:mt-3 
-            md:mt-4 lg:mt-5 text-stdBlue text-center">
-            Connecting you with skilled tradespeople near you!
-          </p>
-        </div>
 
-        <div className="w-full mt-3 sm:mt-3 md:mt-4 lg:mt-5">
-          <ServiceName />
-        </div>
+      <div  
+  style={{ backgroundImage: `url(${HomepageFrontTopPhoto})` }} 
+  className="flex flex-col w-screen min-h-[calc(100vh-4rem)] font-stdFont bg-cover bg-center bg-no-repeat overflow-x-hidden"
+>  
+  {/* Headings in Hero Section */}
+  <div >
+    <HomepageHeading/>    
+  </div>
 
-        <div className="flex justify-center items-center mt-10 md:mt-20 mb-0 md:mb-20 px-5">
-          <div className="flex flex-col md:flex-row items-center gap-5 md:gap-10">
-            <div className="flex gap-10">
-              {[
-                { src: HomeRepair, label: "Home Repairs" },
-                { src: Moving, label: "Moving" },
-                { src: Electrical, label: "Electrical" }
-              ].map((item, index) => (
-                <Link to="/services" key={index} className="flex flex-col gap-3 items-center text-xs md:text-base font-semibold group">
-                  <img
-                    src={item.src}
-                    alt={item.label}
-                    className="h-[30px] md:h-[60px] transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="transition-colors duration-300 group-hover:text-blue-600">
-                    {item.label}
-                  </span>
-                </Link>
-              ))}
-            </div>
+  <div className="font-bold items-start flex flex-col flex-wrap px-4 lg:ml-10">                
+    <motion.p
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 0.8, ease: "easeOut" }}
+      className="text-xs sm:text-sm md:text-base lg:text-lg mt-2 sm:mt-3 md:mt-4 lg:mt-8 text-stdBlue font-medium lg:font-bold"
+    >
+      Connecting you with skilled{" "}
+      <motion.span
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
+        className="font-bold bg-gradient-to-r from-[#FF9800] via-[#FF5722] to-[#FF3D00] text-transparent bg-clip-text"
+      >
+        Gig Experts
+      </motion.span>{" "}  
+      near you!
+    </motion.p>            
+  </div>
 
-            <div className="flex gap-10">
-              {[
-                { src: Cleaning, label: "Cleaning" },
-                { src: Painting, label: "Painting" },
-                { src: Plumber, label: "Plumbing" }
-              ].map((item, index) => (
-                <Link to="/services" key={index} className="flex flex-col gap-3 items-center text-xs md:text-base font-semibold group">
-                  <img
-                    src={item.src}
-                    alt={item.label}
-                    className="h-[30px] md:h-[60px] transition-transform duration-300 group-hover:scale-110"
-                  />
-                  <span className="transition-colors duration-300 group-hover:text-blue-600">
-                    {item.label}
-                  </span>
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
+  {/* Search Bar Section */}
+  <div className="w-full lg:w-auto lg:ml-12 mt-3 sm:mt-3 md:mt-4 lg:mt-10">
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1, duration: 1, ease: "easeOut" }}
+      className="flex justify-start"
+    >
+      <div className="relative w-full max-w-xl">
+        <input
+          type="text"
+          value={text}
+          placeholder=""
+          className="w-full px-5 py-3 text-base md:text-lg border border-[#2A3B5A] rounded-full shadow-sm 
+          focus:outline-none focus:ring-1 focus:ring-[#3A4E7A] focus:border-[#4A5E9A] 
+          hover:border-[#3A4E7A] transition-all duration-300 
+          text-[#223265] placeholder-[#2A3B5A] font-medium tracking-wide"
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          onChange={(e) => setText(e.target.value)}
+        />
+        <button className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-[#3A4E7A] transition-all duration-300">
+          <FaSearch className="w-7 h-7" />
+        </button>
+      </div>
+    </motion.div>
+  </div>
+
+  {/* Buttons Section */}
+  <div className="flex flex-wrap gap-4 lg:ml-10 lg:mt-5 w-full px-4">
+    {services.map((service, index) => (
+      <button
+        key={index}
+        className="flex items-center gap-2 px-4 py-2 border 
+        border-stdBlue text-stdBlue rounded-xl text-lg font-semibold 
+        transition-transform duration-300 hover:scale-105 hover:border-gray-300"
+      >
+        {service}
+        <FaArrowRight className="text-sm" />
+      </button>
+    ))}
+  </div>
+</div>
+
+{/* hero section is finished */}
+       
+
+       
+
+   
 
         <div className="w-full bg-gradient-to-b from-gray-50 to-white">
           <ServiceTypeCard />
@@ -127,6 +159,8 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
+        <FandQOnfrontPage/>
       </div>
     </>
   );
