@@ -71,6 +71,7 @@ export default function FandQOnFrontPage() {
                 className="w-full flex justify-between items-center text-lg font-semibold text-left text-gray-800 hover:text-stdBlue p-2 rounded-lg transition-all duration-200 focus:outline-none"
                 onClick={() => toggleFAQ(index + 5)}
               >
+                {/* Changes are done */}
                 <span>{faq.question}</span>
                 <ChevronDown
                   className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
