@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
-import BackButton from '../components/BackButton';
+
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -68,7 +68,7 @@ export default function LoginPage() {
 
     return (
         <>
-            <BackButton />
+            
             <div className='flex items-center justify-center font-stdFont relative'>
                 <div className=' absolute inset-0 bg-cover bg-center filter blur-[2px]' style={{ backgroundImage: `url(${bgImage})` }} />
                 <div className='relative z-10'>
