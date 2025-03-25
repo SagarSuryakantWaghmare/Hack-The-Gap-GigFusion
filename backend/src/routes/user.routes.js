@@ -32,6 +32,7 @@ import {
   getActiveJobs,
   getServiceProviderStats,
   updateUserDetails,
+  validateUser,
 } from "../controllers/user.controller.js";
 import { upload } from "../middlewares/multer.middleware.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
@@ -106,5 +107,8 @@ router.route("/feedback").post(verifyJWT, giveFeedback).get(getFeedback);
 // Temporary Service Provider routes
 router.route("/active-jobs").get(verifyJWT, getActiveJobs);
 router.route("/stats").get(verifyJWT, getServiceProviderStats);
+
+// Validate user route
+router.route("/validate-user").post(verifyJWT, validateUser);
 
 export default router;

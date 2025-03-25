@@ -4,7 +4,8 @@ import {
     getProjectMatches,
     getFreelancerMatches,
     updateMatchStatus,
-    generateRecommendations
+    generateRecommendations,
+    viewProjectMatch
 } from "../controllers/jobMatching.controller.js";
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -27,5 +28,8 @@ router.patch("/matches/:matchId/status", updateMatchStatus);
 
 // Admin route to generate recommendations
 router.post("/generate-recommendations", generateRecommendations);
+
+// View a project match
+router.get("/matches/:matchId", viewProjectMatch);
 
 export default router;

@@ -112,7 +112,7 @@ export default function Navbar() {
                   <NavItem to="/chat">Chat</NavItem>
                   <NavItem to="/projects">Projects</NavItem>
                   <NavItem to="/my-projects">My Projects</NavItem>
-                  <NavItem to="/escrow">Escrow</NavItem>
+                  {/* <NavItem to="/escrow">Escrow</NavItem> */}
                 </>
               )}
               {userType === 'serviceProvider' && (
@@ -120,6 +120,7 @@ export default function Navbar() {
                   <NavItem to="/dashboard">Dashboard</NavItem>
                   <NavItem to="/my-jobs">My Jobs</NavItem>
                   <NavItem to="/chat">Chat</NavItem>
+                  <NavItem to="/validate">Validate</NavItem>
                   <NavItem to="/projects">Find Work</NavItem>
                   <NavItem to="/my-proposals">My Proposals</NavItem>
                   <NavItem to="/my-matches">Matches</NavItem>
