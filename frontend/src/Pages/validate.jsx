@@ -1,30 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
-import axios from "axios";
 
-const SkillValidation = ({ skill = "Plumbing" }) => {
+const SkillValidation = ({ skill, userId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(null);
   const [showScore, setShowScore] = useState(false);
-  useEffect(() => {
-    const userStr = localStorage.getItem('user');
-    if (userStr) {
-        try {
-            const user = JSON.parse(userStr);
-            const firstSkill = user.skills && user.skills.length > 0 ? user.skills[0] : "Plumbing";
-            skill = firstSkill;
-            console.log("User ID:", user._id);
-            console.log("First Skill:", firstSkill);
-        } catch (error) {
-            console.error("Error parsing user data from localStorage:", error);
-        }
-    }
-}, []);
 
- 
+  // Static questions for different skills
   const questionsBySkill = {
     "Web Developer": [
       {
@@ -632,11 +617,12 @@ const SkillValidation = ({ skill = "Plumbing" }) => {
     }
   };
 
-    const handleSubmit = () => {
-        const finalScore = calculateScore();
-        setScore(finalScore);
-        setShowScore(true);
-    };
+  const handleSubmit = () => {
+    const finalScore = calculateScore();
+    setScore(finalScore);
+    setShowScore(true);
+
+  };
 
   const handleTryAgain = () => {
     setCurrentQuestion(0);
@@ -706,7 +692,7 @@ const SkillValidation = ({ skill = "Plumbing" }) => {
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
                 className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
-                style={{ width: ${((currentQuestion + 1) / questions.length) * 100}% }}
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}% `}}
               ></div>
             </div>
           </div>

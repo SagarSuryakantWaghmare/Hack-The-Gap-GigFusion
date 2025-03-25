@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';
 import { FaTrash, FaCamera, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import BackButton from '../components/BackButton';
+import { useNavigate } from 'react-router-dom';
 
 export default function EditProfile() {
     const { id } = useParams();
@@ -30,6 +31,14 @@ export default function EditProfile() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
     const [userType, setUserType] = useState('');
+    const navigate = useNavigate();
+
+    const handleButton = () => {
+        navigate(`/validate?id=${id}&skills=${profileData.skills[0]}`);
+        console.log('Button Clicked');
+        console.log(id);
+        console.log(profileData.skills[0]);
+    };
 
     useEffect(() => {
         const fetchProfileData = async () => {
@@ -476,15 +485,21 @@ export default function EditProfile() {
                                             <option value="false">Not Available</option>
                                         </select>
                                     </div>
-                                </div>
+                                    <div className="form-group"></div>
+                                        <button
+                                            type="button"
+                        
+                                            onClick={handleButton}
+                                            className="w-full py-3 bg-gradient-to-r from-green-500 to-green-600 text-white 
+                                            rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all 
+                                            duration-300 transform hover:scale-[1.02] flex items-center justify-center gap-2"
+                                        >
+                                            Analyze
+                                        </button>
+                                    </div>
                             )}
 
-                            {/* Error Message */}
-                            {/* {error && (
-                                <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
-                                    <p className="text-red-600 text-center font-medium">{error}</p>
-                                </div>
-                            )} */}
+                    
 
                             {/* Submit Button */}
                             <button
