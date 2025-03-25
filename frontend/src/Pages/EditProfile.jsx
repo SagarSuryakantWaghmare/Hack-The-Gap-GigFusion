@@ -412,11 +412,11 @@ export default function EditProfile() {
                             )}
 
                             {/* Error Message */}
-                            {error && (
+                            {/* {error && (
                                 <div className="p-4 bg-red-50 border border-red-200 rounded-xl">
                                     <p className="text-red-600 text-center font-medium">{error}</p>
                                 </div>
-                            )}
+                            )} */}
 
                             {/* Submit Button */}
                             <button
