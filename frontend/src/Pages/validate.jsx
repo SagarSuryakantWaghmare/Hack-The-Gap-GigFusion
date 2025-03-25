@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
+import axios from "axios"; // Import axios for making API calls
 
 const SkillValidation = ({ skill, userId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -617,14 +618,20 @@ const SkillValidation = ({ skill, userId }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
     
-    // Here you can handle the userId and score submission logic
-    console.log(`User ID: ${userId}, Score: ${finalScore}`);
-    // You can send this data to your backend or store it as needed
+    // Validate user if score is greater than 70%
+    if (finalScore > 70) {
+      try {
+        const response = await axios.post("http://localhost:8000/api/v1/users/validate", { userId });
+        console.log("User validated successfully:", response.data);
+      } catch (error) {
+        console.error("Error validating user:", error);
+      }
+    }
   };
 
   const handleTryAgain = () => {
