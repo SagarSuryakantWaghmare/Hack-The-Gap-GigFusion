@@ -7,6 +7,19 @@ import { FaArrowLeft } from 'react-icons/fa';
 const CreateProject = () => {
   const navigate = useNavigate();
 
+  const colors = [
+    'bg-red-200 text-red-800',
+    'bg-green-200 text-green-800',
+    'bg-blue-200 text-blue-800',
+    'bg-yellow-200 text-yellow-800',
+    'bg-purple-200 text-purple-800',
+    'bg-pink-200 text-pink-800',
+    'bg-indigo-200 text-indigo-800',
+    'bg-teal-200 text-teal-800',
+  ];
+
+  const getColor = (index) => colors[index % colors.length];
+
   const [projectData, setProjectData] = useState({
     title: '',
     description: '',
@@ -99,25 +112,27 @@ const CreateProject = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
       <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
-          <button
-            onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-white hover:text-gray-200 transition-colors mb-4"
-          >
-            <FaArrowLeft />
-            <span className="text-sm font-medium">Back to Projects</span>
-          </button>
-          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Create New Project</h1>
-          <p className="mt-1 text-sm text-gray-100 opacity-90">
-            Provide details to attract the right talent for your project.
-          </p>
-        </div>
+
+        <div className="bg-stdBlue p-8 text-white text-center rounded-lg shadow-lg transform transition duration-300 hover:scale-[1.02]">
+ 
+
+  {/* Heading with Gradient Text Effect */}
+  <h1 className="text-3xl md:text-4xl font-bold tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
+    Start Your New Project
+  </h1>
+
+  {/* Description */}
+  <p className="mt-3 text-md text-gray-100 opacity-90 max-w-lg mx-auto">
+    Define your project scope, set expectations, and connect with skilled professionals.
+  </p>
+</div>
+
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
           {/* Title */}
           <div className="space-y-1">
-            <label htmlFor="title" className="block text-sm font-semibold text-gray-800">
+            <label htmlFor="title" className="block text-xl   font-semibold text-stdBlue">
               Project Title
             </label>
             <input
@@ -126,7 +141,10 @@ const CreateProject = () => {
               name="title"
               value={projectData.title}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              className="w-full px-5 py-3 text-lg border border-gray-300 rounded-xl 
+           bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+           transition-all duration-300 ease-in-out 
+           hover:border-blue-400 hover:shadow-md focus:shadow-lg"
               placeholder="e.g., Build a Responsive Website"
               required
             />
@@ -134,7 +152,7 @@ const CreateProject = () => {
 
           {/* Description */}
           <div className="space-y-1">
-            <label htmlFor="description" className="block text-sm font-semibold text-gray-800">
+            <label htmlFor="description" className="block text-xl  font-semibold text-stdBlue">
               Description
             </label>
             <textarea
@@ -151,7 +169,7 @@ const CreateProject = () => {
 
           {/* Category */}
           <div className="space-y-1">
-            <label htmlFor="category" className="block text-sm font-semibold text-gray-800">
+            <label htmlFor="category" className="block text-xl  font-semibold text-stdBlue">
               Category
             </label>
             <select
@@ -159,10 +177,13 @@ const CreateProject = () => {
               name="category"
               value={projectData.category}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+              className="w-full px-5 py-3 text-lg border border-gray-300 rounded-xl 
+           bg-white shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 
+           transition-all duration-300 ease-in-out 
+           hover:border-blue-400 hover:shadow-md focus:shadow-lg"
               required
             >
-              <option value="">Select a category</option>
+              <option value="" >Select a category</option>
               {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
@@ -173,17 +194,17 @@ const CreateProject = () => {
 
           {/* Skills */}
           <div className="space-y-2">
-            <label className="block text-sm font-semibold text-gray-800">Skills Required</label>
+            <label className="block text-xl  font-semibold text-stdBlue">Skills Required</label>
             <div className="flex flex-wrap gap-2">
               {commonSkills.map((skill) => (
                 <button
                   key={skill}
                   type="button"
                   onClick={() => handleSkillToggle(skill)}
-                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                  className={`  text-md rounded-xl py-3 px-8 font-medium transition-all${
                     projectData.skills.includes(skill)
-                      ? 'bg-blue-600 text-white'
-                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                      ? getColor(projectData.skills.indexOf(skill))
+                      : 'bg-gray-200 text-gray-700 hover:border border-stdBlue'
                   }`}
                 >
                   {skill}
@@ -194,14 +215,14 @@ const CreateProject = () => {
 
           {/* Budget */}
           <div className="space-y-1">
-            <label className="block text-sm font-semibold text-gray-800">Budget (INR)</label>
+            <label className="block text-xl  font-semibold text-stdBlue">Budget (INR)</label>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 type="number"
                 name="budget.minAmount"
                 value={projectData.budget.minAmount}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="Min Amount"
                 required
               />
@@ -210,16 +231,19 @@ const CreateProject = () => {
                 name="budget.maxAmount"
                 value={projectData.budget.maxAmount}
                 onChange={handleInputChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="Max Amount"
                 required
               />
             </div>
           </div>
 
-          {/* Payment Type */}
+          
+          <div className='flex justify-around'>
+
+            {/* Payment Type */}          
           <div className="space-y-1">
-            <label htmlFor="paymentType" className="block text-sm font-semibold text-gray-800">
+            <label htmlFor="paymentType" className="block text-xl  font-semibold text-stdBlue">
               Payment Type
             </label>
             <select
@@ -227,7 +251,7 @@ const CreateProject = () => {
               name="paymentType"
               value={projectData.paymentType}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+              className="w-[250px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
               <option value="fixed">Fixed Price</option>
@@ -237,7 +261,7 @@ const CreateProject = () => {
 
           {/* Duration */}
           <div className="space-y-1">
-            <label htmlFor="duration" className="block text-sm font-semibold text-gray-800">
+            <label htmlFor="duration" className="block  text-xl  font-semibold text-stdBlue">
               Project Duration
             </label>
             <select
@@ -245,7 +269,7 @@ const CreateProject = () => {
               name="duration"
               value={projectData.duration}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+              className="w-[250px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
               {durations.map((duration) => (
@@ -256,9 +280,9 @@ const CreateProject = () => {
             </select>
           </div>
 
-          {/* Experience Level */}
-          <div className="space-y-1">
-            <label htmlFor="experienceLevel" className="block text-sm font-semibold text-gray-800">
+            {/* Experience Level */}
+            <div className="space-y-1">
+            <label htmlFor="experienceLevel" className="block  text-xl  font-semibold text-stdBlue">
               Experience Level
             </label>
             <select
@@ -266,7 +290,7 @@ const CreateProject = () => {
               name="experienceLevel"
               value={projectData.experienceLevel}
               onChange={handleInputChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
+              className="w-[250px] px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
               {experienceLevels.map((level) => (
@@ -277,11 +301,18 @@ const CreateProject = () => {
             </select>
           </div>
 
+
+          </div>
+
+        
+
           {/* Submit Button */}
-          <div className="pt-4">
+          <div className="pt-4 flex items-center justify-center">
             <button
               type="submit"
-              className="w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
+              className="w-[350px] py-3 px-6 bg-stdBlue text-xl text-white font-semibold rounded-lg shadow-md transition-all 
+             
+            focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
             >
               Create Project
             </button>
