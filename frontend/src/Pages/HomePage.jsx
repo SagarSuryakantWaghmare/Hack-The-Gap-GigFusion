@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import RatingPage from "./RatingProjectPage.jsx";
@@ -23,19 +23,59 @@ import { FaArrowRight } from "react-icons/fa";
 
 
 export default function HomePage() {
-  const [text, setText] = useState("");
   const [rotation, setRotation] = useState(0);
 
+  const handleClick = () => {
+    setRotation((prevRotation) => prevRotation + 120);
+  };
+
+  // added this one 
+  const words = [
+    "Find top gig experts near you...",
+    "Your gig solution starts here",
+    "Connect with gig talent instantly...",
+    "Hire the best freelancers today...",
+    "Discover skilled gig professionals...",
+  ];
   const services = [
     "web development",
     "logo design",
     "video editing"
    
   ];
+  
+  const [text, setText] = useState("");
+  const [wordIndex, setWordIndex] = useState(0);
+  const [charIndex, setCharIndex] = useState(0);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isFocused, setIsFocused] = useState(false); // Track input focus
 
-  const handleClick = () => {
-    setRotation((prevRotation) => prevRotation + 120);
-  };
+  useEffect(() => {
+    if (isFocused) return; // Stop animation when input is focused
+
+    const currentWord = words[wordIndex];
+    const typingSpeed = isDeleting ? 50 : 100; // Speed up when deleting
+    const delay = isDeleting && charIndex === 0 ? 1000 : typingSpeed; // Pause before erasing
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting && charIndex < currentWord.length) {
+        setText((prev) => prev + currentWord[charIndex]);
+        setCharIndex((prev) => prev + 1);
+      } else if (isDeleting && charIndex > 0) {
+        setText((prev) => prev.slice(0, -1));
+        setCharIndex((prev) => prev - 1);
+      } else {
+        setIsDeleting(!isDeleting);
+        if (!isDeleting) {
+          setTimeout(() => setIsDeleting(true), 1000); // Wait before deleting
+        } else {
+          setWordIndex((prev) => (prev + 1) % words.length);
+        }
+      }
+    }, delay);
+    return () => clearTimeout(timeout);
+  }, [charIndex, isDeleting, wordIndex, isFocused]);
+
 
   return (
     <>
