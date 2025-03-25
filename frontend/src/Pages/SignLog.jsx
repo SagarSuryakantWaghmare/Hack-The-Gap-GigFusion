@@ -1,45 +1,49 @@
-import React from 'react';
-import { Link } from 'react-router-dom'; 
-import bgImage from '../components/Assets/backgroundImage.png'
-import BackButton from '../components/BackButton';
-export default function SignLog() {
+"use client";
+import React from "react";
+import { Boxes } from "./../components/ui/background-boxes";
+import { cn } from "./../lib/utils";
+import { Link } from "react-router-dom";
+
+
+export function SignLog() {
   return (
-    <>
-    <BackButton />
-      <div className='flex items-center justify-center  font-stdFont relative'>
-        <div className='absolute inset-0 bg-cover bg-center filter blur-[2px]' style={{ backgroundImage: `url(${bgImage})` }} />
-        <div className='relative z-10'>
-          <div className='h-[90vh] flex justify-center items-center font-stdFont  p-5'>
-            <div className='bg-white  w-full  md:w-[400px] rounded-2xl h-auto md:h-[280px] text-center pb-3'>
-              <div id="head" className='text-color1 font-bold text-[30px] md:text-[36px] mt-2'>Trade <span className='text-stdBlue'>Connect</span></div>
-              <div id="inputBtn" className='flex flex-col gap-4 text-center items-center font-bold mt-5'>
+    <div
+      className="relative w-full overflow-hidden bg-slate-900 flex flex-col items-center justify-center rounded-lg"
+      style={{ minHeight: "calc(100vh - 64px)" }} // Adjust for navbar height
+    >
+      <div
+        className="absolute inset-0 w-full h-full bg-slate-900 z-20 [mask-image:radial-gradient(transparent,white)] pointer-events-none"
+      />
+      <Boxes />
+      
+      {/* Sign Up & Login Box */}
+      <div className="relative z-20 flex flex-col items-center text-center p-6 bg-white rounded-2xl shadow-lg w-full max-w-md">
+       
+        <h1 className="text-color1 font-bold text-3xl mt-2">
+          Gig <span className="text-stdBlue">Fusion</span>
+        </h1>
 
-                {/* Sign Up Button */}
-                <Link to="/signup">
-                  <button className='h-[45px] w-full md:w-[300px] max-w-[250px] rounded-full border text-[18px] bg-gray-100'>
-                    Sign Up
-                  </button>
-                </Link>
+        <div className="flex flex-col gap-4 w-full mt-5">
+          {/* Sign Up Button */}
+          <Link to="/signup">
+            <button className="h-12 w-full rounded-full border text-lg bg-gray-100">
+              Sign Up
+            </button>
+          </Link>
 
-                {/* Login Button */}
-                <Link to="/login">
-                  <button className='h-[45px] w-full md:w-[300px] max-w-[250px] rounded-full border bg-stdBlue text-white text-[18px]'>
-                    Login
-                  </button>
-                </Link>
-
-              </div>
-              <div className='mt-5 flex items-center justify-center w-full'>
-                <p className='text-[12px] md:text-[14px] text-center max-w-[300px]'>
-                  By signing up you agree to our <span className='font-bold text-stdBlue'>Terms of Use</span> and <span className='font-bold text-stdBlue'>Privacy Policy.</span>
-                </p>
-              </div>
-            </div>
-          </div>
-
+          {/* Login Button */}
+          <Link to="/login">
+            <button className="h-12 w-full rounded-full border bg-stdBlue text-white text-lg">
+              Login
+            </button>
+          </Link>
         </div>
-      </div>
 
-    </>
+        {/* Terms & Privacy */}
+        <p className="text-sm text-neutral-500 mt-5 max-w-[300px]">
+          By signing up you agree to our <span className="font-bold text-stdBlue">Terms of Use</span> and <span className="font-bold text-stdBlue">Privacy Policy</span>.
+        </p>
+      </div>
+    </div>
   );
 }

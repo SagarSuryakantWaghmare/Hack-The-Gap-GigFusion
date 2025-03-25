@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import RatingPage from "./RatingProjectPage.jsx";
 import ReviewHome from "../components/ReviewsHome.jsx";
+import HomePageOptions from "../components/HomePageOptions.jsx"
+import SummeryVisualOnfront from "../Pages/SummeryVisualOnfront.jsx"
 import Plumber from "../components/Assets/Icons/Home main serveices/Plumber.svg";
 import HomeRepair from "../components/Assets/Icons/Home main serveices/HomeRepair.svg";
 import Electrical from "../components/Assets/Icons/Home main serveices/Electrical.svg";
@@ -18,6 +20,7 @@ import HomepageHeading from './HomepageHeading.jsx';
 import HomepageFrontTopPhoto from "./../components/Assets/HomepageFrontTop01.jpg"
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+
 
 export default function HomePage() {
   const [text, setText] = useState("");
@@ -36,7 +39,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className='flex items-center flex-col w-full font-stdFont'>
+      <div className='flex  flex-col  font-stdFont'>
 
       <div  
   style={{ backgroundImage: `url(${HomepageFrontTopPhoto})` }} 
@@ -112,53 +115,61 @@ export default function HomePage() {
 </div>
 
 {/* hero section is finished */}
+
+{/* Home options page */}
+
+<div className='lg:mt-5'>
+    <HomePageOptions/>
+  </div>
        
+  <div className='lg:mt-5 flex items-center justify-center'>
+    <RatingPage />    
+  </div>
+
+    {/* service type page start */}
+
+    <div className="w-full ">
+    <ServiceTypeCard />
+  </div> 
+
+  <div>
+    <HowWorkFLowOnLanding/>
+  </div> 
+
+  <div className="flex flex-col items-center justify-center mt-10">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="text-4xl font-bold text-center drop-shadow-md 
+        bg-gradient-to-r from-orange-500 to-orange-600 
+        text-transparent bg-clip-text animate-pulse"
+      >
+        A Glimpse into Our Design Innovations
+      </motion.h2>
+      <SummeryVisualOnfront />
+  </div>
+
+  {/* new one start  */}
+
+  
+  <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
+    <h2 className="text-xl md:text-3xl text-center font-bold ">
+     See what happy customers are saying about TradeConnect
+     </h2>
+  </div>
+
+ 
 
        
 
    
 
-        <div className="w-full bg-gradient-to-b from-gray-50 to-white">
-          <ServiceTypeCard />
-        </div>
 
-        <RatingPage />
+      
 
-        <div>
-          <HowWorkFLowOnLanding/>
-        </div> 
 
-        <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
-          <h2 className="text-xl md:text-3xl text-center font-bold mb-10 md:mb-20 ">
-            See what happy customers are saying about TradeConnect
-          </h2>
-          <div className="flex flex-col w-full items-center">
-            <div className='flex gap-[4rem]'>
-              <ReviewHome name="Sophie Carter" />
-              <ReviewHome name="Benjamin Adams" />
-            </div>
 
-            <div className="flex justify-center items-center mt-5 md:mt-10">
-              <div className="p-3 h-[70px] w-[70px] md:h-[80px] md:w-[80px]  rounded-full flex items-center justify-center"
-                style={{
-                  background: `conic-gradient(#223265 0% 30%,transparent 30% 33%,#FF3D00 33% 63%,transparent 63% 66%,#008080 66% 96%,transparent 96% 100%)`,
-                  transform: `rotate(${rotation}deg)`,
-                  transition: 'transform 0.5s ease',
-                  clipPath: 'inset(5px round 50%)',
-                }}>
-                <div className="flex items-center justify-center bg-white text-stdBlue h-[40px] w-[40px] md:h-[50px] md:w-[50px] rounded-full font-bold cursor-pointer hover:bg-gray-200 hover:scale-105"
-                  onClick={handleClick}>
-                  <img src={Direction} className='h-[30px] hover:h-[40px]' />
-                </div>
-              </div>
-            </div>
-
-            <div className='flex gap-[4rem] mt-2 md:mt-4 '>
-              <ReviewHome name="Matthew Evans" />
-              <ReviewHome name="Oliver Scott" />
-            </div>
-          </div>
-        </div>
 
         <FandQOnfrontPage/>
       </div>
