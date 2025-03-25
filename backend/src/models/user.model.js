@@ -73,6 +73,10 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    technical: {
+      type: Boolean,
+      default: false,
+    }
   },
   {
     timestamps: true,
