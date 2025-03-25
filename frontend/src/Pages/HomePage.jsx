@@ -11,6 +11,7 @@ import Cleaning from "../components/Assets/Icons/Home main serveices/Cleaning.sv
 import Direction from "../components/Assets/Icons/Direction.svg";
 import ServiceName from '../components/ServiceName';
 import ServiceTypeCard from '../components/ServiceTypeCard';
+import HowWorkFLowOnLanding from './HowWorkFLowOnLanding.jsx';
 
 export default function HomePage() {
   const [rotation, setRotation] = useState(0);
@@ -90,6 +91,10 @@ export default function HomePage() {
         </div>
 
         <RatingPage />
+
+        <div>
+          <HowWorkFLowOnLanding/>
+        </div> 
 
         <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
           <h2 className="text-xl md:text-3xl text-center font-bold mb-10 md:mb-20 ">
