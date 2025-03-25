@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import RatingPage from "./RatingProjectPage.jsx";
 import ReviewHome from "../components/ReviewsHome.jsx";
 import HomePageOptions from "../components/HomePageOptions.jsx"
+import SummeryVisualOnfront from "../Pages/SummeryVisualOnfront.jsx"
 import Plumber from "../components/Assets/Icons/Home main serveices/Plumber.svg";
 import HomeRepair from "../components/Assets/Icons/Home main serveices/HomeRepair.svg";
 import Electrical from "../components/Assets/Icons/Home main serveices/Electrical.svg";
@@ -120,20 +121,41 @@ export default function HomePage() {
     <HomePageOptions/>
   </div>
        
+  <div className='lg:mt-5 flex items-center justify-center'>
+    <RatingPage />    
+  </div>
+
+    {/* service type page start */}
+
+    <div className="w-full ">
+    <ServiceTypeCard />
+  </div> 
+
+  <div>
+    <HowWorkFLowOnLanding/>
+  </div> 
+
+  <div className="flex flex-col items-center justify-center mt-10">
+      <motion.h2
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.8, ease: "easeInOut" }}
+        className="text-4xl font-bold text-center drop-shadow-md 
+        bg-gradient-to-r from-orange-500 to-orange-600 
+        text-transparent bg-clip-text animate-pulse"
+      >
+        A Glimpse into Our Design Innovations
+      </motion.h2>
+      <SummeryVisualOnfront />
+  </div>
 
        
 
    
 
-        <div className="w-full bg-gradient-to-b from-gray-50 to-white">
-          <ServiceTypeCard />
-        </div>
 
-        <RatingPage />
+      
 
-        <div>
-          <HowWorkFLowOnLanding/>
-        </div> 
 
         <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
           <h2 className="text-xl md:text-3xl text-center font-bold mb-10 md:mb-20 ">
