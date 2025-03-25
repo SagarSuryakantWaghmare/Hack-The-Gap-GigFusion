@@ -39,6 +39,7 @@ import ProposalsList from './Pages/ProposalsList.jsx';
 import CreateProposal from './Pages/CreateProposal.jsx';
 import ProjectMatches from './Pages/ProjectMatches.jsx';
 import EscrowDetails from './Pages/EscrowDetails.jsx';
+import EscrowLandingPage from './Pages/EscrowLandingPage.jsx';
 
 function App() {
     const location = useLocation();
@@ -124,6 +125,7 @@ function App() {
                 <Route path="/projects/:projectId/escrow" element={<EscrowDetails />} />
                 <Route path="/my-proposals" element={<ProposalsList userOnly={true} />} />
                 <Route path="/my-matches" element={<ProjectMatches userOnly={true} />} />
+                <Route path="/escrow" element={<EscrowLandingPage />} />
 
                 <Route
                     path="/admin/dashboard"

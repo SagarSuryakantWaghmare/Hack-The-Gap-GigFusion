@@ -22,6 +22,7 @@ const EscrowDetails = () => {
         try {
             setLoading(true);
             const response = await escrowService.getEscrowByProject(projectId);
+            console.log('Escrow details:', response);
 
             if (response.statusCode === 200) {
                 setEscrow(response.data);

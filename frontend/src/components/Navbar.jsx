@@ -110,6 +110,7 @@ export default function Navbar() {
                   <NavItem to="/chat">Chat</NavItem>
                   <NavItem to="/projects">Projects</NavItem>
                   <NavItem to="/my-projects">My Projects</NavItem>
+                  <NavItem to="/escrow">Escrow</NavItem>
                 </>
               )}
               {userType === 'serviceProvider' && (
@@ -230,6 +231,12 @@ export default function Navbar() {
                         <div className="flex items-center gap-3">
                           <FiBriefcase size={20} />
                           <span>My Projects</span>
+                        </div>
+                      </NavItem>
+                      <NavItem to="/escrow">
+                        <div className="flex items-center gap-3">
+                          <FiBriefcase size={20} />
+                          <span>Escrow</span>
                         </div>
                       </NavItem>
                     </div>
