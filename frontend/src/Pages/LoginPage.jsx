@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import LoginPhoto from "../components/Assets/LoginPage01Photo.jpg"
+import BackButton from '../components/BackButton';
 
 export default function LoginPage() {
     const [email, setEmail] = useState('');
@@ -24,7 +25,6 @@ export default function LoginPage() {
             { headers: { 'Content-Type': 'application/json', } })
             .then((response) => {
                 const JsonData = response.data;
-                localStorage.setItem('user', (JSON.stringify(JsonData.data.user)));
 
                 if (response.status === 200) {
                     toast.success('Login successful');
@@ -47,7 +47,6 @@ export default function LoginPage() {
                 }
             })
             .catch((error) => {
-                // console.log(`Error: ${error}`)
                 if (error.response.status === 400) {
                     toast.error('Username or Email is required');
                     setError('Username or Email is required');
@@ -69,7 +68,7 @@ export default function LoginPage() {
 
     return (
         <>
-            
+            <BackButton />
             <div className='flex items-center justify-center font-stdFont relative'>
                 <div className=' absolute inset-0 bg-cover bg-center filter blur-[2px]' style={{ backgroundImage: `url(${LoginPhoto})` }} />
                 <div className='relative z-10'>
