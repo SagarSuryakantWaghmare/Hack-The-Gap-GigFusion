@@ -622,16 +622,13 @@ const SkillValidation = ({ skill, userId }) => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
+<<<<<<< HEAD
+
+=======
     
-    // Validate user if score is greater than 70%
-    if (finalScore > 70) {
-      try {
-        const response = await axios.post("http://localhost:8000/api/v1/users/validate", { userId });
-        console.log("User validated successfully:", response.data);
-      } catch (error) {
-        console.error("Error validating user:", error);
-      }
-    }
+    // Here you can handle the userId and score submission logic
+    console.log(`User ID: ${userId}, Score: ${finalScore}`);
+    // You can send this data to your backend or store it as needed
   };
 
   const handleTryAgain = () => {
@@ -702,7 +699,11 @@ const SkillValidation = ({ skill, userId }) => {
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
                 className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
+<<<<<<< HEAD
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}% `}}
+=======
                 style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+>>>>>>> 89e9e09cf18ae5ec7d0ceb571288ffc3653c67ca
               ></div>
             </div>
           </div>
