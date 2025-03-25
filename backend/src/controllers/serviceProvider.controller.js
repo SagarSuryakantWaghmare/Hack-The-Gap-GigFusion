@@ -134,7 +134,6 @@ const updateServiceProviderProfile = asyncHandler(async (req, res) => {
 // const registerSP = asyncHandler(async (req, res) => {
 
 const registerSP = asyncHandler(async (req, res) => {
-  // console.log('Body', req.body);
   const {
     professions,
     experience,
@@ -142,102 +141,39 @@ const registerSP = asyncHandler(async (req, res) => {
     availability,
     additionalDetails,
     badges,
+    fullName,
+    email,
+    contact,
+    city,
+    state,
+    zipcode,
   } = req.body;
-  const { fullName, email, contact, city, state, zipcode } = req.body;
+
+  // Combined validation for all required fields
+  const requiredFields = [
+    fullName,
+    email,
+    contact,
+    city,
+    state,
+    zipcode,
+    professions,
+    experience,
+    location,
+    availability,
+    additionalDetails,
+    badges,
+  ];
 
   if (
-    [fullName, email, contact, city, state, zipcode].some(
+    requiredFields.some(
       (field) => typeof field === "string" && field.trim() === ""
     )
   ) {
     throw new ApiError(400, "All fields are required");
   }
 
-  let user = await User.findById(req.user._id);
-  let avatar = "";
-  let coverImage = "";
-  if (!user) {
-    user = await User.create({
-      fullName,
-      email,
-      contact,
-      city,
-      state,
-      zipcode,
-      avatar,
-      coverImage,
-      userType: "serviceProvider",
-    });
-  } else {
-    // console.log('Req Files', req.files);
-    if (req.files?.avatar) {
-      const avatarLocalPath = req.files?.avatar[0]?.path;
-      // console.log('Avatar Local Path', avatarLocalPath);
-      if (!avatarLocalPath) {
-        throw new ApiError(404, "Avatar is required!");
-      }
-
-      avatar = await uploadOnCloudinary(avatarLocalPath);
-      if (!avatar) {
-        throw new ApiError(
-          400,
-          "Something went wrong while uploading Avatar on Cloudinary"
-        );
-      }
-    } else {
-      avatar = req.user.avatar;
-    }
-
-    if (req.files?.coverImage) {
-      const coverImageLocalPath = req.files?.coverImage[0]?.path;
-      // console.log('Cover Image Local Path', coverImageLocalPath);
-      coverImage = "";
-      if (!coverImageLocalPath) {
-        coverImage = "";
-      } else {
-        coverImage = await uploadOnCloudinary(coverImageLocalPath);
-        if (!coverImage) {
-          throw new ApiError(
-            400,
-            "Something went wrong while uploading Cover Image on Cloudinary"
-          );
-        }
-      }
-    } else {
-      coverImage = req.user.coverImage;
-    }
-
-    user = await User.findOneAndUpdate(
-      { _id: req.user._id },
-      {
-        $set: {
-          fullName,
-          email,
-          contact,
-          city,
-          state,
-          zipcode,
-          avatar: avatar.url || avatar,
-          coverImage: coverImage.url || coverImage,
-        },
-      },
-      { new: true }
-    );
-  }
-
-  if (
-    [
-      professions,
-      experience,
-      location,
-      availability,
-      additionalDetails,
-      badges,
-    ].some((field) => typeof field === "string" && field.trim() === "")
-  ) {
-    throw new ApiError(400, "All fields are required");
-  }
-
+  // Convert string inputs to arrays
   const professionList = professions
     .split(",")
     .map((profession) => profession.trim());
@@ -245,56 +181,143 @@ const registerSP = asyncHandler(async (req, res) => {
     .split(",")
     .map((detail) => detail.trim());
   const badgesList = badges.split(",").map((badge) => badge.trim());
-  // console.log('Professions', professionList);
-  // console.log('Additional Details', additionalDetailsList);
-  // console.log('Badges', badgesList);
 
-  let sp = await ServiceProvider.findOne({ userId: req.user._id });
-  if (!sp) {
-    sp = await ServiceProvider.create({
-      userId: req.user._id,
-      professions: professionList,
-      experience,
-      location,
-      availability,
-      additionalDetails: additionalDetailsList,
-      badges: badgesList,
-    });
-  } else {
-    sp = await ServiceProvider.findOneAndUpdate(
-      { userId: req.user._id },
-      {
-        $set: {
-          professions,
-          experience,
-          location,
-          availability,
-          additionalDetails,
-          badges,
+  try {
+    // Use transaction to prevent race conditions
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    let user = await User.findById(req.user._id).session(session);
+    let avatar = "";
+    let coverImage = "";
+
+    if (!user) {
+      user = await User.create(
+        [
+          {
+            fullName,
+            email,
+            contact,
+            city,
+            state,
+            zipcode,
+            avatar,
+            coverImage,
+            userType: "serviceProvider",
+          },
+        ],
+        { session }
+      );
+      user = user[0];
+    } else {
+      if (req.files?.avatar) {
+        const avatarLocalPath = req.files?.avatar[0]?.path;
+        if (!avatarLocalPath) {
+          throw new ApiError(404, "Avatar is required!");
+        }
+
+        const avatarUpload = await uploadOnCloudinary(avatarLocalPath);
+        if (!avatarUpload?.url) {
+          throw new ApiError(400, "Failed to upload avatar");
+        }
+        avatar = avatarUpload.url;
+      } else {
+        avatar = req.user.avatar;
+      }
+
+      if (req.files?.coverImage) {
+        const coverImageLocalPath = req.files?.coverImage[0]?.path;
+        if (coverImageLocalPath) {
+          const coverImageUpload =
+            await uploadOnCloudinary(coverImageLocalPath);
+          if (coverImageUpload?.url) {
+            coverImage = coverImageUpload.url;
+          }
+        }
+      } else {
+        coverImage = req.user.coverImage;
+      }
+
+      user = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          $set: {
+            fullName,
+            email,
+            contact,
+            city,
+            state,
+            zipcode,
+            avatar,
+            coverImage,
+          },
         },
-      },
-      { new: true }
+        { new: true, session }
+      );
+    }
+
+    let sp = await ServiceProvider.findOne({ userId: req.user._id }).session(
+      session
     );
+    if (!sp) {
+      sp = await ServiceProvider.create(
+        [
+          {
+            userId: req.user._id,
+            professions: professionList,
+            experience,
+            location,
+            availability,
+            additionalDetails: additionalDetailsList,
+            badges: badgesList,
+          },
+        ],
+        { session }
+      );
+      sp = sp[0];
+    } else {
+      sp = await ServiceProvider.findOneAndUpdate(
+        { userId: req.user._id },
+        {
+          $set: {
+            professions: professionList,
+            experience,
+            location,
+            availability,
+            additionalDetails: additionalDetailsList,
+            badges: badgesList,
+          },
+        },
+        { new: true, session }
+      );
+    }
+
+    await session.commitTransaction();
+    session.endSession();
+
+    const createdSP = await User.findById(sp.userId);
+    if (!createdSP) {
+      throw new ApiError(400, "Service Provider Data Saving Failed");
+    }
+
+    return res
+      .status(201)
+      .json(
+        new ApiResponse(
+          201,
+          createdSP,
+          "Service Provider Data updated and saved successfully"
+        )
+      );
+  } catch (error) {
+    if (session) {
+      await session.abortTransaction();
+      session.endSession();
+    }
+    throw error;
   }
-
-  const createdSP = await User.findById(sp.userId);
-  if (!createdSP) {
-    throw new ApiError(400, "Service Provider Data Saving Failed");
-  }
-
-  const response = res
-    .status(201)
-    .json(
-      new ApiResponse(
-        200,
-        createdSP,
-        "Service Provider Data updated and saved successfully"
-      )
-    );
-  console.log("SP registered Successfully");
-
-  return response;
 });
+// ... existing code ...
 
 //     const { professions, experience, location, availability, additionalDetails, badges } = req.body
 //     const { fullName, email, contact, city, state, zipcode, avatar, coverImage } = req.body;
@@ -587,54 +610,9 @@ const getServiceProviderRating = asyncHandler(async (req, res) => {
   );
 });
 
-const updateServiceProviderRating = asyncHandler(async (req, res) => {
-  const { serviceProviderId } = req.params;
-
-  // Get all reviews for the service provider
-  const reviews = await Review.find({ serviceProviderId });
-
-  if (!reviews.length) {
-    return res
-      .status(200)
-      .json(
-        new ApiResponse(
-          200,
-          { rating: 0 },
-          "No reviews found for this service provider"
-        )
-      );
-  }
-
-  // Calculate average rating
-  const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
-  const averageRating = totalRating / reviews.length;
-
-  // Update service provider with new rating
-  const updatedServiceProvider = await ServiceProvider.findOneAndUpdate(
-    { userId: serviceProviderId },
-    { $set: { rating: averageRating } },
-    { new: true }
-  );
-
-  if (!updatedServiceProvider) {
-    throw new ApiError(404, "Service Provider not found");
-  }
-
-  return res
-    .status(200)
-    .json(
-      new ApiResponse(
-        200,
-        updatedServiceProvider,
-        "Service Provider rating updated successfully"
-      )
-    );
-});
-
 export {
   getServiceProviderByCity,
   getServiceProviderRating,
-  updateServiceProviderRating,
   getServiceProviderDetails,
   getServiceProviderReviews,
   updateServiceProviderProfile,
