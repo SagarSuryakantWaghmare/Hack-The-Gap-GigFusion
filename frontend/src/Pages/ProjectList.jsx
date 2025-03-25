@@ -70,6 +70,7 @@ export default function ProjectList() {
       if (filters.maxBudget) filterParams.maxBudget = filters.maxBudget;
       if (filters.skills.length > 0) filterParams.skills = filters.skills.join(',');
 
+      console.log("filterParams", filterParams);
       const response = await projectService.getAllProjects(filterParams);
 
       if (response.statusCode === 200) {
@@ -369,6 +370,7 @@ export default function ProjectList() {
                 Clear Filters
               </button>
             )}
+            {console.log("No projects found")}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
