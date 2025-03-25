@@ -14,7 +14,7 @@ const faqs = [
   { question: "Can I request changes after project completion?", answer: "Yes, we offer a revision period after project completion to ensure your satisfaction." },
 ];
 
-export default function FandQOnfrontPage() {
+export default function FandQOnFrontPage() {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleFAQ = (index) => {
@@ -22,50 +22,74 @@ export default function FandQOnfrontPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-16 px-6">
-      <h2 className="text-4xl font-bold text-center text-stdBlue mb-8">Frequently Asked Questions</h2>
+    <div className="max-w-7xl mx-auto py-20 px-6 bg-gray-50">
+      {/* Enhanced Heading */}
+      <h2 className="text-4xl md:text-5xl font-extrabold text-center text-stdBlue mb-12 tracking-tight">
+        Frequently Asked <span className="text-orange-700">Questions</span>
+      </h2>
 
-      {/* Grid Layout for Left & Right Sections */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 justify-center">
-        
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 justify-center">
         {/* Left Column */}
-        <div className="space-y-4 flex flex-col items-center">
+        <div className="space-y-6 flex flex-col items-center">
           {faqs.slice(0, 5).map((faq, index) => (
-            <div key={index} className="w-[550px] bg-white shadow-md rounded-lg p-4 transition-all duration-300">
+            <div
+              key={index}
+              className="w-full max-w-[600px] bg-white shadow-lg rounded-xl p-5 transition-all duration-300 hover:shadow-xl border border-gray-100"
+            >
               <button
-                className="w-full flex justify-between items-center text-md font-medium text-left text-gray-800 hover:bg-blue-100 p-2 transition-all duration-200"
+                className="w-full flex justify-between items-center text-lg font-semibold text-left text-gray-800 hover:text-stdBlue p-2 rounded-lg transition-all duration-200 focus:outline-none"
                 onClick={() => toggleFAQ(index)}
               >
-                {faq.question}
-                <ChevronDown className={`transition-transform ${openIndex === index ? "rotate-180" : ""}`} />
+                <span>{faq.question}</span>
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                    openIndex === index ? "rotate-180 text-blue-600" : ""
+                  }`}
+                />
               </button>
-              {/* Dynamic Height Based on Content */}
-              <div className={`overflow-hidden transition-all duration-300 ${openIndex === index ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}>
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
+              {/* Smooth Expand/Collapse Animation */}
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  openIndex === index ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="mt-3 text-gray-600 text-base leading-relaxed">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
 
         {/* Right Column */}
-        <div className="space-y-4 flex flex-col items-center">
+        <div className="space-y-6 flex flex-col items-center">
           {faqs.slice(5, 10).map((faq, index) => (
-            <div key={index + 5} className="w-[550px] bg-white shadow-md rounded-lg p-4 transition-all duration-300">
+            <div
+              key={index + 5}
+              className="w-full max-w-[600px] bg-white shadow-lg rounded-xl p-5 transition-all duration-300 hover:shadow-xl border border-gray-100"
+            >
               <button
-                className="w-full flex justify-between items-center text-md font-medium text-left text-gray-800 hover:bg-blue-100 p-2 transition-all duration-200"
+                className="w-full flex justify-between items-center text-lg font-semibold text-left text-gray-800 hover:text-stdBlue p-2 rounded-lg transition-all duration-200 focus:outline-none"
                 onClick={() => toggleFAQ(index + 5)}
               >
-                {faq.question}
-                <ChevronDown className={`transition-transform ${openIndex === index + 5 ? "rotate-180" : ""}`} />
+                {/* Changes are done */}
+                <span>{faq.question}</span>
+                <ChevronDown
+                  className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
+                    openIndex === index + 5 ? "rotate-180 text-blue-600" : ""
+                  }`}
+                />
               </button>
-              {/* Dynamic Height Based on Content */}
-              <div className={`overflow-hidden transition-all duration-300 ${openIndex === index + 5 ? "max-h-[300px] opacity-100" : "max-h-0 opacity-0"}`}>
-                <p className="mt-2 text-gray-600">{faq.answer}</p>
+              {/* Smooth Expand/Collapse Animation */}
+              <div
+                className={`overflow-hidden transition-all duration-500 ease-in-out ${
+                  openIndex === index + 5 ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                }`}
+              >
+                <p className="mt-3 text-gray-600 text-base leading-relaxed">{faq.answer}</p>
               </div>
             </div>
           ))}
         </div>
-
       </div>
     </div>
   );

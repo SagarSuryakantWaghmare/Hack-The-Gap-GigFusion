@@ -5,6 +5,7 @@ import bgImage from "../components/Assets/backgroundImage.png"
 import { toast } from 'react-toastify';
 import BackButton from '../components/BackButton';
 export default function UserSignUp() {
+    // All ok
     const [formData, setFormData] = useState({
         fullName: '',
         email: '',

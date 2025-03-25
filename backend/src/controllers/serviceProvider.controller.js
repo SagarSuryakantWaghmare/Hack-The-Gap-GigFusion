@@ -523,11 +523,11 @@ const uploadServiceProviderDocument = asyncHandler(async (req, res) => {
   return response;
 });
 
-const updateServiceProviderDocument = asyncHandler(async (req, res) => {});
+const updateServiceProviderDocument = asyncHandler(async (req, res) => { });
 
-const getServiceProviderDocuments = asyncHandler(async (req, res) => {});
+const getServiceProviderDocuments = asyncHandler(async (req, res) => { });
 
-const getServiceProviderDocumentById = asyncHandler(async (req, res) => {});
+const getServiceProviderDocumentById = asyncHandler(async (req, res) => { });
 
 // Controller for fetching active jobs for a service provider
 const getActiveJobs = asyncHandler(async (req, res) => {
@@ -610,6 +610,25 @@ const getServiceProviderRating = asyncHandler(async (req, res) => {
   );
 });
 
+const saveSkills = asyncHandler(async (req, res) => {
+  const { skills } = req.body;
+  const user = await ServiceProvider.findOneAndUpdate(
+    { userId: req.user._id },
+    { $set: { professions: skills } },
+    { new: true }
+  );
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "Skills saved successfully"));
+});
+
+const getSkills = asyncHandler((req, res) => {
+  const user = ServiceProvider.findOne({ userId: req.user._id });
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user.professions, "Skills fetched successfully"));
+})
+
 export {
   getServiceProviderByCity,
   getServiceProviderRating,
@@ -626,4 +645,6 @@ export {
   getServiceProviderDocumentById,
   getActiveJobs,
   getServiceProviderStats,
+  saveSkills,
+  getSkills,
 };
