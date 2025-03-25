@@ -8,6 +8,7 @@ export default function ServiceProviderProfile() {
     const { id } = useParams();
     const [serviceProvider, setServiceProvider] = useState(null);
     const [reviews, setReviews] = useState([]);
+    const [skills, setSkills] = useState([]);
     const [loading, setLoading] = useState(true);
     const [distance, setDistance] = useState(0);
     const navigate = useNavigate();
@@ -15,14 +16,16 @@ export default function ServiceProviderProfile() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [providerResponse, reviewsResponse] = await Promise.all([
+                const [providerResponse, reviewsResponse, skillsResponse] = await Promise.all([
                     axios.get(`/api/v1/service-providers/${id}`),
-                    axios.get(`/api/v1/service-providers/get-reviews/${id}`)
+                    axios.get(`/api/v1/service-providers/get-reviews/${id}`),
+                    axios.get(`/api/v1/service-providers/skills/${id}`)
                 ]);
 
                 if (providerResponse.status === 200) {
                     setServiceProvider(providerResponse.data.data);
                 } else {
+
                     throw new Error('Failed to fetch service provider details');
                 }
 
@@ -30,6 +33,10 @@ export default function ServiceProviderProfile() {
                     setReviews(reviewsResponse.data.data);
                 } else {
                     throw new Error('Failed to fetch reviews');
+                }
+                
+                if (skillsResponse.status === 200) {
+                    setSkills(skillsResponse.data.data.skills || []);
                 }
 
                 const distanceFromUser = async () => {
@@ -40,7 +47,6 @@ export default function ServiceProviderProfile() {
                             },
                         });
                         if (locationResponse.status === 200) {
-                            // console.log('Temp: Distance:', locationResponse.data.data);
                             let distanceInMeters = locationResponse.data.data;
                             let distanceInKm = (distanceInMeters / 1000) + 1;
                             setDistance(distanceInKm.toFixed(2));
@@ -175,6 +181,23 @@ export default function ServiceProviderProfile() {
                             <span className="text-color1 font-semibold">Distance:</span> Approx {distance}km
                         </p>
                     </div>
+
+                    {/* Skills Section */}
+                    {skills.length > 0 && (
+                        <div className="mt-6">
+                            <h3 className="text-lg font-medium text-gray-900 mb-3">Skills & Expertise</h3>
+                            <div className="flex flex-wrap gap-2">
+                                {skills.map((skill, index) => (
+                                    <span 
+                                        key={index}
+                                        className="bg-stdBg text-stdBlue px-3 py-1 rounded-full text-sm font-medium"
+                                    >
+                                        {skill}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Action Buttons */}
                     <div className="flex gap-4">
