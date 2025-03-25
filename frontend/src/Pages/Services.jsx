@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { motion } from "framer-motion"
 import { 
     FiTool, FiTruck, FiZap, FiWind, 
     FiDroplet, FiPackage, FiSearch, FiChevronRight, FiX 
@@ -6,7 +7,13 @@ import {
 import { useState } from 'react';
 import serviceback from "../components/Assets/serviceback.png";
 import BackButton from '../components/BackButton';
+import Video01 from "./../components/Assets/Videos/ServicePageBgVideo.mp4"
+import CountDownNumbersForServicePage from '../components/CountDownNumbersForServicePage';
+
+
+
 const style = document.createElement('style');
+
 style.textContent = `
     @keyframes fadeIn {
         from { opacity: 0; }
@@ -200,35 +207,65 @@ export default function Services() {
     return (
         <>
         <div className="min-h-screen bg-gray-50">
-        <BackButton />
+        {/* <BackButton /> */}
             {/* Hero Section */}
-            <div className="relative h-[300px] md:h-[480px] overflow-hidden">
-                <img 
-                    src={serviceback} 
-                    alt="Services Background" 
-                    className="w-full h-full object-cover brightness-50"
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
-                    <h1 className="text-3xl md:text-5xl font-bold mb-4 text-center">
-                        Professional Home Services
-                    </h1>
-                    <p className="text-xl md:text-2xl text-center max-w-2xl">
-                        Expert solutions for all your home service needs
-                    </p>
-                    <div className="mt-8 flex items-center gap-4">
-                        <button 
-                            onClick={() => navigate('/login')}
-                            className="px-8 py-3 bg-color1 text-white rounded-full 
-                                     hover:bg-color1/90 transform hover:scale-105 
-                                     transition-all duration-300 shadow-lg
-                                     flex items-center gap-2"
-                        >
-                            <FiSearch size={20} />
-                            Find Services
-                        </button>
-                    </div>
-                </div>
-            </div>
+
+            {/* video */}
+            <div className="relative h-[calc(100vh-80px)] overflow-hidden">
+    <video 
+        autoPlay 
+        loop 
+        muted 
+        playsInline 
+        className="absolute inset-0 w-full h-full object-cover brightness-50"
+    >
+        <source src={Video01} type="video/mp4" />
+        Your browser does not support the video tag.
+    </video>
+
+    <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
+        <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 text-center">
+            Gig Experts Services
+        </h1>
+        <p className="text-xl md:text-2xl text-center max-w-2xl ">
+        You bring the skill. We'll make earning easy.
+        </p>
+        <div className="mt-8 flex items-center gap-4">
+        <motion.button 
+    onClick={() => navigate('/login')}
+    className="px-12 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white rounded-full 
+               hover:from-indigo-600 hover:to-blue-500 transform hover:scale-105 
+               transition-all duration-300 shadow-lg flex items-center gap-2 relative overflow-hidden"
+    whileHover={{ scale: 1.1 }}
+    whileTap={{ scale: 0.95 }}
+>
+    <span className="relative z-10 text-xl font-bold">
+        Join Us
+    </span>
+    <motion.span 
+        className="relative z-10 text-xl"
+        animate={{ x: [0, 5, 0] }} 
+        transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+    >
+        →
+    </motion.span>
+</motion.button>
+        </div>
+     
+       
+
+    
+      
+    </div>
+</div>
+
+<div>
+<CountDownNumbersForServicePage/>
+    
+</div>
+
+
+    
 
             {/* Main Services Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
