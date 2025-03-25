@@ -5,7 +5,9 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png'
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import LoginPhoto from "../components/Assets/LoginPage01Photo.jpg"
 import BackButton from '../components/BackButton';
+
 export default function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -68,10 +70,10 @@ export default function LoginPage() {
         <>
             <BackButton />
             <div className='flex items-center justify-center font-stdFont relative'>
-                <div className=' absolute inset-0 bg-cover bg-center filter blur-[2px]' style={{ backgroundImage: `url(${bgImage})` }} />
+                <div className=' absolute inset-0 bg-cover bg-center filter blur-[2px]' style={{ backgroundImage: `url(${LoginPhoto})` }} />
                 <div className='relative z-10'>
                     <div className=' flex items-center justify-center h-[90vh] font-stdFont  px-5'>
-                        <div className="rounded-3xl w-full max-w-[450px] md:h-[500px] h-auto text-center bg-white p-5 ">
+                        <div className="rounded-3xl w-full max-w-[450px] md:h-[450px] h-auto text-center bg-white p-5 ">
                             <h1 className='text-3xl md:text-4xl font-bold text-color1'>Welcome</h1>
                             <p className='text-xs md:text-sm mt-1 text-stdBlue font-semibold'>
                                 Welcome to our community of skilled professionals!
@@ -119,10 +121,15 @@ export default function LoginPage() {
                                     <legend>OR</legend>
                                 </fieldset>
                                 <div className="flex flex-col gap-2 justify-center items-center mt-1">
-                                    <button className='w-full max-w-[250px] md:max-w-[280px] h-[45px] border border-stdBlue rounded-xl font-semibold flex items-center justify-center gap-2 bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out'>
-                                        <FaGoogle className="text-xl text-GoogleIcon" />
+                                    <button className='w-full max-w-[250px] md:max-w-[280px] h-[45px] border border-stdBlue rounded-xl font-semibold flex items-center justify-center gap-2 bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out '>
+                                        <i className="fa-brands fa-google text-xl text-GoogleIcon"></i>
                                         <span className="text-gray-700">Login with Google</span>
                                     </button>
+
+                                    {/* <button className='w-full max-w-[250px] md:max-w-[280px] h-[45px] border border-stdBlue rounded-xl font-semibold flex items-center justify-center gap-2 bg-white shadow-md hover:shadow-lg transition-all duration-300 ease-in-out'>
+                                        <i className="fa-brands fa-apple text-2xl text-black"></i>
+                                        <span className="text-gray-700">Login with Apple</span>
+                                    </button> */}
                                 </div>
                             </form>
                         </div>
