@@ -14,7 +14,7 @@ const mountRoutes = (app) => {
     app.use("/api/v1", proposalRoutes);
     app.use("/api/v1", jobMatchingRoutes);
     app.use("/api/v1", escrowRoutes);
-    
+
     // Default route for API health check
     app.get('/api/health', (req, res) => {
         res.status(200).json({

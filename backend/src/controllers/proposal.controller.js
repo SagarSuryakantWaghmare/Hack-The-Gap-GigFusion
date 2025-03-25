@@ -1,12 +1,16 @@
 import Proposal from "../models/proposal.model.js";
-import Project from "../models/project.model.js";
+// import Project from "../models/project.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import Escrow from "../models/escrow.model.js"; // Import the Escrow model
+let Project;
 
 // Submit a proposal for a project
 const submitProposal = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { projectId } = req.params;
     const {
         coverLetter,
@@ -80,6 +84,9 @@ const submitProposal = asyncHandler(async (req, res) => {
 
 // Get all proposals for a specific project (for project owner)
 const getProjectProposals = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { projectId } = req.params;
     const { status, page = 1, limit = 10 } = req.query;
 
@@ -131,6 +138,9 @@ const getProjectProposals = asyncHandler(async (req, res) => {
 
 // Get a proposal by ID
 const getProposalById = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { proposalId } = req.params;
 
     const proposal = await Proposal.findById(proposalId)
@@ -157,6 +167,9 @@ const getProposalById = asyncHandler(async (req, res) => {
 
 // Get all proposals submitted by the authenticated freelancer
 const getUserProposals = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const userId = req.user._id;
     const { status, page = 1, limit = 10 } = req.query;
 
@@ -204,6 +217,9 @@ const getUserProposals = asyncHandler(async (req, res) => {
 
 // Update a proposal
 const updateProposal = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { proposalId } = req.params;
     const updates = req.body;
 
@@ -248,6 +264,9 @@ const updateProposal = asyncHandler(async (req, res) => {
 
 // Delete/withdraw a proposal
 const withdrawProposal = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { proposalId } = req.params;
 
     // Find the proposal first
@@ -286,6 +305,9 @@ const withdrawProposal = asyncHandler(async (req, res) => {
 
 // Accept or reject a proposal (for project owners)
 const handleProposalStatus = asyncHandler(async (req, res) => {
+    if (!Project) {
+        Project = (await import('../models/project.model.js')).default;
+    }
     const { proposalId } = req.params;
     const { status } = req.body;
 
@@ -344,27 +366,38 @@ const handleProposalStatus = asyncHandler(async (req, res) => {
         );
 
         // Create escrow
-        const totalAmount = project.budget.maxAmount;
-        const paymentType = project?.paymentType || 'traditional';
-        const currency = project.budget.currency || 'INR';
+        // const totalAmount = project.budget.maxAmount;
+        // const paymentType = project?.paymentType || 'traditional';
+        // const currency = project.budget.currency || 'INR';
 
-        const escrow = await Escrow.create({
-            project: proposal.project,
-            client: req.user._id,
-            freelancer: proposal.freelancer._id,
-            totalAmount,
-            currency,
-            paymentType,
-            status: 'pending',
-            milestones: project.milestones || [{
+        // const escrow = await Escrow.create({
+        //     project: proposal.project,
+        //     client: req.user._id,
+        //     freelancer: proposal.freelancer._id,
+        //     totalAmount,
+        //     currency,
+        //     paymentType,
+        //     status: 'pending',
+        //     milestones: project.milestones || [{
+        //         title: "Project Completion",
+        //         description: "Full payment upon project completion",
+        //         amount: totalAmount,
+        //         dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
+        //         status: 'pending'
+        //     }],
+        //     expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000) // 6 months from now
+        // });
+        console.log('Saving escrow');
+        let milestones = project.milestones || [
+            {
                 title: "Project Completion",
                 description: "Full payment upon project completion",
-                amount: totalAmount,
+                amount: project.budget.maxAmount,
                 dueDate: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days from now
                 status: 'pending'
-            }],
-            expiryDate: new Date(Date.now() + 180 * 24 * 60 * 60 * 1000) // 6 months from now
-        });
+            }
+        ];
+        const escrow = await Escrow.createEscrow(project, req.user._id, proposal.freelancer, project.budget.maxAmount, 'INR', 'traditional', milestones);
 
         if (!escrow) {
             throw new ApiError(500, "Failed to create escrow for this project");

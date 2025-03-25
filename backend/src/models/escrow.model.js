@@ -163,4 +163,22 @@ EscrowSchema.virtual("remainingAmount").get(function () {
     return this.totalAmount - released - refunded;
 });
 
+EscrowSchema.statics.createEscrow = async function (project, client, freelancer, totalAmount, currency, paymentType, milestones) {
+    try {
+        const escrow = await this.create({
+            project: project._id,
+            client: client,
+            freelancer: freelancer._id,
+            totalAmount: totalAmount,
+            currency: currency,
+            paymentType: paymentType,
+            milestones: milestones,
+        });
+        return escrow;
+    } catch (error) {
+        console.error("Error creating escrow:", error);
+        throw error; // Re-throw the error to be caught by the asyncHandler
+    }
+};
+
 export default mongoose.model("Escrow", EscrowSchema);
