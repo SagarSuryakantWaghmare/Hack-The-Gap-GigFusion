@@ -250,7 +250,7 @@ export default function ProjectDetails() {
                 </div>
 
                 {/* Action Buttons */}
-                {project.status === 'in-progress' && project.freelancer && project.client._id === user._id && (
+                {/* {project.status === 'in-progress' && project.freelancer && project.client._id === user._id && (
                     <div className="flex justify-center">
                         <button
                             onClick={handleCreateEscrow}
@@ -259,7 +259,7 @@ export default function ProjectDetails() {
                             Set Up Payment Escrow
                         </button>
                     </div>
-                )}
+                )} */}
             </div>
         </div>
     );

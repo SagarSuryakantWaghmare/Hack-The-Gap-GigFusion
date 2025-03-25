@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 
 import { app } from './Socket/socket.js';
 import mountRoutes from './routes/index.js';
+import escrowRoutes from "./routes/escrow.routes.js";
 
 // const app = express();
 
@@ -30,6 +31,9 @@ app.use(cookieParser());
 
 // Mount all routes
 mountRoutes(app);
+
+// Mount routes
+app.use("/api/v1", escrowRoutes);
 
 // Global error handler
 app.use((err, req, res, next) => {
