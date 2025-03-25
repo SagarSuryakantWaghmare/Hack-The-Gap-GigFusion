@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
+import axios from "axios"; // Import axios for making API calls
 
-const SkillValidation = ({ skill }) => {
+const SkillValidation = ({ skill, userId }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -28,7 +29,7 @@ const SkillValidation = ({ skill }) => {
         id: "wd3",
         question: "Which JavaScript method is used to select an element by its id?",
         options: ["querySelector()", "getElement()", "getElementById()", "selectElement()"],
-        correctAnswer: 2
+        correctAnswer: 2 
       },
       {
         id: "wd4",
@@ -617,10 +618,20 @@ const SkillValidation = ({ skill }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
+
+    // Validate user if score is greater than 70%
+    if (finalScore > 70) {
+      try {
+        const response = await axios.post("http://localhost:8000/api/v1/users/validate", { userId });
+        console.log("User validated successfully:", response.data);
+    } catch (error) {
+        console.error("Error validating user:", error);
+      }
+    }
   };
 
   const handleTryAgain = () => {
