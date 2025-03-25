@@ -26,27 +26,21 @@ const escrowService = {
     return response.data;
   },
 
-  // Fund an escrow or milestone
-  fundEscrow: async (escrowId, fundingData) => {
-    const response = await API.post(`/escrows/${escrowId}/fund`, fundingData);
+  // Fund a milestone
+  fundMilestone: async (escrowId, milestoneId) => {
+    const response = await API.post(`/escrows/${escrowId}/milestones/${milestoneId}/fund`);
     return response.data;
   },
 
-  // Release funds from an escrow milestone
-  releaseFunds: async (escrowId, releaseData) => {
-    const response = await API.post(`/escrows/${escrowId}/release`, releaseData);
+  // Release a milestone
+  releaseMilestone: async (escrowId, milestoneId) => {
+    const response = await API.post(`/escrows/${escrowId}/milestones/${milestoneId}/release`);
     return response.data;
   },
 
-  // Request refund or dispute an escrow
-  initiateDispute: async (escrowId, reason) => {
+  // Raise a dispute
+  raiseDispute: async (escrowId, reason) => {
     const response = await API.post(`/escrows/${escrowId}/dispute`, { reason });
-    return response.data;
-  },
-
-  // Resolve a dispute (admin only)
-  resolveDispute: async (escrowId, resolutionData) => {
-    const response = await API.post(`/escrows/${escrowId}/resolve`, resolutionData);
     return response.data;
   }
 };

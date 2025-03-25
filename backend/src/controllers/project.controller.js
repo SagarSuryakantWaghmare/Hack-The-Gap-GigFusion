@@ -1,6 +1,7 @@
 import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+import { User } from '../models/user.model.js';
 let Project; // Declare Project outside the asyncHandler
 
 // Create a new project
@@ -300,6 +301,18 @@ const changeProjectStatus = asyncHandler(async (req, res) => {
     // Validate status transitions
     if (project.status === 'completed' && status !== 'completed') {
         throw new ApiError(400, "Cannot change status of a completed project");
+    }
+
+    // If the project is being marked as completed, update the totalEarning of the freelancer
+    if (status === 'completed' && project.freelancer) {
+        const freelancer = await User.findById(project.freelancer);
+        if (!freelancer) {
+            throw new ApiError(404, "Freelancer not found");
+        }
+
+        // Update the freelancer's totalEarning
+        freelancer.totalEarning = (freelancer.totalEarning || 0) + project.budget.maxAmount;
+        await freelancer.save();
     }
 
     if (project.status === 'cancelled' && status !== 'cancelled') {

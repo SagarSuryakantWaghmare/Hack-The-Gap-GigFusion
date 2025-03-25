@@ -1,43 +1,39 @@
 import { Router } from "express";
+import { verifyJWT } from "../middlewares/auth.middleware.js";
 import {
     createEscrow,
-    getEscrowByProject,
     getEscrowById,
-    fundEscrow,
-    releaseFunds,
-    initiateDispute,
-    resolveDispute,
-    getUserEscrows
+    getEscrowByProject,
+    getUserEscrows,
+    fundMilestone,
+    releaseMilestone,
+    raiseDispute
 } from "../controllers/escrow.controller.js";
-import { verifyJWT } from "../middlewares/auth.middleware.js";
 
 const router = Router();
 
-// All escrow routes require authentication
+// All routes require authentication
 router.use(verifyJWT);
 
-// Create a new escrow for a project
+// Create an escrow for a project
 router.post("/projects/:projectId/escrow", createEscrow);
 
-// Get escrow details by project ID
-router.get("/projects/:projectId/escrow", getEscrowByProject);
-
-// Get escrow details by ID
+// Get escrow by ID
 router.get("/escrows/:escrowId", getEscrowById);
 
-// Get all escrows for the authenticated user
+// Get escrow by project ID
+router.get("/projects/:projectId/escrow", getEscrowByProject);
+
+// Get all escrows for the current user
 router.get("/escrows", getUserEscrows);
 
-// Fund an escrow or milestone
-router.post("/escrows/:escrowId/fund", fundEscrow);
+// Fund a milestone
+router.post("/escrows/:escrowId/milestones/:milestoneId/fund", fundMilestone);
 
-// Release funds from an escrow milestone
-router.post("/escrows/:escrowId/release", releaseFunds);
+// Approve/release a milestone
+router.post("/escrows/:escrowId/milestones/:milestoneId/release", releaseMilestone);
 
-// Request refund or dispute an escrow
-router.post("/escrows/:escrowId/dispute", initiateDispute);
-
-// Resolve a dispute (admin only)
-router.post("/escrows/:escrowId/resolve", resolveDispute);
+// Raise a dispute
+router.post("/escrows/:escrowId/dispute", raiseDispute);
 
 export default router;
