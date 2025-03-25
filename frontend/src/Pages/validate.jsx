@@ -10,7 +10,7 @@ const SkillValidation = ({ skill = "Plumbing" }) => {
   const [score, setScore] = useState(null);
   const [showScore, setShowScore] = useState(false);
 
-  // Static questions for different skills
+ 
   const questionsBySkill = {
     "Web Developer": [
       {
