@@ -64,6 +64,10 @@ const userSchema = new Schema(
             required: true,
             trim: true,
             index: true
+        },
+        skills: {
+            type: [String],
+            default: []
         }
 
     },

@@ -50,6 +50,7 @@ const registerUser = asyncHandler(async (req, res) => {
     zipcode,
     state,
     city,
+    skills,
   } = req.body;
   console.log(req.body);
 
@@ -95,6 +96,7 @@ const registerUser = asyncHandler(async (req, res) => {
     zipcode,
     state,
     city,
+    skills,
   });
 
   const createdUser = await User.findById(user._id).select(

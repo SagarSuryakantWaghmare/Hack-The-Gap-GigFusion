@@ -4,11 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png';
 import BackButton from '../components/BackButton';
-import { motion } from "framer-motion";
-import TagsInput from 'react-tagsinput';
-import Autosuggest from 'react-autosuggest';
-import 'react-tagsinput/react-tagsinput.css'; 
-import './Autosuggest.css';
+
 export default function WorkerSignUp() {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -21,84 +17,19 @@ export default function WorkerSignUp() {
         zipcode: '',
         state: '',
         city: '',
-        serviceCategory: [] // Now an array to store multiple skills/services
+        serviceCategory: 'Home Repairs'
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
-
-    // State for autosuggest
-    const [suggestions, setSuggestions] = useState([]);
-    const [currentInput, setCurrentInput] = useState('');
-
-    // Predefined list of possible skills/services for recommendations
-    const availableSkills = [
-        'Web Development',
-        'Web Development UI/UX Designer',
-        'Web Development Frontend',
-        'Web Development Backend',
-        'Mobile App Development',
-        'Mobile App Development iOS',
-        'Mobile App Development Android',
-        'Graphic Design',
-        'Graphic Design UI',
-        'Graphic Design Branding',
-        'Digital Marketing',
-        'Digital Marketing Social Media',
-        'Digital Marketing Email Campaigns',
-        'Content Writing & Copywriting',
-        'Content Writing Blogging',
-        'Content Writing SEO',
-        'SEO & Website Optimization',
-        'SEO & Website Optimization Technical SEO',
-        'SEO & Website Optimization Content SEO'
-    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    // Handle changes to the tags (skills/services)
-    const handleTagsChange = (tags) => {
-        setFormData({ ...formData, serviceCategory: tags });
-        setCurrentInput(''); // Clear the input after adding a tag
+    const handleServiceSelect = (category) => {
+        setFormData({ ...formData, serviceCategory: category });
     };
-
-    // Autosuggest: Get suggestions based on user input
-    const getSuggestions = (value) => {
-        const inputValue = value.trim().toLowerCase();
-        const inputLength = inputValue.length;
-
-        return inputLength === 0
-            ? []
-            : availableSkills.filter(skill =>
-                skill.toLowerCase().includes(inputValue)
-            );
-    };
-
-    // Autosuggest: When a suggestion is selected
-    const onSuggestionSelected = (event, { suggestion }) => {
-        const updatedTags = [...formData.serviceCategory, suggestion];
-        setFormData({ ...formData, serviceCategory: updatedTags });
-        setCurrentInput(''); // Clear the input after selecting a suggestion
-    };
-
-    // Autosuggest: Update suggestions as the user types
-    const onSuggestionsFetchRequested = ({ value }) => {
-        setSuggestions(getSuggestions(value));
-    };
-
-    // Autosuggest: Clear suggestions when input is cleared
-    const onSuggestionsClearRequested = () => {
-        setSuggestions([]);
-    };
-
-    // Autosuggest: Render each suggestion
-    const renderSuggestion = (suggestion) => (
-        <div className="p-2 hover:bg-gray-100 cursor-pointer">
-            {suggestion}
-        </div>
-    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -110,14 +41,8 @@ export default function WorkerSignUp() {
             return;
         }
 
-        // Ensure at least one skill/service is added
-        if (formData.serviceCategory.length === 0) {
-            setError('Please add at least one skill or service');
-            return;
-        }
-
         try {
-            const response = await axios.post('/api/v1/service-providers/save-sp-details', formData, {
+            const response = await axios.post('http://localhost:8000/api/v1/users/register', formData, {
                 headers: {
                     'Content-Type': 'application/json'
                 }
@@ -136,13 +61,15 @@ export default function WorkerSignUp() {
         }
     };
 
-    // Autosuggest input props
-    const inputProps = {
-        placeholder: 'e.g., Web Development',
-        value: currentInput,
-        onChange: (e, { newValue }) => setCurrentInput(newValue),
-        className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
-    };
+    // Service categories matching your landing page
+    const serviceCategories = [
+        { id: 'repairs', name: 'Home Repairs', icon: '🔧' },
+        { id: 'moving', name: 'Moving', icon: '🚚' },
+        { id: 'electrical', name: 'Electrical', icon: '⚡' },
+        { id: 'cleaning', name: 'Cleaning', icon: '🧹' },
+        { id: 'painting', name: 'Painting', icon: '🖌️' },
+        { id: 'plumbing', name: 'Plumbing', icon: '🚿' }
+    ];
 
     return (
         <div className="min-h-screen font-stdFont bg-gray-50">
@@ -162,25 +89,10 @@ export default function WorkerSignUp() {
                     <div className="bg-white shadow-xl rounded-2xl px-6 py-6">
                         {/* Header */}
                         <div className="text-center mb-6">
-                            <motion.h1
-                                className="text-3xl font-bold text-stdBlue relative inline-block"
-                                initial={{ opacity: 0, y: -10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ duration: 0.6, ease: "easeOut" }}
-                            >
-                                Join{" "}
-                                <span className="text-color1 animate-gradient bg-gradient-to-r from-color1 via-stdBlue to-color1 bg-clip-text text-transparent">
-                                    Gig-Fusion
-                                </span>
-                            </motion.h1>
-                            <motion.p
-                                className="text-stdBlue font-semibold mt-1"
-                                initial={{ opacity: 0, y: 5 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.2, duration: 0.5 }}
-                            >
-                                Register as a Gig expert
-                            </motion.p>
+                            <h1 className="text-3xl font-bold text-stdBlue">
+                                Join <span className="text-color1">SewaSetu</span>
+                            </h1>
+                            <p className="text-gray-600 mt-1">Register as a service professional</p>
                         </div>
                         
                         {/* Registration Form */}
@@ -353,57 +265,46 @@ export default function WorkerSignUp() {
                                 
                                 {/* Right column */}
                                 <div className="md:w-1/2 mt-4 md:mt-0">
-                                    {/* Service Category Section */}
+                                    {/* Service Categories Section */}
                                     <div>
-                                        <h2 className="text-lg font-semibold text-stdBlue border-b border-gray-200 pb-1 mb-3">Skills & Services</h2>
+                                        <h2 className="text-lg font-semibold text-stdBlue border-b border-gray-200 pb-1 mb-3">Service Category</h2>
                                         
                                         <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                                            <p className="text-sm text-gray-700 mb-3">Add the skills or services you offer:</p>
+                                            <p className="text-sm text-gray-700 mb-3">Select the primary service you offer:</p>
                                             
-                                            <div className="space-y-3">
-                                                {/* Tags Input for Skills/Services */}
-                                                <TagsInput
-                                                    value={formData.serviceCategory}
-                                                    onChange={handleTagsChange}
-                                                    inputProps={{
-                                                        placeholder: 'Add a skill (e.g., Web Development)',
-                                                        className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
-                                                    }}
-                                                    renderInput={(props) => (
-                                                        <Autosuggest
-                                                            suggestions={suggestions}
-                                                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
-                                                            onSuggestionsClearRequested={onSuggestionsClearRequested}
-                                                            getSuggestionValue={(suggestion) => suggestion}
-                                                            renderSuggestion={renderSuggestion}
-                                                            onSuggestionSelected={onSuggestionSelected}
-                                                            inputProps={{
-                                                                ...props,
-                                                                placeholder: 'Add a skill (e.g., Web Development)',
-                                                                className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
-                                                            }}
-                                                        />
-                                                    )}
-                                                    className="react-tagsinput"
-                                                />
+                                            <div className="grid grid-cols-3 gap-3">
+                                                {serviceCategories.map(category => (
+                                                    <div 
+                                                        key={category.id}
+                                                        onClick={() => handleServiceSelect(category.name)}
+                                                        className={`flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all ${
+                                                            formData.serviceCategory === category.name 
+                                                            ? 'bg-white border-2 border-stdBlue shadow-md' 
+                                                            : 'bg-white/70 border-2 border-gray-200 hover:bg-white'
+                                                        }`}
+                                                    >
+                                                        <span className="text-2xl mb-1">{category.icon}</span>
+                                                        <span className="text-xs text-center font-medium">{category.name}</span>
+                                                    </div>
+                                                ))}
                                             </div>
                                         </div>
                                         
                                         {/* Company Benefits */}
                                         <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg p-4 mb-4">
-                                            <h3 className="font-medium text-stdBlue mb-2">Why Join Gig-Fusion?</h3>
+                                            <h3 className="font-medium text-stdBlue mb-2">Why Join SewaSetu?</h3>
                                             <ul className="space-y-2 text-sm">
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>
-                                                    <span> Get Hired – Connect with clients easily.</span>
+                                                    <span>Connect with customers in your local area</span>
                                                 </li>
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>
-                                                    <span>Work on Your Terms – Set your own schedule</span>
+                                                    <span>Manage your schedule and control your availability</span>
                                                 </li>
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>
-                                                    <span>Build your business reputation with client reviews</span>
+                                                    <span>Build your business reputation with customer reviews</span>
                                                 </li>
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>
@@ -429,10 +330,9 @@ export default function WorkerSignUp() {
                                             
                                             <button
                                                 type="submit"
-                                                className="w-full h-11 rounded-full font-bold text-white bg-gradient-to-r from-color1 to-stdBlue shadow-md hover:shadow-xl transition-all duration-300 ease-in-out transform hover:scale-105 active:scale-95 relative overflow-hidden"
+                                                className="w-full h-11 rounded-full font-bold text-white bg-gradient-to-r from-color1 to-stdBlue shadow-md hover:shadow-lg transition-all duration-300 ease-in-out transform hover:scale-105"
                                             >
-                                                <span className="absolute inset-0 bg-white opacity-10 transition-opacity duration-300 group-hover:opacity-20"></span>
-                                                <span className="relative z-10">Register as Gig Expert</span>
+                                                Register as Professional
                                             </button>
                                             
                                             <div className="text-center">
