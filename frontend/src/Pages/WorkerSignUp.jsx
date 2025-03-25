@@ -5,7 +5,10 @@ import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png';
 import BackButton from '../components/BackButton';
 import { motion } from "framer-motion";
-
+import TagsInput from 'react-tagsinput';
+import Autosuggest from 'react-autosuggest';
+import 'react-tagsinput/react-tagsinput.css'; 
+import './Autosuggest.css';
 export default function WorkerSignUp() {
     const [formData, setFormData] = useState({
         fullName: '',
@@ -18,19 +21,84 @@ export default function WorkerSignUp() {
         zipcode: '',
         state: '',
         city: '',
-        serviceCategory: 'Website Development'
+        serviceCategory: [] // Now an array to store multiple skills/services
     });
     const [error, setError] = useState('');
     const navigate = useNavigate();
+
+    // State for autosuggest
+    const [suggestions, setSuggestions] = useState([]);
+    const [currentInput, setCurrentInput] = useState('');
+
+    // Predefined list of possible skills/services for recommendations
+    const availableSkills = [
+        'Web Development',
+        'Web Development UI/UX Designer',
+        'Web Development Frontend',
+        'Web Development Backend',
+        'Mobile App Development',
+        'Mobile App Development iOS',
+        'Mobile App Development Android',
+        'Graphic Design',
+        'Graphic Design UI',
+        'Graphic Design Branding',
+        'Digital Marketing',
+        'Digital Marketing Social Media',
+        'Digital Marketing Email Campaigns',
+        'Content Writing & Copywriting',
+        'Content Writing Blogging',
+        'Content Writing SEO',
+        'SEO & Website Optimization',
+        'SEO & Website Optimization Technical SEO',
+        'SEO & Website Optimization Content SEO'
+    ];
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
     };
 
-    const handleServiceSelect = (category) => {
-        setFormData({ ...formData, serviceCategory: category });
+    // Handle changes to the tags (skills/services)
+    const handleTagsChange = (tags) => {
+        setFormData({ ...formData, serviceCategory: tags });
+        setCurrentInput(''); // Clear the input after adding a tag
     };
+
+    // Autosuggest: Get suggestions based on user input
+    const getSuggestions = (value) => {
+        const inputValue = value.trim().toLowerCase();
+        const inputLength = inputValue.length;
+
+        return inputLength === 0
+            ? []
+            : availableSkills.filter(skill =>
+                skill.toLowerCase().includes(inputValue)
+            );
+    };
+
+    // Autosuggest: When a suggestion is selected
+    const onSuggestionSelected = (event, { suggestion }) => {
+        const updatedTags = [...formData.serviceCategory, suggestion];
+        setFormData({ ...formData, serviceCategory: updatedTags });
+        setCurrentInput(''); // Clear the input after selecting a suggestion
+    };
+
+    // Autosuggest: Update suggestions as the user types
+    const onSuggestionsFetchRequested = ({ value }) => {
+        setSuggestions(getSuggestions(value));
+    };
+
+    // Autosuggest: Clear suggestions when input is cleared
+    const onSuggestionsClearRequested = () => {
+        setSuggestions([]);
+    };
+
+    // Autosuggest: Render each suggestion
+    const renderSuggestion = (suggestion) => (
+        <div className="p-2 hover:bg-gray-100 cursor-pointer">
+            {suggestion}
+        </div>
+    );
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -39,6 +107,12 @@ export default function WorkerSignUp() {
         // Basic validation
         if (formData.password !== formData.confirmPassword) {
             setError('Passwords do not match');
+            return;
+        }
+
+        // Ensure at least one skill/service is added
+        if (formData.serviceCategory.length === 0) {
+            setError('Please add at least one skill or service');
             return;
         }
 
@@ -62,15 +136,13 @@ export default function WorkerSignUp() {
         }
     };
 
-    // Service categories matching your landing page
-    const serviceCategories = [
-        { id: 'web-dev', name: 'Website Development', icon: '💻' },
-        { id: 'app-dev', name: 'Mobile App Development', icon: '📱' },
-        { id: 'graphic-design', name: 'Graphic Design', icon: '🎨' },
-        { id: 'digital-marketing', name: 'Digital Marketing', icon: '📢' },
-        { id: 'content-writing', name: 'Content Writing & Copywriting', icon: '✍️' },
-        { id: 'seo', name: 'SEO & Website Optimization', icon: '🔍' }
-    ];
+    // Autosuggest input props
+    const inputProps = {
+        placeholder: 'e.g., Web Development',
+        value: currentInput,
+        onChange: (e, { newValue }) => setCurrentInput(newValue),
+        className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
+    };
 
     return (
         <div className="min-h-screen font-stdFont bg-gray-50">
@@ -281,32 +353,39 @@ export default function WorkerSignUp() {
                                 
                                 {/* Right column */}
                                 <div className="md:w-1/2 mt-4 md:mt-0">
-                                    {/* Service Categories Section */}
+                                    {/* Service Category Section */}
                                     <div>
-                                        <h2 className="text-lg font-semibold text-stdBlue border-b border-gray-200 pb-1 mb-3">Service Category</h2>
+                                        <h2 className="text-lg font-semibold text-stdBlue border-b border-gray-200 pb-1 mb-3">Skills & Services</h2>
                                         
                                         <div className="bg-blue-50 rounded-lg p-4 mb-4">
-                                            <p className="text-sm text-gray-700 mb-3">Select the primary service you offer:</p>
+                                            <p className="text-sm text-gray-700 mb-3">Add the skills or services you offer:</p>
                                             
-                                            <div className="grid grid-cols-3 gap-3">
-                                                {serviceCategories.map(category => (
-                                                    <div 
-                                                        key={category.id}
-                                                        onClick={() => handleServiceSelect(category.name)}
-                                                        className={`relative flex flex-col items-center justify-center p-3 rounded-lg cursor-pointer transition-all overflow-hidden 
-                                                            ${
-                                                                formData.serviceCategory === category.name 
-                                                                ? 'bg-white border-2 border-stdBlue shadow-md' 
-                                                                : 'bg-white/70 border-2 border-gray-200 hover:bg-white'
-                                                            } 
-                                                            hover:scale-105 hover:shadow-lg duration-300 ease-in-out before:absolute before:inset-0 before:rounded-lg 
-                                                            before:border-2 before:border-transparent before:hover:border-blue-500 before:hover:border-opacity-50 
-                                                            before:animate-border-gradient`}
-                                                    >
-                                                        <span className="text-2xl mb-1">{category.icon}</span>
-                                                        <span className="text-xs text-center font-medium">{category.name}</span>
-                                                    </div>
-                                                ))}
+                                            <div className="space-y-3">
+                                                {/* Tags Input for Skills/Services */}
+                                                <TagsInput
+                                                    value={formData.serviceCategory}
+                                                    onChange={handleTagsChange}
+                                                    inputProps={{
+                                                        placeholder: 'Add a skill (e.g., Web Development)',
+                                                        className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
+                                                    }}
+                                                    renderInput={(props) => (
+                                                        <Autosuggest
+                                                            suggestions={suggestions}
+                                                            onSuggestionsFetchRequested={onSuggestionsFetchRequested}
+                                                            onSuggestionsClearRequested={onSuggestionsClearRequested}
+                                                            getSuggestionValue={(suggestion) => suggestion}
+                                                            renderSuggestion={renderSuggestion}
+                                                            onSuggestionSelected={onSuggestionSelected}
+                                                            inputProps={{
+                                                                ...props,
+                                                                placeholder: 'Add a skill (e.g., Web Development)',
+                                                                className: 'h-10 w-full rounded-lg px-3 outline-none border-2 border-gray-200 focus:border-stdBlue text-sm'
+                                                            }}
+                                                        />
+                                                    )}
+                                                    className="react-tagsinput"
+                                                />
                                             </div>
                                         </div>
                                         
