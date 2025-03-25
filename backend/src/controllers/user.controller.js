@@ -11,12 +11,12 @@ import { ServiceProvider } from "../models/serviceProvider.js";
 import { JobPost } from "../models/jobPost.model.js";
 import Chat from "../models/chat.model.js";
 import Message from "../models/message.model.js";
-import { Location } from '../models/location.model.js';
-import Feedback from '../models/feedback.model.js';
+import { Location } from "../models/location.model.js";
+import Feedback from "../models/feedback.model.js";
 import nodemailer from "nodemailer";
 import path from "path";
 import { fileURLToPath } from "url";
-import { getReceiverSocketId, io } from '../Socket/socket.js';
+import { getReceiverSocketId, io } from "../Socket/socket.js";
 
 const __filename = fileURLToPath(import.meta.url);
 // const __dirname = path.dirname(__filename);
@@ -276,13 +276,12 @@ const getCurrentUser = asyncHandler(async (req, res) => {
 });
 
 const getAllUsers = asyncHandler(async (req, res) => {
-
-  const users = await User.find({}).select('-password -refreshToken');
+  const users = await User.find({}).select("-password -refreshToken");
 
   return res
     .status(200)
     .json(new ApiResponse(200, users, "All users fetched successfully"));
-})
+});
 
 const updateAccountDetails = asyncHandler(async (req, res) => {
   const { fullName, email } = req.body;
@@ -572,7 +571,7 @@ const rejectJob = asyncHandler(async (req, res) => {
   const jobPost = await JobPost.findByIdAndUpdate(
     jobId,
     { status: "rejected" },
-    { jobProgress: 'pending' },
+    { jobProgress: "pending" },
     { new: true }
   );
   console.log("Job Rejected: ", jobPost);
@@ -605,21 +604,31 @@ const userConsentForJobCompletionSetTrue = asyncHandler(async (req, res) => {
   console.log("User Consent for Job Completion: ", jobPost);
   return res
     .status(200)
-    .json(new ApiResponse(200, jobPost, "User Consent for Job Completion Set True"));
+    .json(
+      new ApiResponse(200, jobPost, "User Consent for Job Completion Set True")
+    );
 });
 
-const serviceProviderConsentForJobCompletionSetTrue = asyncHandler(async (req, res) => {
-  const { jobId } = req.params;
-  const jobPost = await JobPost.findByIdAndUpdate(
-    jobId,
-    { serviceProviderConsentForJobCompletion: true },
-    { new: true }
-  );
-  console.log("Service Provider Consent for Job Completion: ", jobPost);
-  return res
-    .status(200)
-    .json(new ApiResponse(200, jobPost, "Service Provider Consent for Job Completion Set True"));
-})
+const serviceProviderConsentForJobCompletionSetTrue = asyncHandler(
+  async (req, res) => {
+    const { jobId } = req.params;
+    const jobPost = await JobPost.findByIdAndUpdate(
+      jobId,
+      { serviceProviderConsentForJobCompletion: true },
+      { new: true }
+    );
+    console.log("Service Provider Consent for Job Completion: ", jobPost);
+    return res
+      .status(200)
+      .json(
+        new ApiResponse(
+          200,
+          jobPost,
+          "Service Provider Consent for Job Completion Set True"
+        )
+      );
+  }
+);
 
 const rateJob = asyncHandler(async (req, res) => {
   const rating = req.body.rating;
@@ -787,19 +796,26 @@ const getLocation = asyncHandler(async (req, res) => {
   }
 
   try {
-    const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json`, {
-      params: {
-        q: `${lat},${lng}`,
-        key: process.env.OPENCAGE_API_KEY,
-        language: "en",
-        pretty: 1,
-      },
-    });
+    const response = await axios.get(
+      `https://api.opencagedata.com/geocode/v1/json`,
+      {
+        params: {
+          q: `${lat},${lng}`,
+          key: process.env.OPENCAGE_API_KEY,
+          language: "en",
+          pretty: 1,
+        },
+      }
+    );
 
     const results = response.data.results;
     if (results.length > 0) {
       const locationDetails = results[0].formatted;
-      const area = results[0].components.suburb || results[0].components.village || results[0].components.town || results[0].components.city;
+      const area =
+        results[0].components.suburb ||
+        results[0].components.village ||
+        results[0].components.town ||
+        results[0].components.city;
       const state = results[0].components.state;
       const country = results[0].components.country;
       console.log(locationDetails, area, state, country);
@@ -808,24 +824,36 @@ const getLocation = asyncHandler(async (req, res) => {
         userId,
         lat,
         lng,
-        area: area || 'Unknown Area',
-        state: state || 'Unknown State',
-        country: country || 'Unknown Country',
-      }
+        area: area || "Unknown Area",
+        state: state || "Unknown State",
+        country: country || "Unknown Country",
+      };
 
       const createLocation = await Location.create(location);
       if (createLocation) {
-        return res.status(200).json(new ApiResponse(200, createLocation, "Location saved successfully"));
+        return res
+          .status(200)
+          .json(
+            new ApiResponse(200, createLocation, "Location saved successfully")
+          );
       } else {
-        return res.status(500).json(new ApiResponse(500, {}, "Error creating and saving location details"));
+        return res
+          .status(500)
+          .json(
+            new ApiResponse(
+              500,
+              {},
+              "Error creating and saving location details"
+            )
+          );
       }
-
     }
   } catch (error) {
     console.log("Error fetching location details: ", error);
-    return res.status(500).json(new ApiResponse(500, {}, "Error fetching location details"));
+    return res
+      .status(500)
+      .json(new ApiResponse(500, {}, "Error fetching location details"));
   }
-
 });
 
 const checkIfSavedLocation = asyncHandler(async (req, res) => {
@@ -833,7 +861,9 @@ const checkIfSavedLocation = asyncHandler(async (req, res) => {
   const location = await Location.findOne({ userId });
 
   if (!location) {
-    return res.status(200).json(new ApiResponse(200, false, "Location not found"));
+    return res
+      .status(200)
+      .json(new ApiResponse(200, false, "Location not found"));
   }
 
   return res.status(200).json(new ApiResponse(200, true, "Location found"));
@@ -855,7 +885,8 @@ function haversine(lat1, lon1, lat2, lon2) {
   const dLon = lon2 - lon1;
 
   // Haversine formula
-  const a = Math.sin(dLat / 2) ** 2 +
+  const a =
+    Math.sin(dLat / 2) ** 2 +
     Math.cos(lat1) * Math.cos(lat2) * Math.sin(dLon / 2) ** 2;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
@@ -875,19 +906,26 @@ const sendLocation = asyncHandler(async (req, res) => {
   }
   // console.log(`User Location: ${Userlocation.lat}, ${Userlocation.lng}`);
   // console.log(`SP Location: ${SPlocation.lat}, ${SPlocation.lng}`);
-  const distance = haversine(Userlocation.lat, Userlocation.lng, SPlocation.lat, SPlocation.lng);
+  const distance = haversine(
+    Userlocation.lat,
+    Userlocation.lng,
+    SPlocation.lat,
+    SPlocation.lng
+  );
   // console.log(`Distance: ${distance} meters`);
-  return res.status(200).json(new ApiResponse(200, distance, "Distance calculated successfully"));
-})
+  return res
+    .status(200)
+    .json(new ApiResponse(200, distance, "Distance calculated successfully"));
+});
 
 const getFeedback = asyncHandler(async (req, res) => {
   const feedbacks = await Feedback.find({})
-    .populate('userId', 'username avatar')
+    .populate("userId", "username avatar")
     .sort({ createdAt: -1 });
 
   return res
     .status(200)
-    .json(new ApiResponse(200, feedbacks, 'Feedbacks Fetched Successfully'));
+    .json(new ApiResponse(200, feedbacks, "Feedbacks Fetched Successfully"));
 });
 
 const giveFeedback = asyncHandler(async (req, res) => {
@@ -903,7 +941,7 @@ const giveFeedback = asyncHandler(async (req, res) => {
     userId,
     userType,
     content,
-    stars
+    stars,
   });
 
   return res
@@ -918,23 +956,36 @@ const getActiveJobs = asyncHandler(async (req, res) => {
   // console.log('ServiceProviderId: ', serviceProviderId);
   const activeJobs = await JobPost.find({
     serviceProviderId,
-    status: { $in: ['accepted', 'pending'] }
+    status: { $in: ["accepted", "pending"] },
   });
   // console.log('Active Jobs: ', activeJobs);
-  return res.status(200).json(new ApiResponse(200, activeJobs, "Active jobs fetched successfully"));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, activeJobs, "Active jobs fetched successfully"));
 });
 
 // Controller for fetching service provider stats
 const getServiceProviderStats = asyncHandler(async (req, res) => {
   const serviceProviderId = req.user._id;
 
-  const totalJobs = await JobPost.countDocuments({ serviceProviderId }) - await JobPost.countDocuments({ serviceProviderId, status: 'rejected' });
-  const completedJobs = await JobPost.countDocuments({ serviceProviderId, jobProgress: 'completed' });
-  const pendingJobs = await JobPost.countDocuments({ serviceProviderId, status: 'pending' });
-  const acceptedJobs = await JobPost.countDocuments({ serviceProviderId, status: 'accepted' });
+  const totalJobs =
+    (await JobPost.countDocuments({ serviceProviderId })) -
+    (await JobPost.countDocuments({ serviceProviderId, status: "rejected" }));
+  const completedJobs = await JobPost.countDocuments({
+    serviceProviderId,
+    jobProgress: "completed",
+  });
+  const pendingJobs = await JobPost.countDocuments({
+    serviceProviderId,
+    status: "pending",
+  });
+  const acceptedJobs = await JobPost.countDocuments({
+    serviceProviderId,
+    status: "accepted",
+  });
   const rating = await JobPost.aggregate([
     { $match: { serviceProviderId, rating: { $exists: true } } },
-    { $group: { _id: null, avgRating: { $avg: "$rating" } } }
+    { $group: { _id: null, avgRating: { $avg: "$rating" } } },
   ]);
 
   const stats = {
@@ -942,31 +993,39 @@ const getServiceProviderStats = asyncHandler(async (req, res) => {
     completedJobs,
     pendingJobs,
     acceptedJobs,
-    rating: rating[0]?.avgRating || 0
+    rating: rating[0]?.avgRating || 0,
   };
 
-  return res.status(200).json(new ApiResponse(200, stats, "Service provider stats fetched successfully"));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, stats, "Service provider stats fetched successfully")
+    );
 });
 
 const updateUserDetails = asyncHandler(async (req, res) => {
   // console.log('Files', req.files);
   const { fullName, email, contact, zipcode, state, city } = req.body;
   const userId = req.user._id;
-  if ([fullName, email, contact, zipcode, state, city].some(field => field?.trim() === '')) {
-    throw new ApiError(400, 'All fields are required');
+  if (
+    [fullName, email, contact, zipcode, state, city].some(
+      (field) => field?.trim() === ""
+    )
+  ) {
+    throw new ApiError(400, "All fields are required");
   }
 
-  let avatar = '';
-  let coverImage = '';
+  let avatar = "";
+  let coverImage = "";
   if (req.files?.avatar) {
     const avatarLocalPath = req.files?.avatar[0]?.path;
     if (!avatarLocalPath) {
-      throw new ApiError(400, 'Avatar file is required');
+      throw new ApiError(400, "Avatar file is required");
     }
 
     avatar = await uploadOnCloudinary(avatarLocalPath);
     if (!avatar.url) {
-      throw new ApiError(500, 'Error while uploading avatar');
+      throw new ApiError(500, "Error while uploading avatar");
     }
   } else {
     avatar = req.user.avatar;
@@ -975,34 +1034,53 @@ const updateUserDetails = asyncHandler(async (req, res) => {
   if (req.files?.coverImage) {
     const coverImageLocalPath = req.files?.coverImage[0]?.path;
     if (!coverImageLocalPath) {
-      throw new ApiError(400, 'Cover Image file is required');
+      throw new ApiError(400, "Cover Image file is required");
     }
 
     coverImage = await uploadOnCloudinary(coverImageLocalPath);
     if (!coverImage.url) {
-      throw new ApiError(500, 'Error while uploading cover image');
+      throw new ApiError(500, "Error while uploading cover image");
     }
   } else {
     coverImage = req.user.coverImage;
   }
 
-  const updatedUser = await User.findByIdAndUpdate(userId, {
-    fullName,
-    email,
-    contact,
-    zipcode,
-    state,
-    city,
-    avatar: avatar.url || avatar,
-    coverImage: coverImage.url || coverImage,
-  }, { new: true });
+  const updatedUser = await User.findByIdAndUpdate(
+    userId,
+    {
+      fullName,
+      email,
+      contact,
+      zipcode,
+      state,
+      city,
+      avatar: avatar.url || avatar,
+      coverImage: coverImage.url || coverImage,
+    },
+    { new: true }
+  );
 
   if (!updatedUser) {
-    throw new ApiError(500, 'Something went wrong while updating user details');
+    throw new ApiError(500, "Something went wrong while updating user details");
   }
-  console.log('Updated User: ', updatedUser);
+  console.log("Updated User: ", updatedUser);
 
-  return res.status(200).json(new ApiResponse(200, updatedUser, 'User details updated successfully'));
+  return res
+    .status(200)
+    .json(
+      new ApiResponse(200, updatedUser, "User details updated successfully")
+    );
+});
+
+const validateUser = asyncHandler(async (req, res) => {
+  const userId = req.user._id;
+  const user = await User.findById(userId);
+  user.validated = true;
+  // user.badges.push("verified");
+  await user.save();
+  return res
+    .status(200)
+    .json(new ApiResponse(200, user, "User validated successfully"));
 });
 
 export {
@@ -1039,4 +1117,5 @@ export {
   getActiveJobs,
   getServiceProviderStats,
   updateUserDetails,
+  validateUser,
 };

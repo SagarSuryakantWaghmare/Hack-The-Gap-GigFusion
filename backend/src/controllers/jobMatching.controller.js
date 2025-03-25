@@ -301,6 +301,31 @@ const updateMatchStatus = asyncHandler(async (req, res) => {
     );
 });
 
+const viewProjectMatch = asyncHandler(async (req, res) => {
+    const { matchId } = req.params;
+
+    const match = await JobMatching.findById(matchId)
+        .populate({
+            path: 'project',
+            select: 'title description' // Populate project details
+        })
+        .populate({
+            path: 'freelancer',
+            select: 'fullName email' // Populate freelancer details
+        });
+
+    if (!match) {
+        throw new ApiError(404, "Match not found");
+    }
+
+    // Optionally, update the isViewed status when viewing the match
+    match.isViewed = true;
+    match.viewedAt = new Date();
+    await match.save();
+
+    return res.status(200).json(new ApiResponse(200, { match }, "Match viewed successfully"));
+});
+
 // Generate recommended matches for all open projects
 const generateRecommendations = asyncHandler(async (req, res) => {
     // Only allow admin access
@@ -474,5 +499,6 @@ export {
     getProjectMatches,
     getFreelancerMatches,
     updateMatchStatus,
-    generateRecommendations
+    generateRecommendations,
+    viewProjectMatch
 };

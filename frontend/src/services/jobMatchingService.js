@@ -31,7 +31,13 @@ const jobMatchingService = {
   generateRecommendations: async () => {
     const response = await API.post('/generate-recommendations');
     return response.data;
-  }
+  },
+
+  // View a project match
+  viewProjectMatch: async (matchId) => {
+    const response = await API.get(`/matches/${matchId}`);
+    return response.data;
+  },
 };
 
 export default jobMatchingService;
