@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from "framer-motion";
 import RatingPage from "./RatingProjectPage.jsx";
 import ReviewHome from "../components/ReviewsHome.jsx";
+import HomePageOptions from "../components/HomePageOptions.jsx"
 import Plumber from "../components/Assets/Icons/Home main serveices/Plumber.svg";
 import HomeRepair from "../components/Assets/Icons/Home main serveices/HomeRepair.svg";
 import Electrical from "../components/Assets/Icons/Home main serveices/Electrical.svg";
@@ -36,7 +37,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className='flex items-center flex-col w-full font-stdFont'>
+      <div className='flex  flex-col  font-stdFont'>
 
       <div  
   style={{ backgroundImage: `url(${HomepageFrontTopPhoto})` }} 
@@ -112,6 +113,12 @@ export default function HomePage() {
 </div>
 
 {/* hero section is finished */}
+
+{/* Home options page */}
+
+<div className='lg:mt-5'>
+    <HomePageOptions/>
+  </div>
        
 
        
