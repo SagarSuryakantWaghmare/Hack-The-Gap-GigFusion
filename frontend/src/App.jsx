@@ -7,7 +7,7 @@ import './App.css';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer.jsx';
 import UserSignUp from './Pages/UserSignUp';
-import SignLog from './Pages/SignLog';
+import { SignLog } from "./Pages/SignLog";
 import HomePage from './Pages/HomePage';
 import LoginPage from './Pages/LoginPage';
 import Services from './Pages/Services';
