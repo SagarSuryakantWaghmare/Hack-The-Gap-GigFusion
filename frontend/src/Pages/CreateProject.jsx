@@ -12,17 +12,13 @@ const CreateProject = () => {
     description: '',
     category: '',
     skills: [],
-    budget: {
-      minAmount: '',
-      maxAmount: '',
-      currency: 'INR'
-    },
+    budget: { minAmount: '', maxAmount: '', currency: 'INR' },
     paymentType: 'fixed',
     duration: 'less-than-1-week',
     experienceLevel: 'beginner',
     attachments: [],
     visibility: 'public',
-    milestones: []
+    milestones: [],
   });
 
   const categories = [
@@ -35,13 +31,13 @@ const CreateProject = () => {
     { id: 'audio-editing', name: 'Audio Editing' },
     { id: 'data-entry', name: 'Data Entry' },
     { id: 'virtual-assistant', name: 'Virtual Assistant' },
-    { id: 'other', name: 'Other' }
+    { id: 'other', name: 'Other' },
   ];
 
   const experienceLevels = [
     { id: 'beginner', name: 'Beginner' },
     { id: 'intermediate', name: 'Intermediate' },
-    { id: 'expert', name: 'Expert' }
+    { id: 'expert', name: 'Expert' },
   ];
 
   const durations = [
@@ -50,52 +46,44 @@ const CreateProject = () => {
     { id: '2-4-weeks', name: '2-4 weeks' },
     { id: '1-3-months', name: '1-3 months' },
     { id: '3-6-months', name: '3-6 months' },
-    { id: 'more-than-6-months', name: 'More than 6 months' }
+    { id: 'more-than-6-months', name: 'More than 6 months' },
   ];
 
   const commonSkills = [
     'React', 'Node.js', 'JavaScript', 'HTML/CSS', 'Python',
-    'Design', 'WordPress', 'UI/UX', 'Copywriting', 'SEO'
+    'Design', 'WordPress', 'UI/UX', 'Copywriting', 'SEO',
   ];
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     if (name.startsWith('budget.')) {
       const budgetField = name.split('.')[1];
-      setProjectData(prev => ({
+      setProjectData((prev) => ({
         ...prev,
-        budget: {
-          ...prev.budget,
-          [budgetField]: value
-        }
+        budget: { ...prev.budget, [budgetField]: value },
       }));
     } else {
-      setProjectData(prev => ({ ...prev, [name]: value }));
+      setProjectData((prev) => ({ ...prev, [name]: value }));
     }
   };
 
   const handleSkillToggle = (skill) => {
-    setProjectData(prev => {
+    setProjectData((prev) => {
       const updatedSkills = prev.skills.includes(skill)
-        ? prev.skills.filter(s => s !== skill)
+        ? prev.skills.filter((s) => s !== skill)
         : [...prev.skills, skill];
-
       return { ...prev, skills: updatedSkills };
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      // Validate budget values
       if (Number(projectData.budget.minAmount) > Number(projectData.budget.maxAmount)) {
-        toast.error('Minimum budget cannot be greater than maximum budget');
+        toast.error('Minimum budget cannot exceed maximum budget');
         return;
       }
-
       const response = await projectService.createProject(projectData);
-
       if (response.statusCode === 201) {
         toast.success('Project created successfully!');
         navigate('/projects');
@@ -108,25 +96,28 @@ const CreateProject = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center p-4">
+      <div className="w-full max-w-4xl bg-white rounded-xl shadow-2xl overflow-hidden">
         {/* Header */}
-        <div className="bg-gradient-to-r from-stdBlue to-blue-500 p-6 text-white">
-          <button onClick={() => navigate(-1)} className="flex items-center gap-2 mb-4">
+        <div className="bg-gradient-to-r from-blue-600 to-indigo-600 p-6 text-white">
+          <button
+            onClick={() => navigate(-1)}
+            className="flex items-center gap-2 text-white hover:text-gray-200 transition-colors mb-4"
+          >
             <FaArrowLeft />
-            <span>Back to Projects</span>
+            <span className="text-sm font-medium">Back to Projects</span>
           </button>
-          <h1 className="text-3xl font-bold">Create a New Project</h1>
-          <p className="mt-2 text-gray-50">
-            Fill out the form below to post a new project.
+          <h1 className="text-2xl md:text-3xl font-bold tracking-tight">Create New Project</h1>
+          <p className="mt-1 text-sm text-gray-100 opacity-90">
+            Provide details to attract the right talent for your project.
           </p>
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6 md:p-8 space-y-6">
           {/* Title */}
-          <div>
-            <label htmlFor="title" className="block text-sm font-medium text-gray-700">
+          <div className="space-y-1">
+            <label htmlFor="title" className="block text-sm font-semibold text-gray-800">
               Project Title
             </label>
             <input
@@ -135,14 +126,15 @@ const CreateProject = () => {
               name="title"
               value={projectData.title}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+              placeholder="e.g., Build a Responsive Website"
               required
             />
           </div>
 
           {/* Description */}
-          <div>
-            <label htmlFor="description" className="block text-sm font-medium text-gray-700">
+          <div className="space-y-1">
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-800">
               Description
             </label>
             <textarea
@@ -151,14 +143,15 @@ const CreateProject = () => {
               rows="4"
               value={projectData.description}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-y"
+              placeholder="Describe your project in detail..."
               required
             />
           </div>
 
           {/* Category */}
-          <div>
-            <label htmlFor="category" className="block text-sm font-medium text-gray-700">
+          <div className="space-y-1">
+            <label htmlFor="category" className="block text-sm font-semibold text-gray-800">
               Category
             </label>
             <select
@@ -166,11 +159,11 @@ const CreateProject = () => {
               name="category"
               value={projectData.category}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
               <option value="">Select a category</option>
-              {categories.map(category => (
+              {categories.map((category) => (
                 <option key={category.id} value={category.id}>
                   {category.name}
                 </option>
@@ -179,20 +172,19 @@ const CreateProject = () => {
           </div>
 
           {/* Skills */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Skills
-            </label>
-            <div className="mt-1 flex flex-wrap gap-2">
-              {commonSkills.map(skill => (
+          <div className="space-y-2">
+            <label className="block text-sm font-semibold text-gray-800">Skills Required</label>
+            <div className="flex flex-wrap gap-2">
+              {commonSkills.map((skill) => (
                 <button
                   key={skill}
                   type="button"
                   onClick={() => handleSkillToggle(skill)}
-                  className={`px-3 py-1 rounded-full text-sm ${projectData.skills.includes(skill)
-                    ? 'bg-stdBlue text-white'
-                    : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                    } transition-colors`}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                    projectData.skills.includes(skill)
+                      ? 'bg-blue-600 text-white'
+                      : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
+                  }`}
                 >
                   {skill}
                 </button>
@@ -201,20 +193,15 @@ const CreateProject = () => {
           </div>
 
           {/* Budget */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Budget
-            </label>
-            <div className="mt-1 flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                INR
-              </span>
+          <div className="space-y-1">
+            <label className="block text-sm font-semibold text-gray-800">Budget (INR)</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <input
                 type="number"
                 name="budget.minAmount"
                 value={projectData.budget.minAmount}
                 onChange={handleInputChange}
-                className="flex-1 min-w-0 block w-1/2 px-3 py-2 rounded-none border border-gray-300 focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="Min Amount"
                 required
               />
@@ -223,7 +210,7 @@ const CreateProject = () => {
                 name="budget.maxAmount"
                 value={projectData.budget.maxAmount}
                 onChange={handleInputChange}
-                className="flex-1 min-w-0 block w-1/2 px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                 placeholder="Max Amount"
                 required
               />
@@ -231,8 +218,8 @@ const CreateProject = () => {
           </div>
 
           {/* Payment Type */}
-          <div>
-            <label htmlFor="paymentType" className="block text-sm font-medium text-gray-700">
+          <div className="space-y-1">
+            <label htmlFor="paymentType" className="block text-sm font-semibold text-gray-800">
               Payment Type
             </label>
             <select
@@ -240,28 +227,28 @@ const CreateProject = () => {
               name="paymentType"
               value={projectData.paymentType}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
-              <option value="fixed">Fixed</option>
-              <option value="hourly">Hourly</option>
+              <option value="fixed">Fixed Price</option>
+              <option value="hourly">Hourly Rate</option>
             </select>
           </div>
 
           {/* Duration */}
-          <div>
-            <label htmlFor="duration" className="block text-sm font-medium text-gray-700">
-              Duration
+          <div className="space-y-1">
+            <label htmlFor="duration" className="block text-sm font-semibold text-gray-800">
+              Project Duration
             </label>
             <select
               id="duration"
               name="duration"
               value={projectData.duration}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
-              {durations.map(duration => (
+              {durations.map((duration) => (
                 <option key={duration.id} value={duration.id}>
                   {duration.name}
                 </option>
@@ -270,8 +257,8 @@ const CreateProject = () => {
           </div>
 
           {/* Experience Level */}
-          <div>
-            <label htmlFor="experienceLevel" className="block text-sm font-medium text-gray-700">
+          <div className="space-y-1">
+            <label htmlFor="experienceLevel" className="block text-sm font-semibold text-gray-800">
               Experience Level
             </label>
             <select
@@ -279,10 +266,10 @@ const CreateProject = () => {
               name="experienceLevel"
               value={projectData.experienceLevel}
               onChange={handleInputChange}
-              className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-stdBlue focus:ring-stdBlue sm:text-sm"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all bg-white"
               required
             >
-              {experienceLevels.map(level => (
+              {experienceLevels.map((level) => (
                 <option key={level.id} value={level.id}>
                   {level.name}
                 </option>
@@ -291,10 +278,10 @@ const CreateProject = () => {
           </div>
 
           {/* Submit Button */}
-          <div>
+          <div className="pt-4">
             <button
               type="submit"
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-stdBlue hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-stdBlue"
+              className="w-full py-3 px-6 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all"
             >
               Create Project
             </button>
