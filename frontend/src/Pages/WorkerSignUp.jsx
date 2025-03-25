@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import bgImage from '../components/Assets/backgroundImage.png';
-import BackButton from '../components/BackButton';
+
 
 export default function WorkerSignUp() {
     const [formData, setFormData] = useState({
@@ -63,19 +63,17 @@ export default function WorkerSignUp() {
 
     // Service categories matching your landing page
     const serviceCategories = [
-        { id: 'repairs', name: 'Home Repairs', icon: '🔧' },
-        { id: 'moving', name: 'Moving', icon: '🚚' },
-        { id: 'electrical', name: 'Electrical', icon: '⚡' },
-        { id: 'cleaning', name: 'Cleaning', icon: '🧹' },
-        { id: 'painting', name: 'Painting', icon: '🖌️' },
-        { id: 'plumbing', name: 'Plumbing', icon: '🚿' }
+        { id: "web_dev", name: "Web Development", icon: "🌐" },
+        { id: "mobile_dev", name: "Mobile Development", icon: "📱" },
+        { id: "data_science", name: "Data Science", icon: "📊" },
+        { id: "cloud_computing", name: "Cloud Computing", icon: "☁️" },
+        { id: "cyber_security", name: "Cyber Security", icon: "🛡️" },
+        { id: "devops", name: "DevOps", icon: "⚙️" },
     ];
 
     return (
         <div className="min-h-screen font-stdFont bg-gray-50">
-            <div className="absolute top-4 left-4 z-20">
-                <BackButton />
-            </div>
+           
             
             <div className="flex items-center justify-center min-h-screen py-6 px-4 sm:px-6 lg:px-8 relative">
                 {/* Background with overlay instead of blur */}
@@ -90,9 +88,9 @@ export default function WorkerSignUp() {
                         {/* Header */}
                         <div className="text-center mb-6">
                             <h1 className="text-3xl font-bold text-stdBlue">
-                                Join <span className="text-color1">SewaSetu</span>
+                                Join <span className="text-color1">Gig Fusion</span>
                             </h1>
-                            <p className="text-gray-600 mt-1">Register as a service professional</p>
+                            <p className="text-stdBlue mt-1">Register as a Gig Expert</p>
                         </div>
                         
                         {/* Registration Form */}
@@ -272,6 +270,7 @@ export default function WorkerSignUp() {
                                         <div className="bg-blue-50 rounded-lg p-4 mb-4">
                                             <p className="text-sm text-gray-700 mb-3">Select the primary service you offer:</p>
                                             
+                                            
                                             <div className="grid grid-cols-3 gap-3">
                                                 {serviceCategories.map(category => (
                                                     <div 
@@ -292,11 +291,11 @@ export default function WorkerSignUp() {
                                         
                                         {/* Company Benefits */}
                                         <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg p-4 mb-4">
-                                            <h3 className="font-medium text-stdBlue mb-2">Why Join SewaSetu?</h3>
+                                            <h3 className="font-medium text-stdBlue mb-2">Why Join Gig Fusion?</h3>
                                             <ul className="space-y-2 text-sm">
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>
-                                                    <span>Connect with customers in your local area</span>
+                                                    <span>Connect with customers with  all over world</span>
                                                 </li>
                                                 <li className="flex items-start">
                                                     <span className="text-color1 mr-2">✓</span>

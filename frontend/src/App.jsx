@@ -40,6 +40,7 @@ import CreateProposal from './Pages/CreateProposal.jsx';
 import ProjectMatches from './Pages/ProjectMatches.jsx';
 import EscrowDetails from './Pages/EscrowDetails.jsx';
 import EscrowLandingPage from './Pages/EscrowLandingPage.jsx';
+import Questions from './Pages/Questions.jsx';
 
 function App() {
     const location = useLocation();
@@ -113,6 +114,7 @@ function App() {
                 <Route path='/BookingPage' element={<BookingPage />} />
                 <Route path='/Location' element={<Location />} />
                 <Route path='/Feedback' element={<Feedback />} />
+                <Route path='/questions' element={<Questions />} />
 
                 {/* New Project & Freelance Routes */}
                 <Route path="/projects" element={<ProjectList />} />
