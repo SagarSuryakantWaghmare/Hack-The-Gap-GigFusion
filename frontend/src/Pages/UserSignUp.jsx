@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import bgImage from "../components/Assets/backgroundImage.png"
 import { toast } from 'react-toastify';
+import SignUpPagePhoto from "../components/Assets/SignUpPagePhoto.jpg"
 
 export default function UserSignUp() {
     // All ok
@@ -51,42 +52,37 @@ export default function UserSignUp() {
 
     return (
         <>
-            <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
-                <div className="max-w-md w-full space-y-8 bg-white rounded-2xl shadow-xl overflow-hidden">
+            <div className="min-h-screen bg-gray-50 flex items-center  justify-center py-8 px-4 sm:px-6 lg:px-8 bg-cover bg-center bg-no-repeat" 
+     style={{ backgroundImage: `url(${SignUpPagePhoto})` }}>
+                
+                <div className="max-w-md w-full space-y-4 bg-white rounded-2xl shadow-xl overflow-hidden">
                     {/* Header Section */}
-                    <div className="px-8 pt-10 pb-6 bg-[#223265]">
-                        <div className="text-center">
-                            <div className="mb-4 flex justify-center">
-                                <span className="bg-[#FF3D00] px-4 py-2 rounded-l-lg text-white font-bold text-xl">
-                                    Gig
-                                </span>
-                                <span className="bg-white px-4 py-2 rounded-r-lg text-[#223265] font-bold text-xl">
-                                    Fusion
-                                </span>
-                            </div>
-                            <h2 className="mt-4 text-3xl font-extrabold text-white">
-                                Create Account
-                            </h2>
-                            <p className="mt-2 text-sm text-gray-200">
-                                Join our community of skilled Gig Experts
-                            </p>
-                        </div>
+                    <div className="">
+                    <div className="text-center">
+    <div className="flex justify-center mb-4">
+        <h1 className="text-4xl font-bold text-color1">Gig Fusion</h1>
+    </div>
+   
+    <p className="mt-1 text-sm font-semibold text-stdBlue">
+        Join our community of skilled Gig Experts!
+    </p>
+</div>
                     </div>
 
                     {/* Form Section */}
-                    <div className="px-8 pt-8 pb-10 space-y-6">
-                        <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="px-10  pb-10 ">
+                        <form onSubmit={handleSubmit} className="space-y-3">
                             {/* Personal Info */}
-                            <div className="space-y-4">
+                            <div className="space-y-2">
                                 <input
                                     type="text"
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleInputChange}
                                     placeholder="Full Name"
-                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                    transition-all duration-200"
+                                    className="w-full h-[45px] pl-4 rounded-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 />
                                 <input
                                     type="email"
@@ -94,29 +90,25 @@ export default function UserSignUp() {
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     placeholder="Email Address"
-                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                    transition-all duration-200"
+                                    className="w-full h-[45px] pl-4 rounded-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 />
                             </div>
 
                             {/* Contact Info */}
                             <div className="flex gap-4">
                                 <div className="flex-1">
-                                    <div className="flex">
-                                        <span className="inline-flex items-center px-3 rounded-l-lg border-2 
-                                        border-r-0 border-gray-200 bg-gray-100 text-gray-500 text-sm">
-                                            +91
-                                        </span>
+                                    <div className="flex">                                        
                                         <input
                                             type="tel"
                                             name="contact"
                                             value={formData.contact}
                                             onChange={handleInputChange}
                                             placeholder="Phone Number"
-                                            className="flex-1 px-4 py-3 rounded-r-lg border-2 border-gray-200 
-                                            focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                            transition-all duration-200"
+                                            className="flex-1 h-[45px] px-2 rounded-l-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                         />
                                     </div>
                                 </div>
@@ -126,9 +118,9 @@ export default function UserSignUp() {
                                     value={formData.zipcode}
                                     onChange={handleInputChange}
                                     placeholder="Zipcode"
-                                    className="w-32 px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                    transition-all duration-200"
+                                    className="w-32 h-[45px] px-4 rounded-r-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 />
                             </div>
 
@@ -138,9 +130,9 @@ export default function UserSignUp() {
                                     name="state"
                                     value={formData.state}
                                     onChange={handleInputChange}
-                                    className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 text-gray-700
-                                    transition-all duration-200"
+                                    className="flex-1 h-[45px] px-3 rounded-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 >
                                     <option value="">Select State</option>
                                     <option value="Maharashtra">Maharashtra</option>
@@ -153,9 +145,9 @@ export default function UserSignUp() {
                                     name="city"
                                     value={formData.city}
                                     onChange={handleInputChange}
-                                    className="flex-1 px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 text-gray-700
-                                    transition-all duration-200"
+                                    className="flex-1 h-[45px] px-3 rounded-lg border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 >
                                     <option disabled value="">Select City</option>
                                     <option value="Sambhajinagar">Sambhajinagar</option>
@@ -174,17 +166,17 @@ export default function UserSignUp() {
                                     value={formData.password}
                                     onChange={handleInputChange}
                                     placeholder="Password"
-                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                    transition-all duration-200"
+                                    className="w-full h-[45px] px-4 rounded-lg  border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 />
                                 <input
                                     type="password"
                                     name="confirmPassword"
                                     placeholder="Confirm Password"
-                                    className="w-full px-4 py-3 rounded-lg border-2 border-gray-200 
-                                    focus:border-[#FF3D00] focus:ring-0 placeholder-gray-400
-                                    transition-all duration-200"
+                                    className="w-full h-[45px] px-4 rounded-lg  border border-gray-300 bg-white 
+                                    focus:outline-none focus:ring-1 focus:ring-stdBlue focus:ring-opacity-50
+                                    placeholder-gray-400 transition-all duration-200 ease-in-out"
                                 />
                             </div>
 
@@ -195,7 +187,7 @@ export default function UserSignUp() {
                             )}
 
                             {/* Terms and Submit */}
-                            <div className="space-y-6">
+                            <div className="space-y-2">
                                 <p className="text-xs text-gray-500 text-center">
                                     By signing up you agree to our{' '}
                                     <a href="#" className="text-[#223265] font-semibold hover:underline">
@@ -206,23 +198,27 @@ export default function UserSignUp() {
                                         Privacy Policy
                                     </a>
                                 </p>
-
+                                <div className='flex justify-center mt-2'>
                                 <button
                                     type="submit"
-                                    className="w-full py-3 px-4 bg-[#FF3D00] text-white rounded-lg
+                                    className="w-[150px] h-[45px]  bg-[#FF3D00] text-white rounded-lg
                                     hover:bg-[#E63600] transform transition-all duration-200 
                                     hover:scale-[1.02] active:scale-[0.98] shadow-md hover:shadow-lg
                                     font-semibold text-base"
                                 >
                                     Create Account
                                 </button>
+
+                                </div>
+
+                                
                             </div>
                         </form>
 
                         {/* Social Login */}
-                        <div className="mt-8 space-y-4">
+                        <div className="mt-2 space-y-4">
                             <button
-                                className="w-full py-2.5 px-4 bg-white border-2 border-gray-200 rounded-lg
+                                className="w-full h-[40px]  bg-white border-2 border-gray-200 rounded-lg
                                 flex items-center justify-center gap-2 hover:bg-gray-50
                                 transition-all duration-200 font-medium text-gray-700"
                             >
@@ -231,20 +227,11 @@ export default function UserSignUp() {
                                 </svg>
                                 Continue with Google
                             </button>
-                            <button
-                                className="w-full py-2.5 px-4 bg-white border-2 border-gray-200 rounded-lg
-                                flex items-center justify-center gap-2 hover:bg-gray-50
-                                transition-all duration-200 font-medium text-gray-700"
-                            >
-                                <svg className="w-5 h-5" viewBox="0 0 24 24">
-                                    <path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 22 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.09997 22C7.78997 22.05 6.79997 20.68 5.95997 19.47C4.24997 17 2.93997 12.45 4.69997 9.39C5.56997 7.87 7.12997 6.91 8.81997 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z" fill="#000000"/>
-                                </svg>
-                                Continue with Apple
-                            </button>
+                           
                         </div>
 
                         {/* Login Link */}
-                        <p className="text-center text-gray-600 text-sm">
+                        <p className="text-center text-gray-600 text-sm mt-4">
                             Already have an account?{' '}
                             <a href="/login" className="text-[#223265] font-semibold hover:underline">
                                 Log In
