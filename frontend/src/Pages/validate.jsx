@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
 import axios from "axios"; // Import axios for making API calls
 
-const SkillValidation = ({ skill, userId }) => {
+const SkillValidation = ({ skill }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -29,7 +29,7 @@ const SkillValidation = ({ skill, userId }) => {
         id: "wd3",
         question: "Which JavaScript method is used to select an element by its id?",
         options: ["querySelector()", "getElement()", "getElementById()", "selectElement()"],
-        correctAnswer: 2 
+        correctAnswer: 2
       },
       {
         id: "wd4",
@@ -510,263 +510,253 @@ const SkillValidation = ({ skill, userId }) => {
     ]
   };
 
-  // Default questions for skills not in our database
-  const defaultQuestions = [
-    {
-      id: "d1",
-      question: "What is your level of experience in this field?",
-      options: ["Beginner", "Intermediate", "Advanced", "Expert"],
-      correctAnswer: 2
-    },
-    {
-      id: "d2",
-      question: "How many years have you been working in this industry?",
-      options: ["Less than 1 year", "1-3 years", "3-5 years", "More than 5 years"],
-      correctAnswer: 3
-    },
-    {
-      id: "d3",
-      question: "Have you completed formal training or certification?",
-      options: ["No formal training", "Some courses", "Certified", "Advanced certification"],
-      correctAnswer: 2
-    },
-    {
-      id: "d4",
-      question: "How comfortable are you teaching others in this field?",
-      options: ["Not comfortable", "Somewhat comfortable", "Comfortable", "Very comfortable"],
-      correctAnswer: 3
-    },
-    {
-      id: "d5",
-      question: "How do you stay updated with the latest developments in your field?",
-      options: ["I don't regularly update my knowledge", "Online articles", "Professional training", "Industry conferences and continuous learning"],
-      correctAnswer: 3
-    },
-    {
-      id: "d6",
-      question: "What is your preferred work environment?",
-      options: ["Indoors only", "Outdoors only", "Both indoors and outdoors", "Remote work"],
-      correctAnswer: 2
-    },
-    {
-      id: "d7",
-      question: "How would you rate your problem-solving skills?",
-      options: ["Basic", "Intermediate", "Advanced", "Expert"],
-      correctAnswer: 2
-    },
-    {
-      id: "d8",
-      question: "Do you have experience with digital tools in your field?",
-      options: ["No experience", "Limited experience", "Moderate experience", "Extensive experience"],
-      correctAnswer: 2
-    },
-    {
-      id: "d9",
-      question: "How do you handle work under tight deadlines?",
-      options: ["I struggle with tight deadlines", "I can manage but prefer not to", "I work well under pressure", "I excel under tight deadlines"],
-      correctAnswer: 3
-    },
-    {
-      id: "d10",
-      question: "What is your approach to customer service?",
-      options: ["Focus on completing the job", "Balance efficiency with customer satisfaction", "Focus primarily on customer satisfaction", "Exceed customer expectations at all costs"],
-      correctAnswer: 2
-    }
-  ];
+    // Default questions for skills not in our database
+    const defaultQuestions = [
+        {
+            id: "d1",
+            question: "What is your level of experience in this field?",
+            options: ["Beginner", "Intermediate", "Advanced", "Expert"],
+            correctAnswer: 2
+        },
+        {
+            id: "d2",
+            question: "How many years have you been working in this industry?",
+            options: ["Less than 1 year", "1-3 years", "3-5 years", "More than 5 years"],
+            correctAnswer: 3
+        },
+        {
+            id: "d3",
+            question: "Have you completed formal training or certification?",
+            options: ["No formal training", "Some courses", "Certified", "Advanced certification"],
+            correctAnswer: 2
+        },
+        {
+            id: "d4",
+            question: "How comfortable are you teaching others in this field?",
+            options: ["Not comfortable", "Somewhat comfortable", "Comfortable", "Very comfortable"],
+            correctAnswer: 3
+        },
+        {
+            id: "d5",
+            question: "How do you stay updated with the latest developments in your field?",
+            options: ["I don't regularly update my knowledge", "Online articles", "Professional training", "Industry conferences and continuous learning"],
+            correctAnswer: 3
+        },
+        {
+            id: "d6",
+            question: "What is your preferred work environment?",
+            options: ["Indoors only", "Outdoors only", "Both indoors and outdoors", "Remote work"],
+            correctAnswer: 2
+        },
+        {
+            id: "d7",
+            question: "How would you rate your problem-solving skills?",
+            options: ["Basic", "Intermediate", "Advanced", "Expert"],
+            correctAnswer: 2
+        },
+        {
+            id: "d8",
+            question: "Do you have experience with digital tools in your field?",
+            options: ["No experience", "Limited experience", "Moderate experience", "Extensive experience"],
+            correctAnswer: 2
+        },
+        {
+            id: "d9",
+            question: "How do you handle work under tight deadlines?",
+            options: ["I struggle with tight deadlines", "I can manage but prefer not to", "I work well under pressure", "I excel under tight deadlines"],
+            correctAnswer: 3
+        },
+        {
+            id: "d10",
+            question: "What is your approach to customer service?",
+            options: ["Focus on completing the job", "Balance efficiency with customer satisfaction", "Focus primarily on customer satisfaction", "Exceed customer expectations at all costs"],
+            correctAnswer: 2
+        }
+    ];
 
-  // Load questions based on skill
-  useEffect(() => {
-    setIsLoading(true);
-    
-    // Simulate API delay for a more realistic experience
-    setTimeout(() => {
-      const skillQuestions = questionsBySkill[skill] || defaultQuestions;
-      setQuestions(skillQuestions);
-      setSelectedAnswers({});
-      setIsLoading(false);
-    }, 800);
-  }, [skill]);
+    // Load questions based on skill
+    useEffect(() => {
+        setIsLoading(true);
 
-  const calculateScore = () => {
-    let correctCount = 0;
-    
-    questions.forEach(question => {
-      if (selectedAnswers[question.id] === question.correctAnswer) {
-        correctCount++;
-      }
-    });
-    
-    return (correctCount / questions.length) * 100;
-  };
+        // Simulate API delay for a more realistic experience
+        setTimeout(() => {
+            const skillQuestions = questionsBySkill[skill] || defaultQuestions;
+            setQuestions(skillQuestions);
+            setSelectedAnswers({});
+            setIsLoading(false);
+        }, 800);
+    }, [skill]);
 
-  const handleOptionSelect = (questionId, optionIndex) => {
-    setSelectedAnswers({
-      ...selectedAnswers,
-      [questionId]: optionIndex
-    });
-  };
+    const calculateScore = () => {
+        let correctCount = 0;
 
-  const handleNext = () => {
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    }
-  };
+        questions.forEach(question => {
+            if (selectedAnswers[question.id] === question.correctAnswer) {
+                correctCount++;
+            }
+        });
 
-  const handlePrevious = () => {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
-    }
-  };
+        return (correctCount / questions.length) * 100;
+    };
 
-  const handleSubmit = async () => {
+    const handleOptionSelect = (questionId, optionIndex) => {
+        setSelectedAnswers({
+            ...selectedAnswers,
+            [questionId]: optionIndex
+        });
+    };
+
+    const handleNext = () => {
+        if (currentQuestion < questions.length - 1) {
+            setCurrentQuestion(currentQuestion + 1);
+        }
+    };
+
+    const handlePrevious = () => {
+        if (currentQuestion > 0) {
+            setCurrentQuestion(currentQuestion - 1);
+        }
+    };
+
+  const handleSubmit = () => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
+  };
 
-    // Validate user if score is greater than 70%
-    if (finalScore > 70) {
-      try {
-        const response = await axios.post("http://localhost:8000/api/v1/users/validate", { userId });
-        console.log("User validated successfully:", response.data);
-    } catch (error) {
-        console.error("Error validating user:", error);
-      }
+    const handleTryAgain = () => {
+        setCurrentQuestion(0);
+        setSelectedAnswers({});
+        setShowScore(false);
+    };
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-gradient-to-b from-stdBg to-white flex items-center justify-center">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-stdBlue"></div>
+            </div>
+        );
     }
-  };
 
-  const handleTryAgain = () => {
-    setCurrentQuestion(0);
-    setSelectedAnswers({});
-    setShowScore(false);
-  };
+    if (showScore) {
+        return (
+            <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
+                <div className="max-w-2xl mx-auto">
+                    <div className="bg-white rounded-3xl shadow-2xl p-8 text-center">
+                        <FaTrophy className="text-6xl text-yellow-400 mx-auto mb-4" />
+                        <h2 className="text-3xl font-bold text-gray-900 mb-4">{skill} Validation Complete!</h2>
+                        <p className="text-xl text-gray-700 mb-2">Your Score:</p>
+                        <p className="text-4xl font-bold text-stdBlue mb-6">{score.toFixed(1)}%</p>
+                        <div className="space-y-4">
+                            <p className="text-gray-600">
+                                You answered {Object.keys(selectedAnswers).length} out of {questions.length} questions.
+                            </p>
+                            <p className="text-gray-600 mb-6">
+                                {score >= 70
+                                    ? "Congratulations! You've demonstrated good knowledge in this skill."
+                                    : "Keep learning! You can improve your score with more practice."}
+                            </p>
+                            <button
+                                onClick={handleTryAgain}
+                                className="px-8 py-3 bg-stdBlue text-white rounded-xl hover:bg-blue-600 transition-all duration-300"
+                            >
+                                Try Again
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
-  if (isLoading) {
+    const currentQ = questions[currentQuestion];
+
     return (
-      <div className="min-h-screen bg-gradient-to-b from-stdBg to-white flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-stdBlue"></div>
-      </div>
-    );
-  }
+        <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl mx-auto">
+                <div className="bg-white rounded-3xl shadow-2xl p-8">
+                    {/* Header with skill name */}
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-stdBlue">{skill} Skill Validation</h1>
+                        <p className="text-gray-600">Answer the following questions to validate your knowledge</p>
+                    </div>
 
-  if (showScore) {
-    return (
-      <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-white rounded-3xl shadow-2xl p-8 text-center">
-            <FaTrophy className="text-6xl text-yellow-400 mx-auto mb-4" />
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">{skill} Validation Complete!</h2>
-            <p className="text-xl text-gray-700 mb-2">Your Score:</p>
-            <p className="text-4xl font-bold text-stdBlue mb-6">{score.toFixed(1)}%</p>
-            <div className="space-y-4">
-              <p className="text-gray-600">
-                You answered {Object.keys(selectedAnswers).length} out of {questions.length} questions.
-              </p>
-              <p className="text-gray-600 mb-6">
-                {score >= 70 
-                  ? "Congratulations! You've demonstrated good knowledge in this skill." 
-                  : "Keep learning! You can improve your score with more practice."}
-              </p>
-              <button
-                onClick={handleTryAgain}
-                className="px-8 py-3 bg-stdBlue text-white rounded-xl hover:bg-blue-600 transition-all duration-300"
-              >
-                Try Again
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+                    {/* Progress Bar */}
+                    <div className="mb-8">
+                        <div className="flex justify-between mb-2">
+                            <span className="text-sm font-medium text-gray-700">Progress</span>
+                            <span className="text-sm font-medium text-stdBlue">
+                                {currentQuestion + 1} of {questions.length}
+                            </span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                            <div
+                                className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
+                                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+                            ></div>
+                        </div>
+                    </div>
 
-  const currentQ = questions[currentQuestion];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto">
-        <div className="bg-white rounded-3xl shadow-2xl p-8">
-          {/* Header with skill name */}
-          <div className="mb-6">
-            <h1 className="text-2xl font-bold text-stdBlue">{skill} Skill Validation</h1>
-            <p className="text-gray-600">Answer the following questions to validate your knowledge</p>
-          </div>
-          
-          {/* Progress Bar */}
-          <div className="mb-8">
-            <div className="flex justify-between mb-2">
-              <span className="text-sm font-medium text-gray-700">Progress</span>
-              <span className="text-sm font-medium text-stdBlue">
-                {currentQuestion + 1} of {questions.length}
-              </span>
-            </div>
-            <div className="w-full bg-gray-200 rounded-full h-2.5">
-              <div
-                className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
-                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
-              ></div>
-            </div>
-          </div>
-
-          {/* Question */}
-          {currentQ && (
-            <div className="mb-8">
-              <h2 className="text-xl font-bold text-gray-900 mb-4">
-                {currentQ.question}
-              </h2>
-              <div className="space-y-3">
-                {currentQ.options.map((option, index) => (
-                  <button
-                    key={index}
-                    onClick={() => handleOptionSelect(currentQ.id, index)}
-                    className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-200
+                    {/* Question */}
+                    {currentQ && (
+                        <div className="mb-8">
+                            <h2 className="text-xl font-bold text-gray-900 mb-4">
+                                {currentQ.question}
+                            </h2>
+                            <div className="space-y-3">
+                                {currentQ.options.map((option, index) => (
+                                    <button
+                                        key={index}
+                                        onClick={() => handleOptionSelect(currentQ.id, index)}
+                                        className={`w-full p-4 text-left rounded-xl border-2 transition-all duration-200
                       ${selectedAnswers[currentQ.id] === index
-                        ? 'border-stdBlue bg-stdBlue/10 text-stdBlue'
-                        : 'border-gray-200 hover:border-stdBlue/50'
-                      }`}
-                  >
-                  {option}
-                  </button>
-              ))}
-            </div>
-        </div>
-      )}
+                                                ? 'border-stdBlue bg-stdBlue/10 text-stdBlue'
+                                                : 'border-gray-200 hover:border-stdBlue/50'
+                                            }`}
+                                    >
+                                        {option}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
-          {/* Navigation Buttons */}
-          <div className="flex justify-between items-center">
-            <button
-              onClick={handlePrevious}
-              disabled={currentQuestion === 0}
-              className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 
+                    {/* Navigation Buttons */}
+                    <div className="flex justify-between items-center">
+                        <button
+                            onClick={handlePrevious}
+                            disabled={currentQuestion === 0}
+                            className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gray-100 
                 text-gray-700 hover:bg-gray-200 disabled:opacity-50 disabled:cursor-not-allowed
                 transition-all duration-300"
-            >
-              <FaArrowLeft className="text-sm" />
-              Previous
-            </button>
+                        >
+                            <FaArrowLeft className="text-sm" />
+                            Previous
+                        </button>
 
-            {currentQuestion === questions.length - 1 ? (
-              <button
-                onClick={handleSubmit}
-                className="flex items-center gap-2 px-8 py-3 rounded-xl bg-stdBlue 
+                        {currentQuestion === questions.length - 1 ? (
+                            <button
+                                onClick={handleSubmit}
+                                className="flex items-center gap-2 px-8 py-3 rounded-xl bg-stdBlue 
                   text-white hover:bg-blue-600 transition-all duration-300"
-              >
-                Submit
-              </button>
-            ) : (
-              <button
-                onClick={handleNext}
-                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-stdBlue 
+                            >
+                                Submit
+                            </button>
+                        ) : (
+                            <button
+                                onClick={handleNext}
+                                className="flex items-center gap-2 px-6 py-3 rounded-xl bg-stdBlue 
                   text-white hover:bg-blue-600 transition-all duration-300"
-              >
-                Next
-                <FaArrowRight className="text-sm" />
-              </button>
-            )}
-          </div>
+                            >
+                                Next
+                                <FaArrowRight className="text-sm" />
+                            </button>
+                        )}
+                    </div>
+                </div>
+            </div>
         </div>
-        </div>
-    </div>
-  );
+    );
 };
 
 export default SkillValidation;
