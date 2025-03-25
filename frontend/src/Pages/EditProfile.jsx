@@ -4,8 +4,13 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { FaTrash, FaCamera, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+<<<<<<< HEAD
 import BackButton from '../components/BackButton';
 import { useNavigate } from 'react-router-dom';
+=======
+
+
+>>>>>>> 89e9e09cf18ae5ec7d0ceb571288ffc3653c67ca
 
 export default function EditProfile() {
     const { id } = useParams();
@@ -174,9 +179,10 @@ export default function EditProfile() {
 
     return (
         <>
-            <BackButton />
+        
             <div className="min-h-screen bg-gradient-to-b from-stdBg to-white py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-4xl mx-auto">
+                 
                     <div className="bg-white rounded-3xl shadow-2xl overflow-hidden transition-all duration-300 hover:shadow-xl">
                         {/* Enhanced Header */}
                         <div className="bg-gradient-to-r from-stdBlue to-color1 p-8 relative overflow-hidden">
