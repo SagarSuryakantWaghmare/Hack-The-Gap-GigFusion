@@ -149,7 +149,23 @@ const registerSP = asyncHandler(async (req, res) => {
     state,
     zipcode,
   } = req.body;
-  console.log('Inside registerSP: req.body', req.body, professions, experience, location, availability, additionalDetails, badges, fullName, email, contact, skills, city, state, zipcode);
+  console.log(
+    "Inside registerSP: req.body",
+    req.body,
+    professions,
+    experience,
+    location,
+    availability,
+    additionalDetails,
+    badges,
+    fullName,
+    email,
+    contact,
+    skills,
+    city,
+    state,
+    zipcode
+  );
 
   // Combined validation for all required fields
   const requiredFields = [
@@ -163,7 +179,7 @@ const registerSP = asyncHandler(async (req, res) => {
     experience,
   ];
 
-  if (requiredFields.includes('')) {
+  if (requiredFields.includes("")) {
     throw new ApiError(400, "All fields are required");
   }
 
@@ -175,15 +191,29 @@ const registerSP = asyncHandler(async (req, res) => {
   //   .split(",")
   //   .map((detail) => detail.trim());
   // const badgesList = badges.split(",").map((badge) => badge.trim());
-  const skillList = skills.trim().split(',');
+  const skillList = skills.trim().split(",");
   // console.log('SKill List', skillList);
+  // Check if skillList contains any of the specified skills
+  const NonTechnicalSkills = [
+    "plumber",
+    "mover",
+    "electrician",
+    "cleaning",
+    "handyman",
+    "painting",
+  ];
+  const isTechnical = skillList.some((skill) =>
+    NonTechnicalSkills.includes(skill.toLowerCase().trim())
+  );
+
+  const technical = isTechnical ? false : true;
 
   try {
     // Use transaction to prevent race conditions
     // const session = await mongoose.startSession();
     // session.startTransaction();
 
-    let user = await User.findById(req.user._id) //.session(session);
+    let user = await User.findById(req.user._id); //.session(session);
     let avatar = "";
     let coverImage = "";
 
@@ -200,6 +230,7 @@ const registerSP = asyncHandler(async (req, res) => {
             skills: skillList,
             avatar,
             coverImage,
+            technical,
             userType: "serviceProvider",
           },
         ],
@@ -250,11 +281,11 @@ const registerSP = asyncHandler(async (req, res) => {
             skills: skillList,
           },
         },
-        { new: true, /*session*/ }
+        { new: true /*session*/ }
       );
     }
 
-    let sp = await ServiceProvider.findOne({ userId: req.user._id }) //.session(session);
+    let sp = await ServiceProvider.findOne({ userId: req.user._id }); //.session(session);
     if (!sp) {
       sp = await ServiceProvider.create(
         [
@@ -268,7 +299,9 @@ const registerSP = asyncHandler(async (req, res) => {
             badges,
           },
         ],
-        { /*session*/ }
+        {
+          /*session*/
+        }
       );
       sp = sp[0];
     } else {
@@ -519,11 +552,11 @@ const uploadServiceProviderDocument = asyncHandler(async (req, res) => {
   return response;
 });
 
-const updateServiceProviderDocument = asyncHandler(async (req, res) => { });
+const updateServiceProviderDocument = asyncHandler(async (req, res) => {});
 
-const getServiceProviderDocuments = asyncHandler(async (req, res) => { });
+const getServiceProviderDocuments = asyncHandler(async (req, res) => {});
 
-const getServiceProviderDocumentById = asyncHandler(async (req, res) => { });
+const getServiceProviderDocumentById = asyncHandler(async (req, res) => {});
 
 // Controller for fetching active jobs for a service provider
 const getActiveJobs = asyncHandler(async (req, res) => {
