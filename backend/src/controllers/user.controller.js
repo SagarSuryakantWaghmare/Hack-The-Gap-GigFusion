@@ -646,7 +646,7 @@ const sendMail = asyncHandler(async (req, res) => {
   // console.log(`Email: ${email}, Name: ${name}, Zip Code: ${zipCode}`);
   // console.log('Directory Name: ', __dirname);
   // console.log('User Email: ', process.env.EMAIL_USER, 'User Pass: ', process.env.EMAIL_PASS);
-  // console.log(path.join(__dirname, 'frontend', 'tradeconnect', 'src', 'components', 'Assets', 'SewaSetu - Connecting You with Trusted Workers.png'));
+  // console.log(path.join(__dirname, 'frontend', 'tradeconnect', 'src', 'components', 'Assets', 'GigFusion - Connecting You with Trusted Workers.png'));
   const transporter = nodemailer.createTransport({
     service: "gmail",
     secure: true,
@@ -750,7 +750,7 @@ const sendMail = asyncHandler(async (req, res) => {
         `,
     attachments: [
       {
-        filename: "SewaSetu - Connecting You with Trusted Workers.png",
+        filename: "GigFusion - Connecting You with Trusted Workers.png",
         path: path.join(
           __dirname,
           "frontend",
@@ -758,7 +758,7 @@ const sendMail = asyncHandler(async (req, res) => {
           "src",
           "components",
           "Assets",
-          "SewaSetu - Connecting You with Trusted Workers.png"
+          "GigFusion - Connecting You with Trusted Workers.png"
         ),
         cid: "banner",
       },

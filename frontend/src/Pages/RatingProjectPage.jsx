@@ -39,7 +39,7 @@ export default function RatingProjectPage() {
     {
       icon: <FiHome size={32} />,
       title: "3. Start to finish, we've got you covered",
-      description: "When you book and pay with SewaSetu, you're covered by our Happiness Guarantee. We'll cover your projects up to full purchase price, plus limited damage protection.",
+      description: "When you book and pay with GigFusion, you're covered by our Happiness Guarantee. We'll cover your projects up to full purchase price, plus limited damage protection.",
       bgColor: "bg-color1/20",
       iconColor: "text-color1"
     }

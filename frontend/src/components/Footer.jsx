@@ -11,9 +11,9 @@ function Footer() {
   ];
 
   const contactInfo = [
-    { icon: <FiMail size={18} />, text: "sewasetu@gmail.com" },
+    { icon: <FiMail size={18} />, text: "GigFusion@gmail.com" },
     { icon: <FiPhone size={18} />, text: "+91 1800 130 200" },
-    { icon: <FiYoutube size={18} />, text: "www.SewaSetu.youtube.com" },
+    { icon: <FiYoutube size={18} />, text: "www.GigFusion.youtube.com" },
   ];
 
   return (
@@ -26,7 +26,7 @@ function Footer() {
               <div className="absolute inset-0 bg-gradient-to-r from-color1 to-stdBlue opacity-75 blur-xl group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
               <img
                 src={gigFusionlogo}
-                alt="SewaSetu Logo"
+                alt="GigFusion Logo"
                 className="relative h-[80px] md:h-[100px] w-auto object-contain rounded-2xl 
                          bg-white p-3 shadow-lg 
                          transform transition-all duration-300 ease-in-out
@@ -92,7 +92,7 @@ function Footer() {
         {/* Copyright Section */}
         <div className="mt-8 pt-8 border-t border-gray-700">
           <p className="text-center text-gray-400 text-sm">
-            © {new Date().getFullYear()} SewaSetu. All rights reserved.
+            © {new Date().getFullYear()} GigFusion. All rights reserved.
           </p>
         </div>
       </div>
