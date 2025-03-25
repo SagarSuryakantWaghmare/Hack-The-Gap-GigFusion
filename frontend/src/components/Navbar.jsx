@@ -5,8 +5,10 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import gigFusionlogo from "../components/Assets/gigFusionlogo.png";
-import { FiMenu, FiX, FiHome, FiBookmark, FiMessageSquare, FiGrid, FiBriefcase, 
-         FiUsers, FiSettings, FiUser, FiLogOut, FiTool, FiUserPlus } from 'react-icons/fi';
+import {
+  FiMenu, FiX, FiHome, FiBookmark, FiMessageSquare, FiGrid, FiBriefcase,
+  FiUsers, FiSettings, FiUser, FiLogOut, FiTool, FiUserPlus
+} from 'react-icons/fi';
 import LoadingBar from 'react-top-loading-bar';
 
 export default function Navbar() {
@@ -100,7 +102,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center space-x-8">
+        <div className="hidden md:flex items-center space-x-6">
           {isAuthenticated ? (
             <>
               {userType === 'user' && (
@@ -130,16 +132,18 @@ export default function Navbar() {
                   <NavItem to="/manage-services">Manage Services</NavItem>
                 </>
               )}
-              <Link to={`/account/${userId}`}>
-                <button className='px-4 py-2 bg-stdYellow text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200'>
-                  Account
-                </button>
+              <Link to={`/account/${userId}`} className="flex items-center">
+                <FiUser 
+                  className="text-stdBlue hover:text-color1 transition-colors duration-200" 
+                  size={24} 
+                  title="Account"
+                />
               </Link>
               <button
                 onClick={handleLogout}
-                className='px-4 py-2 bg-stdBlue text-white rounded-lg hover:bg-blue-700 transition-colors duration-200'
+                className="text-stdBlue hover:text-color1 transition-colors duration-200"
               >
-                Logout
+                <FiLogOut size={24} title="Logout" />
               </button>
             </>
           ) : (
@@ -156,43 +160,39 @@ export default function Navbar() {
         </div>
 
         {/* Mobile Menu Button */}
-        <button 
+        <button
           className="md:hidden p-2 text-stdBlue hover:text-color1 transition-colors duration-200"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {isMobileMenuOpen ? <FiX size={28} /> : <FiMenu size={28} />}
+          {isMobileMenuOpen ? <FiX size={30} /> : <FiMenu size={30} />}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay - Updated to slide from right */}
-      <div 
-        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 md:hidden ${
-          isMobileMenuOpen ? 'opacity-100 z-40' : 'opacity-0 pointer-events-none'
-        }`}
+      {/* Mobile Menu Overlay */}
+      <div
+        className={`fixed inset-0 bg-black bg-opacity-50 transition-opacity duration-300 md:hidden ${isMobileMenuOpen ? 'opacity-100 z-40' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsMobileMenuOpen(false)}
       >
-        <div 
-          className={`fixed inset-y-0 right-0 w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
+        <div
+          className={`fixed inset-y-0 right-0 w-[280px] bg-white shadow-2xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
           onClick={e => e.stopPropagation()}
         >
           {/* Mobile Menu Header */}
           <div className="p-4 border-b border-gray-200 flex justify-between items-center">
-            <Link 
-              to={getHomeLink()} 
+            <Link
+              to={getHomeLink()}
               onClick={() => setIsMobileMenuOpen(false)}
               className="block"
             >
               <img src={gigFusionlogo} alt="Logo" className='h-[50px]' />
             </Link>
-            <button 
+            <button
               onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 text-stdBlue hover:text-color1 transition-colors"
               aria-label="Close menu"
             >
-              <FiX size={24} />
+              <FiX size={26} />
             </button>
           </div>
 
@@ -205,37 +205,37 @@ export default function Navbar() {
                     <div className="space-y-2">
                       <NavItem to="/home">
                         <div className="flex items-center gap-3">
-                          <FiHome size={20} />
+                          <FiHome size={22} />
                           <span>Home</span>
                         </div>
                       </NavItem>
                       <NavItem to="/my-bookings">
                         <div className="flex items-center gap-3">
-                          <FiBookmark size={20} />
+                          <FiBookmark size={22} />
                           <span>My Bookings</span>
                         </div>
                       </NavItem>
                       <NavItem to="/chat">
                         <div className="flex items-center gap-3">
-                          <FiMessageSquare size={20} />
+                          <FiMessageSquare size={22} />
                           <span>Chat</span>
                         </div>
                       </NavItem>
                       <NavItem to="/projects">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>Projects</span>
                         </div>
                       </NavItem>
                       <NavItem to="/my-projects">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>My Projects</span>
                         </div>
                       </NavItem>
                       <NavItem to="/escrow">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>Escrow</span>
                         </div>
                       </NavItem>
@@ -245,37 +245,37 @@ export default function Navbar() {
                     <div className="space-y-2">
                       <NavItem to="/dashboard">
                         <div className="flex items-center gap-3">
-                          <FiGrid size={20} />
+                          <FiGrid size={22} />
                           <span>Dashboard</span>
                         </div>
                       </NavItem>
                       <NavItem to="/my-jobs">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>My Jobs</span>
                         </div>
                       </NavItem>
                       <NavItem to="/chat">
                         <div className="flex items-center gap-3">
-                          <FiMessageSquare size={20} />
+                          <FiMessageSquare size={22} />
                           <span>Chat</span>
                         </div>
                       </NavItem>
                       <NavItem to="/projects">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>Find Work</span>
                         </div>
                       </NavItem>
                       <NavItem to="/my-proposals">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>My Proposals</span>
                         </div>
                       </NavItem>
                       <NavItem to="/my-matches">
                         <div className="flex items-center gap-3">
-                          <FiBriefcase size={20} />
+                          <FiBriefcase size={22} />
                           <span>Matches</span>
                         </div>
                       </NavItem>
@@ -285,42 +285,38 @@ export default function Navbar() {
                     <div className="space-y-2">
                       <NavItem to="/dashboard-admin">
                         <div className="flex items-center gap-3">
-                          <FiGrid size={20} />
+                          <FiGrid size={22} />
                           <span>Admin Dashboard</span>
                         </div>
                       </NavItem>
                       <NavItem to="/manage-users">
                         <div className="flex items-center gap-3">
-                          <FiUsers size={20} />
+                          <FiUsers size={22} />
                           <span>Manage Users</span>
                         </div>
                       </NavItem>
                       <NavItem to="/manage-services">
                         <div className="flex items-center gap-3">
-                          <FiSettings size={20} />
+                          <FiSettings size={22} />
                           <span>Manage Services</span>
                         </div>
                       </NavItem>
                     </div>
                   )}
-                  
+
                   {/* Account and Logout Section */}
                   <div className="pt-4 mt-4 border-t border-gray-200 space-y-3">
-                    <Link 
-                      to={`/account/${userId}`}
-                      onClick={() => setIsMobileMenuOpen(false)}
-                      className="block"
-                    >
-                      <button className='w-full px-4 py-2.5 bg-stdYellow text-white rounded-lg hover:bg-yellow-600 transition-colors duration-200 text-left flex items-center gap-3'>
-                        <FiUser size={20} />
+                    <NavItem to={`/account/${userId}`}>
+                      <div className="flex items-center gap-3">
+                        <FiUser size={24} className="text-stdBlue hover:text-color1 transition-colors duration-200" />
                         <span>My Account</span>
-                      </button>
-                    </Link>
+                      </div>
+                    </NavItem>
                     <button
                       onClick={handleLogout}
-                      className='w-full px-4 py-2.5 bg-stdBlue text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 text-left flex items-center gap-3'
+                      className="w-full text-left flex items-center gap-3 text-stdBlue hover:text-color1 transition-colors duration-200"
                     >
-                      <FiLogOut size={20} />
+                      <FiLogOut size={24} />
                       <span>Logout</span>
                     </button>
                   </div>
@@ -330,26 +326,26 @@ export default function Navbar() {
                   <div className="space-y-2">
                     <NavItem to="/services">
                       <div className="flex items-center gap-3">
-                        <FiTool size={20} />
+                        <FiTool size={22} />
                         <span>Services</span>
                       </div>
                     </NavItem>
                     <NavItem to="/signup-w">
                       <div className="flex items-center gap-3">
-                        <FiBriefcase size={20} />
+                        <FiBriefcase size={22} />
                         <span>Become a Pro</span>
                       </div>
                     </NavItem>
                   </div>
-                  
+
                   <div className="pt-4 border-t border-gray-200">
-                    <Link 
+                    <Link
                       to="/signlog"
                       onClick={() => setIsMobileMenuOpen(false)}
                       className="block"
                     >
                       <button className='w-full px-4 py-2.5 bg-stdBlue text-white rounded-full hover:bg-color1 shadow-md transition-all duration-300 flex items-center justify-center gap-3'>
-                        <FiUserPlus size={20} />
+                        <FiUserPlus size={22} />
                         <span>Sign Up</span>
                       </button>
                     </Link>
