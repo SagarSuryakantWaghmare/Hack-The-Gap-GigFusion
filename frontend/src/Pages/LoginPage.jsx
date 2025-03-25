@@ -30,6 +30,7 @@ export default function LoginPage() {
                     toast.success('Login successful');
                     toast.info('Redirecting to dashboard');
                     document.cookie = `accessToken=${JsonData.data.accessToken}; path=/;`;
+                    localStorage.setItem('user', JSON.stringify(JsonData.data));
                     setTimeout(() => {
                         if (JsonData.data.userType === 'user') {
                             navigate('/home');
