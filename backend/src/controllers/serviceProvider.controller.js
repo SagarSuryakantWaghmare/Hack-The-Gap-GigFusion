@@ -180,10 +180,10 @@ const registerSP = asyncHandler(async (req, res) => {
 
   try {
     // Use transaction to prevent race conditions
-    const session = await mongoose.startSession();
-    session.startTransaction();
+    // const session = await mongoose.startSession();
+    // session.startTransaction();
 
-    let user = await User.findById(req.user._id).session(session);
+    let user = await User.findById(req.user._id) //.session(session);
     let avatar = "";
     let coverImage = "";
 
@@ -250,13 +250,11 @@ const registerSP = asyncHandler(async (req, res) => {
             skills: skillList,
           },
         },
-        { new: true, session }
+        { new: true, /*session*/ }
       );
     }
 
-    let sp = await ServiceProvider.findOne({ userId: req.user._id }).session(
-      session
-    );
+    let sp = await ServiceProvider.findOne({ userId: req.user._id }) //.session(session);
     if (!sp) {
       sp = await ServiceProvider.create(
         [
@@ -266,11 +264,11 @@ const registerSP = asyncHandler(async (req, res) => {
             experience,
             location,
             availability,
-            additionalDetails: additionalDetailsList,
-            badges: badgesList,
+            additionalDetails,
+            badges,
           },
         ],
-        { session }
+        { /*session*/ }
       );
       sp = sp[0];
     } else {
@@ -290,8 +288,8 @@ const registerSP = asyncHandler(async (req, res) => {
       );
     }
 
-    await session.commitTransaction();
-    session.endSession();
+    // await session.commitTransaction();
+    // session.endSession();
 
     const createdSP = await User.findById(sp.userId);
     if (!createdSP) {
@@ -308,10 +306,10 @@ const registerSP = asyncHandler(async (req, res) => {
         )
       );
   } catch (error) {
-    if (session) {
-      await session.abortTransaction();
-      session.endSession();
-    }
+    // if (session) {
+    //   await session.abortTransaction();
+    //   session.endSession();
+    // }
     throw error;
   }
 });
@@ -521,11 +519,11 @@ const uploadServiceProviderDocument = asyncHandler(async (req, res) => {
   return response;
 });
 
-const updateServiceProviderDocument = asyncHandler(async (req, res) => {});
+const updateServiceProviderDocument = asyncHandler(async (req, res) => { });
 
-const getServiceProviderDocuments = asyncHandler(async (req, res) => {});
+const getServiceProviderDocuments = asyncHandler(async (req, res) => { });
 
-const getServiceProviderDocumentById = asyncHandler(async (req, res) => {});
+const getServiceProviderDocumentById = asyncHandler(async (req, res) => { });
 
 // Controller for fetching active jobs for a service provider
 const getActiveJobs = asyncHandler(async (req, res) => {
