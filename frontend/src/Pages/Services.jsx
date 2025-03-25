@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from "framer-motion"
 import { 
     FiTool, FiTruck, FiZap, FiWind, 
-    FiDroplet, FiPackage, FiSearch, FiChevronRight, FiX 
+    FiDroplet, FiPackage, FiSearch, FiChevronRight, FiX, FiCode, FiDatabase, FiCloud, FiServer, FiMonitor, FiShield,
 } from 'react-icons/fi';
 import { useState } from 'react';
 import serviceback from "../components/Assets/serviceback.png";
@@ -92,104 +92,122 @@ export default function Services() {
 
     const mainServices = [
         {
-            title: "Home Repairs",
-            icon: <FiTool className="text-color1" size={32} />,
-            description: "Professional home repair and maintenance services",
+            title: "Software Engineer",
+            icon: <FiCode className="text-color1" size={32} />,
+            description: "Building innovative software solutions tailored to your needs.",
             bgImage: "bg-gradient-to-br from-blue-50 to-blue-100"
         },
         {
-            title: "Moving",
-            icon: <FiTruck className="text-stdBlue" size={32} />,
-            description: "Reliable moving and relocation services",
+            title: "Business Consultant",
+            icon: <FiCloud className="text-stdBlue" size={32} />,
+            description: "Providing strategic insights and solutions for business growth.",
             bgImage: "bg-gradient-to-br from-orange-50 to-orange-100"
         },
         {
-            title: "Electrical",
-            icon: <FiZap className="text-color1" size={32} />,
-            description: "Expert electrical installation and repairs",
+            title: "Data Analyst",
+            icon: <FiDatabase className="text-color1" size={32} />,
+            description: "Transforming raw data into valuable insights for informed decision-making.",
             bgImage: "bg-gradient-to-br from-yellow-50 to-yellow-100"
         },
         {
-            title: "Cleaning",
-            icon: <FiWind className="text-stdBlue" size={32} />,
-            description: "Professional cleaning services for your home",
+            title: "IT Administrator",
+            icon: <FiServer className="text-stdBlue" size={32} />,
+            description: "Managing and maintaining IT infrastructure for seamless operations.",
             bgImage: "bg-gradient-to-br from-green-50 to-green-100"
         },
         {
-            title: "Painting",
-            icon: <FiPackage className="text-color1" size={32} />,
-            description: "Quality painting services for interior and exterior",
+            title: "Cybersecurity Specialist",
+            icon: <FiShield className="text-color1" size={32} />,
+            description: "Protecting digital assets with advanced security solutions.",
             bgImage: "bg-gradient-to-br from-purple-50 to-purple-100"
         },
         {
-            title: "Plumbing",
-            icon: <FiDroplet className="text-stdBlue" size={32} />,
-            description: "Expert plumbing installation and repairs",
+            title: "Content Creator",
+            icon: <FiMonitor className="text-stdBlue" size={32} />,
+            description: "Crafting engaging digital content for brands and audiences.",
             bgImage: "bg-gradient-to-br from-red-50 to-red-100"
         }
     ];
 
     const serviceDetails = {
-        "Home Repairs": [
-            "Door and Window Repairs",
-            "Furniture Assembly and Repair",
-            "Drywall Repair and Installation",
-            "Cabinet Installation and Repair",
-            "Floor Repair and Installation",
-            "General Carpentry Work",
-            "Deck and Fence Repair",
-            "Garage Door Repair"
-        ],
-        "Moving": [
-            "Local Moving Services",
-            "Furniture Moving and Rearrangement",
-            "Packing and Unpacking",
-            "Loading and Unloading",
-            "Appliance Moving",
-            "Storage Solutions",
-            "Safe Moving of Fragile Items",
-            "Disassembly and Assembly of Furniture"
-        ],
-        "Electrical": [
-            "Electrical Repairs",
-            "Light Fixture Installation",
-            "Outlet and Switch Installation",
-            "Ceiling Fan Installation",
-            "Electrical Panel Upgrades",
-            "Wiring and Rewiring",
-            "Smart Home Device Installation",
-            "Emergency Electrical Services"
-        ],
-        "Cleaning": [
-            "Deep House Cleaning",
-            "Regular Maintenance Cleaning",
-            "Move-in/Move-out Cleaning",
-            "Carpet and Upholstery Cleaning",
-            "Window and Glass Cleaning",
-            "Post-Construction Cleaning",
-            "Sanitization Services",
-            "Office Cleaning"
-        ],
-        "Painting": [
-            "Interior Wall Painting",
-            "Exterior House Painting",
-            "Cabinet and Furniture Painting",
-            "Deck and Fence Staining",
-            "Wallpaper Installation",
-            "Texture and Specialty Finishes",
-            "Color Consultation",
-            "Paint Touch-ups"
-        ],
-        "Plumbing": [
-            "Leak Detection and Repair",
-            "Pipe Installation and Repair",
-            "Fixture Installation",
-            "Drain Cleaning",
-            "Water Heater Services",
-            "Toilet Repair and Installation",
-            "Faucet Repair and Installation",
-            "Emergency Plumbing Services"
-        ]
+       "Software Engineer": [
+    "Web Application Development",
+    "Mobile App Development",
+    "Software Architecture Design",
+    "API Development and Integration",
+    "Database Design and Optimization",
+    "Cloud Computing and Deployment",
+    "Bug Fixing and Code Optimization",
+    "Automation and Scripting",
+    "Version Control and CI/CD Implementation",
+    "Cybersecurity and Secure Coding Practices"
+],
+
+"Business Consultant": [
+    "Market Research and Analysis",
+    "Business Strategy Development",
+    "Financial Planning and Budgeting",
+    "Process Optimization and Efficiency Improvement",
+    "Risk Assessment and Mitigation",
+    "Startup Mentorship and Advisory",
+    "Competitive Analysis",
+    "Sales and Marketing Strategy",
+    "Growth and Expansion Planning",
+    "Client Relationship Management"
+],
+
+"Data Analyst": [
+    "Data Collection and Cleaning",
+    "Data Visualization and Reporting",
+    "Statistical Analysis and Modeling",
+    "Predictive Analytics",
+    "Business Intelligence Implementation",
+    "Dashboard Creation and Maintenance",
+    "ETL (Extract, Transform, Load) Processes",
+    "Customer and Market Trend Analysis",
+    "Database Management and Optimization",
+    "Decision Support through Data Insights"
+],
+
+"IT Administrator": [
+    "Network Setup and Configuration",
+    "Server Installation and Maintenance",
+    "Cloud Infrastructure Management",
+    "Security and Firewall Implementation",
+    "Backup and Disaster Recovery Planning",
+    "User Account and Access Control Management",
+    "Software and Hardware Troubleshooting",
+    "System Performance Monitoring",
+    "IT Policy and Compliance Management",
+    "Technical Support and Helpdesk Services"
+],
+
+"Cybersecurity Specialist": [
+    "Network Security Monitoring",
+    "Penetration Testing and Vulnerability Assessment",
+    "Incident Response and Threat Mitigation",
+    "Security Compliance Audits",
+    "Data Encryption and Privacy Protection",
+    "Firewall and Intrusion Detection Management",
+    "Risk Assessment and Security Policy Implementation",
+    "Secure Software Development Practices",
+    "Cloud Security Management",
+    "Employee Cybersecurity Training"
+],
+
+"Content Creator": [
+    "Video Production and Editing",
+    "Social Media Content Creation",
+    "Graphic Design and Branding",
+    "SEO Optimization for Digital Content",
+    "Blog Writing and Copywriting",
+    "Podcast Hosting and Production",
+    "Influencer Marketing and Brand Partnerships",
+    "Photography and Visual Storytelling",
+    "YouTube and Streaming Channel Management",
+    "Scriptwriting and Storyboarding"
+]
+
     };
 
     const handleServiceClick = (title) => {
@@ -270,7 +288,7 @@ export default function Services() {
             {/* Main Services Grid */}
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
                 <h2 className="text-2xl md:text-4xl font-bold text-center text-stdBlue mb-12">
-                    Our Services
+                Top-Tier Specialists
                 </h2>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -335,8 +353,8 @@ export default function Services() {
                                 </div>
 
                                 <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-4 animate-slideInFromRight">
-                                    <h4 className="text-lg font-semibold text-gray-700">
-                                        Services Offered:
+                                    <h4 className="text-lg font-semibold text-color1">
+                                    Where Expertise Meets Excellence
                                     </h4>
                                     <ul className="space-y-3">
                                         {serviceDetails[selectedService].map((task, index) => (

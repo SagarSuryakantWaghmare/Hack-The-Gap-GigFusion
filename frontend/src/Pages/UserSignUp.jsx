@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import bgImage from "../components/Assets/backgroundImage.png"
 import { toast } from 'react-toastify';
-import BackButton from '../components/BackButton';
+
 export default function UserSignUp() {
     // All ok
     const [formData, setFormData] = useState({
@@ -51,7 +51,6 @@ export default function UserSignUp() {
 
     return (
         <>
-            <BackButton />
             <div className="min-h-screen bg-gray-50 flex items-center justify-center py-8 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-md w-full space-y-8 bg-white rounded-2xl shadow-xl overflow-hidden">
                     {/* Header Section */}
@@ -59,17 +58,17 @@ export default function UserSignUp() {
                         <div className="text-center">
                             <div className="mb-4 flex justify-center">
                                 <span className="bg-[#FF3D00] px-4 py-2 rounded-l-lg text-white font-bold text-xl">
-                                    Trade
+                                    Gig
                                 </span>
                                 <span className="bg-white px-4 py-2 rounded-r-lg text-[#223265] font-bold text-xl">
-                                    Connect
+                                    Fusion
                                 </span>
                             </div>
                             <h2 className="mt-4 text-3xl font-extrabold text-white">
                                 Create Account
                             </h2>
                             <p className="mt-2 text-sm text-gray-200">
-                                Join our community of skilled professionals
+                                Join our community of skilled Gig Experts
                             </p>
                         </div>
                     </div>
