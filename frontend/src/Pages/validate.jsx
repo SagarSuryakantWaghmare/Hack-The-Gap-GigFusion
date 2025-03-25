@@ -9,6 +9,20 @@ const SkillValidation = ({ skill = "Plumbing" }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(null);
   const [showScore, setShowScore] = useState(false);
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+        try {
+            const user = JSON.parse(userStr);
+            const firstSkill = user.skills && user.skills.length > 0 ? user.skills[0] : "Plumbing";
+            skill = firstSkill;
+            console.log("User ID:", user._id);
+            console.log("First Skill:", firstSkill);
+        } catch (error) {
+            console.error("Error parsing user data from localStorage:", error);
+        }
+    }
+}, []);
 
  
   const questionsBySkill = {
