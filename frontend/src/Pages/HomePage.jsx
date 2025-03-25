@@ -21,6 +21,7 @@ import HomepageFrontTopPhoto from "./../components/Assets/HomepageFrontTop01.jpg
 import { FaSearch } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 
+
 export default function HomePage() {
   const [text, setText] = useState("");
   const [rotation, setRotation] = useState(0);
@@ -149,6 +150,17 @@ export default function HomePage() {
       <SummeryVisualOnfront />
   </div>
 
+  {/* new one start  */}
+
+  
+  <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
+    <h2 className="text-xl md:text-3xl text-center font-bold ">
+     See what happy customers are saying about TradeConnect
+     </h2>
+  </div>
+
+ 
+
        
 
    
@@ -157,37 +169,7 @@ export default function HomePage() {
       
 
 
-        <div className="flex flex-col items-center justify-center w-full text-stdBlue px-5 my-10 md:my-20">
-          <h2 className="text-xl md:text-3xl text-center font-bold mb-10 md:mb-20 ">
-            See what happy customers are saying about TradeConnect
-          </h2>
-          <div className="flex flex-col w-full items-center">
-            <div className='flex gap-[4rem]'>
-              <ReviewHome name="Sophie Carter" />
-              <ReviewHome name="Benjamin Adams" />
-            </div>
 
-            <div className="flex justify-center items-center mt-5 md:mt-10">
-              <div className="p-3 h-[70px] w-[70px] md:h-[80px] md:w-[80px]  rounded-full flex items-center justify-center"
-                style={{
-                  background: `conic-gradient(#223265 0% 30%,transparent 30% 33%,#FF3D00 33% 63%,transparent 63% 66%,#008080 66% 96%,transparent 96% 100%)`,
-                  transform: `rotate(${rotation}deg)`,
-                  transition: 'transform 0.5s ease',
-                  clipPath: 'inset(5px round 50%)',
-                }}>
-                <div className="flex items-center justify-center bg-white text-stdBlue h-[40px] w-[40px] md:h-[50px] md:w-[50px] rounded-full font-bold cursor-pointer hover:bg-gray-200 hover:scale-105"
-                  onClick={handleClick}>
-                  <img src={Direction} className='h-[30px] hover:h-[40px]' />
-                </div>
-              </div>
-            </div>
-
-            <div className='flex gap-[4rem] mt-2 md:mt-4 '>
-              <ReviewHome name="Matthew Evans" />
-              <ReviewHome name="Oliver Scott" />
-            </div>
-          </div>
-        </div>
 
         <FandQOnfrontPage/>
       </div>
