@@ -6,10 +6,10 @@
   "scripts": {
     "start": "concurrently \"npm run start:server\" \"npm run start:client\"",
     "start:server": "cd backend && npm run dev",
-    "start:client": "cd frontend/tradeconnect && npm run dev",
+    "start:client": "cd frontend && npm run dev",
     "setup": "concurrently \"npm run install:server\" \"npm run install:client\"",
     "install:server": "cd ./backend/ && npm i",
-    "install:client": "cd ./frontend/tradeconnect/ && npm i"
+    "install:client": "cd ./frontend/ && npm i"
   },
   "keywords": [],
   "author": "",

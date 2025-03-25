@@ -4,7 +4,7 @@ import Cookies from 'js-cookie';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import SevaSetuLogo from "../components/Assets/SevaSetuLogo.png";
+import gigFusionlogo from "../components/Assets/gigFusionlogo.png";
 import { FiMenu, FiX, FiHome, FiBookmark, FiMessageSquare, FiGrid, FiBriefcase, 
          FiUsers, FiSettings, FiUser, FiLogOut, FiTool, FiUserPlus } from 'react-icons/fi';
 import LoadingBar from 'react-top-loading-bar';
@@ -96,7 +96,7 @@ export default function Navbar() {
     <nav className='relative font-stdFont'>
       <div className='flex justify-between items-center h-[70px] border-b-2 px-4 md:px-8 bg-white shadow-md'>
         <Link to={getHomeLink()}>
-          <img src={SevaSetuLogo} alt="Logo" className='h-[65px] outline-none border-none' />
+          <img src={gigFusionlogo} alt="Logo" className='h-[65px] outline-none border-none' />
         </Link>
 
         {/* Desktop Menu */}
@@ -184,7 +184,7 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
               className="block"
             >
-              <img src={SevaSetuLogo} alt="Logo" className='h-[50px]' />
+              <img src={gigFusionlogo} alt="Logo" className='h-[50px]' />
             </Link>
             <button 
               onClick={() => setIsMobileMenuOpen(false)}

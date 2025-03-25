@@ -1,6 +1,6 @@
 import { FiMail, FiPhone, FiYoutube, FiHome, FiInfo, FiTool, FiLogIn } from 'react-icons/fi';
 import { Link } from 'react-router-dom';
-import SevaSetuLogo from "../components/Assets/SevaSetuLogo.png";
+import gigFusionlogo from "../components/Assets/gigFusionlogo.png";
 
 function Footer() {
   const quickLinks = [
@@ -25,7 +25,7 @@ function Footer() {
             <div className="group relative">
               <div className="absolute inset-0 bg-gradient-to-r from-color1 to-stdBlue opacity-75 blur-xl group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
               <img
-                src={SevaSetuLogo}
+                src={gigFusionlogo}
                 alt="SewaSetu Logo"
                 className="relative h-[80px] md:h-[100px] w-auto object-contain rounded-2xl 
                          bg-white p-3 shadow-lg 
