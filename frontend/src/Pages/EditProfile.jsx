@@ -20,11 +20,11 @@ export default function EditProfile() {
         coverImagePreview: '',
         state: '',
         city: '',
+        skills: '',
         professions: '',
         experience: '',
         location: '',
         availability: '',
-        additionalDetails: '',
         badges: ''
     });
     const [isLoading, setIsLoading] = useState(true);
@@ -112,7 +112,7 @@ export default function EditProfile() {
             // console.log('Form Data Entries:', Object.fromEntries(formData.entries()));
 
             if (userType === 'serviceProvider') {
-                console.log('Updating Service Provider Profile');
+                console.log('Updating Service Provider Profile', Object.fromEntries(formData.entries()));
                 const response = await axios.patch(`http://localhost:8000/api/v1/service-providers/save-sp-details`, Object.fromEntries(formData.entries()), {
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -360,7 +360,59 @@ export default function EditProfile() {
                                 </div>
                             </div>
 
-                            {/* Service Provider Specific Fields */}
+                            {/* Skills Section */}
+                            <div className="form-group">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">Skills</label>
+                                <div className="flex items-center gap-2">
+                                    <input
+                                        type="text"
+                                        name="skillInput"
+                                        value={profileData.skillInput || ''}
+                                        onChange={(e) => setProfileData({ ...profileData, skillInput: e.target.value })}
+                                        onKeyDown={(e) => {
+                                            if (e.key === 'Enter' && profileData.skillInput.trim()) {
+                                                e.preventDefault();
+                                                if (!profileData.skills.includes(profileData.skillInput.trim())) {
+                                                    setProfileData({
+                                                        ...profileData,
+                                                        skills: [...profileData.skills, profileData.skillInput.trim()],
+                                                        skillInput: ''
+                                                    });
+                                                } else {
+                                                    toast.error('Skill already added');
+                                                }
+                                            }
+                                        }}
+                                        placeholder="Type a skill and press Enter"
+                                        className="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 
+                                        focus:ring-stdBlue focus:border-transparent transition-all duration-300"
+                                    />
+                                </div>
+                                <div className="mt-2 flex flex-wrap gap-2">
+                                    {profileData.skills.map((skill, index) => (
+                                        <div
+                                            key={index}
+                                            className="flex items-center bg-stdBlue text-white px-3 py-1 rounded-full shadow-md"
+                                        >
+                                            <span>{skill}</span>
+                                            <button
+                                                type="button"
+                                                onClick={() =>
+                                                    setProfileData({
+                                                        ...profileData,
+                                                        skills: profileData.skills.filter((_, i) => i !== index)
+                                                    })
+                                                }
+                                                className="ml-2 text-white hover:text-red-500 transition-all duration-300"
+                                            >
+                                                &times;
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+
+                            {/* Service Provider Section */}
                             {userType === 'serviceProvider' && (
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                                     <div className="form-group">
@@ -373,11 +425,27 @@ export default function EditProfile() {
                                             focus:ring-stdBlue focus:border-transparent transition-all duration-300"
                                         >
                                             <option value="">Select Profession</option>
-                                            <option value="plumber">Plumber</option>
-                                            <option value="electrician">Electrician</option>
-                                            <option value="carpenter">Carpenter</option>
-                                            <option value="painter">Painter</option>
-                                            <option value="handyman">Handyman</option>
+                                            <option value="Plumber">Web Developer</option>
+                                            <option value="Graphic Designer">Graphic Designer</option>
+                                            <option value="Content Writer">Content Writer</option>
+                                            <option value="Digital Marketer">Digital Marketer</option>
+                                            <option value="SEO Specialist">SEO Specialist</option>
+                                            <option value="Photographer">Photographer</option>
+                                            <option value="Videographer">Videographer</option>
+                                            <option value="UI/UX Designer">UI/UX Designer</option>
+                                            <option value="Mobile App Developer">Mobile App Developer</option>
+                                            <option value="Data Analyst">Data Analyst</option>
+                                            <option value="Project Manager">Project Manager</option>
+                                            <option value="Social Media Manager">Social Media Manager</option>
+                                            <option value="Virtual Assistant">Virtual Assistant</option>
+                                            <option value="Translator">Translator</option>
+                                            <option value="Voice Over Artist">Voice Over Artist</option>
+                                            <option value="Illustrator">Illustrator</option>
+                                            <option value="Game Developer">Game Developer</option>
+                                            <option value="Cybersecurity Specialist">Cybersecurity Specialist</option>
+                                            <option value="Blockchain Developer">Blockchain Developer</option>
+                                            <option value="DevOps Engineer">DevOps Engineer</option>
+                                            <option value="AI/ML Engineer">AI/ML Engineer</option>
                                         </select>
                                     </div>
 

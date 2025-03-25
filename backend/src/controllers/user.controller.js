@@ -881,34 +881,34 @@ const sendLocation = asyncHandler(async (req, res) => {
 })
 
 const getFeedback = asyncHandler(async (req, res) => {
-    const feedbacks = await Feedback.find({})
-        .populate('userId', 'username avatar')
-        .sort({ createdAt: -1 });
+  const feedbacks = await Feedback.find({})
+    .populate('userId', 'username avatar')
+    .sort({ createdAt: -1 });
 
-    return res
-        .status(200)
-        .json(new ApiResponse(200, feedbacks, 'Feedbacks Fetched Successfully'));
+  return res
+    .status(200)
+    .json(new ApiResponse(200, feedbacks, 'Feedbacks Fetched Successfully'));
 });
 
 const giveFeedback = asyncHandler(async (req, res) => {
-    const { content, stars } = req.body;
-    const userId = req.user._id;
-    const userType = req.user.userType;
+  const { content, stars } = req.body;
+  const userId = req.user._id;
+  const userType = req.user.userType;
 
-    if (!content || !stars) {
-        throw new ApiError(400, "Content and stars are required");
-    }
+  if (!content || !stars) {
+    throw new ApiError(400, "Content and stars are required");
+  }
 
-    const feedback = await Feedback.create({
-        userId,
-        userType,
-        content,
-        stars
-    });
+  const feedback = await Feedback.create({
+    userId,
+    userType,
+    content,
+    stars
+  });
 
-    return res
-        .status(201)
-        .json(new ApiResponse(201, feedback, "Feedback submitted successfully"));
+  return res
+    .status(201)
+    .json(new ApiResponse(201, feedback, "Feedback submitted successfully"));
 });
 
 // Controller for fetching active jobs for a service provider

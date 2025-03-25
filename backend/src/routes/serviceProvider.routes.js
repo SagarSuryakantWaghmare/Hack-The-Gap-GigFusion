@@ -24,10 +24,11 @@ import { upload } from "../middlewares/multer.middleware.js";
 const router = Router();
 
 router.route("/save-sp-details").patch(
-  // upload.fields([
-  //   { name: "avatar", maxCount: 1 },
-  //   { name: "coverImage", maxCount: 1 },
-  // ]),
+  verifyJWT,
+  upload.fields([
+    { name: "avatar", maxCount: 1 },
+    { name: "coverImage", maxCount: 1 },
+  ]),
   registerSP
 );
 router.route("/get-by-city").get(verifyJWT, getServiceProviderByCity);

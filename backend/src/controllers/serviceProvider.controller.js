@@ -144,10 +144,12 @@ const registerSP = asyncHandler(async (req, res) => {
     fullName,
     email,
     contact,
+    skills,
     city,
     state,
     zipcode,
   } = req.body;
+  console.log('Inside registerSP: req.body', req.body, professions, experience, location, availability, additionalDetails, badges, fullName, email, contact, skills, city, state, zipcode);
 
   // Combined validation for all required fields
   const requiredFields = [
@@ -159,28 +161,22 @@ const registerSP = asyncHandler(async (req, res) => {
     zipcode,
     professions,
     experience,
-    location,
-    availability,
-    additionalDetails,
-    badges,
   ];
 
-  if (
-    requiredFields.some(
-      (field) => typeof field === "string" && field.trim() === ""
-    )
-  ) {
+  if (requiredFields.includes('')) {
     throw new ApiError(400, "All fields are required");
   }
 
   // Convert string inputs to arrays
-  const professionList = professions
-    .split(",")
-    .map((profession) => profession.trim());
-  const additionalDetailsList = additionalDetails
-    .split(",")
-    .map((detail) => detail.trim());
-  const badgesList = badges.split(",").map((badge) => badge.trim());
+  // const professionList = professions
+  //   .split(",")
+  //   .map((profession) => profession.trim());
+  // const additionalDetailsList = additionalDetails
+  //   .split(",")
+  //   .map((detail) => detail.trim());
+  // const badgesList = badges.split(",").map((badge) => badge.trim());
+  const skillList = skills.trim().split(',');
+  // console.log('SKill List', skillList);
 
   try {
     // Use transaction to prevent race conditions
@@ -201,6 +197,7 @@ const registerSP = asyncHandler(async (req, res) => {
             city,
             state,
             zipcode,
+            skills: skillList,
             avatar,
             coverImage,
             userType: "serviceProvider",
@@ -250,6 +247,7 @@ const registerSP = asyncHandler(async (req, res) => {
             zipcode,
             avatar,
             coverImage,
+            skills: skillList,
           },
         },
         { new: true, session }
@@ -264,7 +262,7 @@ const registerSP = asyncHandler(async (req, res) => {
         [
           {
             userId: req.user._id,
-            professions: professionList,
+            professions,
             experience,
             location,
             availability,
@@ -280,7 +278,7 @@ const registerSP = asyncHandler(async (req, res) => {
         { userId: req.user._id },
         {
           $set: {
-            professions: professionList,
+            professions,
             experience,
             location,
             availability,

@@ -11,9 +11,8 @@ const serviceProviderSchema = new mongoose.Schema(
             required: true
         },
         professions: {
-            type: [String], // Array of professions
-            default: [],
-            required: true,
+            type: String,
+            default: '',
         },
         experience: {
             type: Number,
@@ -22,7 +21,6 @@ const serviceProviderSchema = new mongoose.Schema(
         },
         location: {
             type: Object,
-            required: true,
         },
         rating: {
             type: Number,
@@ -33,10 +31,6 @@ const serviceProviderSchema = new mongoose.Schema(
         availability: {
             type: Boolean,
             default: true
-        },
-        additionalDetails: {
-            type: [String],
-            default: [],
         },
         badges: {
             type: [String],
