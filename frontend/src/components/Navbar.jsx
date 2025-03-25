@@ -117,9 +117,10 @@ export default function Navbar() {
               )}
               {userType === 'serviceProvider' && (
                 <>
-                  <NavItem to="/dashboard">Dashboard</NavItem>
-                  <NavItem to="/my-jobs">My Jobs</NavItem>
+                  {/* <NavItem to="/dashboard">Dashboard</NavItem>
+                  <NavItem to="/my-jobs">My Jobs</NavItem> */}
                   <NavItem to="/chat">Chat</NavItem>
+                  <NavItem to="/validate">Validate</NavItem>
                   <NavItem to="/projects">Find Work</NavItem>
                   <NavItem to="/my-proposals">My Proposals</NavItem>
                   <NavItem to="/my-matches">Matches</NavItem>
