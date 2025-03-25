@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
+import axios from "axios"; // Import axios for making API calls
 
-const SkillValidation = ({ skill, userId }) => {
+const SkillValidation = ({ skill = "Plumbing" }) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
@@ -617,15 +618,11 @@ const SkillValidation = ({ skill, userId }) => {
     }
   };
 
-  const handleSubmit = () => {
-    const finalScore = calculateScore();
-    setScore(finalScore);
-    setShowScore(true);
-    
-    // Here you can handle the userId and score submission logic
-    console.log(User ID: ${userId}, Score: ${finalScore});
-    // You can send this data to your backend or store it as needed
-  };
+    const handleSubmit = () => {
+        const finalScore = calculateScore();
+        setScore(finalScore);
+        setShowScore(true);
+    };
 
   const handleTryAgain = () => {
     setCurrentQuestion(0);
