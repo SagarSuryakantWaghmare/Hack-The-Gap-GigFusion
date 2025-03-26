@@ -41,7 +41,7 @@ import ProjectMatches from './Pages/ProjectMatches.jsx';
 import EscrowDetails from './Pages/EscrowDetails.jsx';
 import EscrowLandingPage from './Pages/EscrowLandingPage.jsx';
 import Questions from './Pages/Questions.jsx';
-import Validate from './Pages/validate.jsx';
+import Validate from './Pages/Validate.jsx';
 
 function App() {
     const location = useLocation();
