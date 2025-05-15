@@ -1,13 +1,20 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types"; // Import PropTypes for prop validation
 import { FaArrowLeft, FaArrowRight, FaTrophy } from "react-icons/fa";
+import axios from "axios"; // Import axios for making API calls
+import Cookies from 'js-cookie';
+import { User } from '../../../backend/src/models/user.model.js'
+import { use } from "react";
 
-const SkillValidation = ({ skill, userId }) => {
+const SkillValidation = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedAnswers, setSelectedAnswers] = useState({});
   const [questions, setQuestions] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [score, setScore] = useState(null);
   const [showScore, setShowScore] = useState(false);
+  const [skill, setSkill] = useState("Plumbing"); // Default skill
+  const [userId, setUserId] = useState(null); // Initialize userId
 
   // Static questions for different skills
   const questionsBySkill = {
@@ -573,6 +580,23 @@ const SkillValidation = ({ skill, userId }) => {
     }
   ];
 
+  // Load skill and userId from localStorage
+  useEffect(() => {
+    const userStr = localStorage.getItem('user');
+    if (userStr) {
+      try {
+        const user = JSON.parse(userStr);
+        const firstSkill = user.skills && user.skills.length > 0 ? user.skills[0] : "Plumbing";
+        setSkill(firstSkill); // Set skill from user data
+        setUserId(user._id); // Set userId from user data
+        console.log("User ID:", user._id);
+        console.log("First Skill:", firstSkill);
+      } catch (error) {
+        console.error("Error parsing user data from localStorage:", error);
+      }
+    }
+  }, []);
+
   // Load questions based on skill
   useEffect(() => {
     setIsLoading(true);
@@ -617,15 +641,18 @@ const SkillValidation = ({ skill, userId }) => {
     }
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const finalScore = calculateScore();
     setScore(finalScore);
     setShowScore(true);
+<<<<<<< HEAD
 
+=======
     
     // Here you can handle the userId and score submission logic
     console.log(`User ID: ${userId}, Score: ${finalScore}`);
     // You can send this data to your backend or store it as needed
+>>>>>>> 89e9e09cf18ae5ec7d0ceb571288ffc3653c67ca
   };
 
   const handleTryAgain = () => {
@@ -696,9 +723,11 @@ const SkillValidation = ({ skill, userId }) => {
             <div className="w-full bg-gray-200 rounded-full h-2.5">
               <div
                 className="bg-stdBlue h-2.5 rounded-full transition-all duration-300"
+<<<<<<< HEAD
                 style={{ width: `${((currentQuestion + 1) / questions.length) * 100}% `}}
-
-
+=======
+                style={{ width: `${((currentQuestion + 1) / questions.length) * 100}%` }}
+>>>>>>> 89e9e09cf18ae5ec7d0ceb571288ffc3653c67ca
               ></div>
             </div>
           </div>
@@ -763,6 +792,12 @@ const SkillValidation = ({ skill, userId }) => {
         </div>
     </div>
   );
+};
+
+// Prop validation
+SkillValidation.propTypes = {
+  skill: PropTypes.string.isRequired,
+  userId: PropTypes.string.isRequired,
 };
 
 export default SkillValidation;

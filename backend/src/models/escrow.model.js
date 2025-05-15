@@ -1,184 +1,99 @@
 import mongoose from "mongoose";
 
-const EscrowSchema = new mongoose.Schema({
-    project: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Project",
-        required: [true, "Escrow must be associated with a project"],
+const MilestoneSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true,
+        trim: true
     },
-    client: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [true, "Escrow must have a client"],
+    description: {
+        type: String,
+        trim: true
     },
-    freelancer: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "User",
-        required: [true, "Escrow must have a freelancer"],
-    },
-    totalAmount: {
+    amount: {
         type: Number,
-        required: [true, "Please specify total amount"],
-        min: [0, "Amount cannot be negative"],
+        required: true,
+        min: 0
     },
-    currency: {
-        type: String,
-        required: [true, "Please specify currency"],
-        enum: ["USD", "EUR", "GBP", "BTC", "ETH", "INR"], // Add other currencies as needed
-    },
-    paymentType: {
-        type: String,
-        required: [true, "Please specify payment type"],
-        enum: {
-            values: ["traditional", "crypto"],
-            message: "{VALUE} is not supported",
-        },
-        default: "traditional",
+    dueDate: {
+        type: Date,
+        required: true
     },
     status: {
         type: String,
+        enum: ['pending', 'funded', 'released', 'disputed'],
+        default: 'pending'
+    },
+    clientApproval: {
+        type: Boolean,
+        default: false
+    },
+    freelancerApproval: {
+        type: Boolean,
+        default: false
+    },
+    completedAt: {
+        type: Date
+    }
+}, { timestamps: true });
+
+const DisputeSchema = new mongoose.Schema({
+    raisedBy: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    reason: {
+        type: String,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['pending', 'resolved'],
+        default: 'pending'
+    },
+    resolution: String,
+    raisedAt: {
+        type: Date,
+        default: Date.now
+    },
+    resolvedAt: Date
+});
+
+const EscrowSchema = new mongoose.Schema({
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true
+    },
+    client: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    freelancer: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+    amount: {
+        type: Number,
         required: true,
-        enum: {
-            values: [
-                "pending",
-                "funded",
-                "partially-released",
-                "released",
-                "refunded",
-                "disputed",
-            ],
-            message: "{VALUE} is not supported",
-        },
-        default: "pending",
+        min: 0
     },
-    milestones: [
-        {
-            title: {
-                type: String,
-                required: true,
-                trim: true,
-            },
-            description: {
-                type: String,
-                required: true,
-            },
-            amount: {
-                type: Number,
-                required: true,
-                min: [0, "Amount cannot be negative"],
-            },
-            dueDate: {
-                type: Date,
-                required: true,
-            },
-            status: {
-                type: String,
-                required: true,
-                enum: ["pending", "funded", "released", "disputed"],
-                default: "pending",
-            },
-            fundedAt: {
-                type: Date,
-            },
-            releasedAt: {
-                type: Date,
-            },
-            disputedAt: {
-                type: Date,
-            },
-        },
-    ],
-    transactions: [
-        {
-            type: {
-                type: String,
-                required: true,
-                enum: ["fund", "release", "refund"],
-            },
-            amount: {
-                type: Number,
-                required: true,
-                min: [0, "Amount cannot be negative"],
-            },
-            date: {
-                type: Date,
-                required: true,
-                default: Date.now,
-            },
-            reference: {
-                type: String,
-            },
-            status: {
-                type: String,
-                required: true,
-                enum: ["pending", "completed", "failed"],
-                default: "pending",
-            },
-        },
-    ],
-    smartContractAddress: {
+    currency: {
         type: String,
+        default: 'INR'
     },
-    expiryDate: {
-        type: Date,
-    },
-    disputeReason: {
+    status: {
         type: String,
+        enum: ['pending', 'funded', 'partially-released', 'released', 'refunded', 'disputed'],
+        default: 'pending'
     },
-    disputeStatus: {
-        type: String,
-        enum: ["open", "client-favor", "freelancer-favor", "settled"],
-    },
-    disputeResolvedAt: {
-        type: Date,
-    },
+    milestones: [MilestoneSchema],
+    disputeDetails: DisputeSchema
 }, {
-    timestamps: true,
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-});
-// Virtual for released amount
-EscrowSchema.virtual("releasedAmount").get(function () {
-    if (!this.transactions || this.transactions.length === 0) {
-        return 0;
-    }
-    return this.transactions
-        .filter(function (transaction) {
-            return transaction.type === "release" && transaction.status === "completed";
-        })
-        .reduce(function (total, transaction) { return total + transaction.amount; }, 0);
-});
-// Virtual for remaining amount
-EscrowSchema.virtual("remainingAmount").get(function () {
-    var released = this.transactions
-        .filter(function (transaction) {
-            return transaction.type === "release" && transaction.status === "completed";
-        })
-        .reduce(function (total, transaction) { return total + transaction.amount; }, 0);
-    var refunded = this.transactions
-        .filter(function (transaction) {
-            return transaction.type === "refund" && transaction.status === "completed";
-        })
-        .reduce(function (total, transaction) { return total + transaction.amount; }, 0);
-    return this.totalAmount - released - refunded;
+    timestamps: true
 });
 
-EscrowSchema.statics.createEscrow = async function (project, client, freelancer, totalAmount, currency, paymentType, milestones) {
-    try {
-        const escrow = await this.create({
-            project: project._id,
-            client: client,
-            freelancer: freelancer._id,
-            totalAmount: totalAmount,
-            currency: currency,
-            paymentType: paymentType,
-            milestones: milestones,
-        });
-        return escrow;
-    } catch (error) {
-        console.error("Error creating escrow:", error);
-        throw error; // Re-throw the error to be caught by the asyncHandler
-    }
-};
-
-export default mongoose.model("Escrow", EscrowSchema);
+export default mongoose.model('Escrow', EscrowSchema);

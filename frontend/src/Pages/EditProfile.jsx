@@ -4,6 +4,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import { FaTrash, FaCamera, FaSpinner } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+<<<<<<< HEAD
 import BackButton from '../components/BackButton';
 import { useNavigate } from 'react-router-dom';
 
